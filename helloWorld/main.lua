@@ -30,8 +30,12 @@ physics.addBody( platform, "static" )
 physics.addBody( cow, "dynamic", { radius=10, bounce= .01 } )
 
 
-local function pushCow()
-    cow:applyLinearImpulse( 10, -2, cow.x, cow.y )
+local function onTouch(event)
+  --  cow:applyLinearImpulse( .9 , -2, cow.x, cow.y )
+    if (event.phase == "began") then
+        cow:setLinearVelocity(20,0)
+    end
 end
 
-cow:addEventListener( "tap", pushCow )
+Runtime:addEventListener("touch",onTouch)
+--cow:addEventListener( "tap", pushCow )
