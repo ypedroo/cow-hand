@@ -28,15 +28,15 @@ Now your problems begin the vampire notice that some poor cows are making it! So
 ### Objectivies
 - Collect 30 thousand royals to win the rest of the year
 - You from here can be lucky and collect the jackpot called popolec which coud make you 10 thousand royals richer  
-- But be careful now you have to deal with the judge vampire minions, these are powerful beings which have the power to sent you to prision and - end your game
+- But be careful now you have to deal with the judge vampire minions, these are powerful beings which have the power to sent you to prision and end your game
 
 
 ## Obstacles
-Money spent;
+- Money spent;
 
-Special Obstacles
-Vampire minions;
-Judge vampire minions;
+- Special Obstacles
+- Vampire minions;
+- Judge vampire minions;
 
 ## Point System
 Money, is problem and  solution. Each income gives you 100 royals, with collectibles you can increase the scores. And when the time pass, month per month(1000m each one of them), you have 3 hearts of life, when you meet an obstacle that can destroy a quarter of yout heart and lose you some money, if you caught one of the special obstacles you lose one full heart(Vampire minions;) and money or lose everything(Judge vampire minions;)
@@ -48,6 +48,6 @@ Popolec - instantly gains 10000 royals
 
 
 
-##Considerations
+## Considerations
 Game developed using Corona® and Lua.
 
