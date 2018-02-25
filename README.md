@@ -1,5 +1,5 @@
 # Cow's Hand
-Game produce on corona sdk using Lua
+
 
 ## Story
 In a dystopical time the fictional country of Zilbra was domineted by the Emperar Big Vampire which wants to raise all the taxes on the Zilbra population - The Cows.

@@ -12,7 +12,7 @@ local cow = display.newImageRect( "cow.png", 120, 130 )
 cow.x = display.contentCenterX -600
 cow.y = display.contentHeight -80
 
-
+-- isso aqui tem que virar image sheet
 local golpe = display.newImageRect( "golpe.png", 120, 150 )
 golpe.x = display.contentCenterX 
 golpe.y = display.contentHeight -100
@@ -31,3 +31,7 @@ gorgoyle.name = "minion"
 local platform = display.newImageRect( "floor.png", 300, 50 )
 platform.x = display.contentCenterX
 platform.y = display.contentHeight-25
+
+local lives = 6
+local score = 0
+local died = false
