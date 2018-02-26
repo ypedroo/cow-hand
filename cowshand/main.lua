@@ -22,7 +22,7 @@ bg.y = display.contentCenterY
 local cow = display.newImageRect( "ui/cow.png", 180, 200 )
 cow.x = display.contentCenterX -600
 cow.y = display.contentHeight -120
-physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
+physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = .3, gravity = 0 })
         --cow.isFixedRotation=true	
         
 local lives = 6
@@ -31,7 +31,7 @@ local died = false
 
 local function onTouch(event)
     if(event.phase == "began") then
-        cow:setLinarVelocity(0, -200)
+        cow:applyLinearImpulse(0, -2, cow.x, cow.y)
     end
 end
 
