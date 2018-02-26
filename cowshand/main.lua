@@ -31,7 +31,13 @@ local died = false
 
 local function onTouch(event)
     if(event.phase == "began") then
-        cow:applyLinearImpulse(0, -2, cow.x, cow.y)
+        --cow:applyLinearImpulse(0, -2, cow.x, cow.y)
+        if(event.x < cow.x) then
+            --jump left
+            cow:applyLinearImpulse(-2,-2, cow.x, cow.y)
+        else
+            cow:applyLinearImpulse(2,-2, cow.x, cow.y)
+        end
     end
 end
 
