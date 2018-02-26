@@ -36,6 +36,7 @@ local function onTouch(event)
             --jump left
             cow:applyLinearImpulse(-2,-2, cow.x, cow.y)
         else
+            --jump right
             cow:applyLinearImpulse(2,-2, cow.x, cow.y)
         end
     end
