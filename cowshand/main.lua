@@ -8,12 +8,12 @@ sky.x = display.contentCenterX
 sky.y = display.contentCenterY
 
 
-local bg1 = display.newImageRect("ui/bg1.png", 1400, 750)
-bg1.x = display.contentCenterX
-bg1.y = display.contentCenterY
+local bg = display.newImageRect("ui/bg.png", 1400, 750)
+bg.x = display.contentCenterX
+bg.y = display.contentCenterY
 
 
-local cow = display.newImageRect( "ui/cow.png", 150, 180 )
+local cow = display.newImageRect( "ui/cow.png", 180, 200 )
 cow.x = display.contentCenterX -600
 cow.y = display.contentHeight -80
 
