@@ -2,11 +2,11 @@
 
 
 ## Story
-In a dystopical time the fictional country of Zilbra was domineted by the Emperar Big Vampire which wants to raise all the taxes on the Zilbra population - The Cows.
+In a dystopical time in a fictional planet which was domineted by the Emperar Big Vampire which wants to raise all the taxes on the planet population - The Cows.
 
 
 ## Goal
-Your name is Vania and you are a young cow trying goal is to survive in each month in the country with the highest taxes IN THE WHOLE WORLD(for poor cows of course).
+Your name is Vania and you are a young cow trying to survive each month in the planet with the highest taxes IN THE WHOLE UNIVERSE(for poor cows of course).
 
 ## Gameplay
 This is a runner game, made with obstacles to avoid and collectibles that change your scores. The Cow is always running, and can do a jump or a  to reachs the collectibles or avoid the obstacles. The collectibles and obstacles will be random. In the stages of the first and second trimester: On the range of random distance of 25-45 meters, the vampire minion may appear. And the collectibles will be random choose on a range of 50-70 meters. In the stages of thrid and fourth: On the range of random distance of 60-80 meters, one of the fatal obstacles will be random choose. And the collectibles will be random choose on a range of 30-50 meters.
@@ -27,13 +27,12 @@ Now your problems begin the vampire notice that some poor cows are making it! So
 
 ### Objectivies
 - Collect 30 thousand royals to win the rest of the year
-- You from here can be lucky and collect the jackpot called MooMooLec which coud make you 10 thousand royals richer  
+- You from here can be lucky and collect the jackpot which coud make you 10 thousand royals richer  
 - But be careful now you have to deal with the judge vampire minions and the emperor himself, these are powerful beings which have the power to sent you to prision and end your game
 
 
 ## Obstacles
 - Money spent;
-
 - Special Obstacles
 - Vampire minions;
 - Judge vampire minions;
@@ -48,7 +47,7 @@ Money, is problem and  solution. Each income gives you 100 royals, with collecti
 ## Collectables:
 - Check aid from an helping friend - instantly gains 500 royals
 - Medkit - restore 1 quarter of heart
-- MooMooLec - instantly gains 10000 royals
+- Jackpot - instantly gains 10000 royals
 
 
 
