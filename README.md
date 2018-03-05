@@ -41,7 +41,7 @@ Now your problems begin the vampire notice that some poor cows are making it! So
 ![alt text](https://raw.githubusercontent.com/ypedroo/cow-hand/master/diagram.jpg)
 
 ## Point System
-Money is problem and solution for everything. Each income gives you 100 royals, with collectibles you can increase the scores. And when the time pass, month per month(2000m each one of them), you have 3 hearts of life, when you meet an obstacle, that can destroy a half of one heart and lose you some money, if you caught one of the special obstacles you lose one full heart(Vampire minions;) and money or lose everything(Emperor;)
+Money is problem and solution for everything. Each income gives you 100 royals, with collectibles you can increase the scores. The time pass, month per month(2000m each one of them) when you reach December if you dont have the money you DIE. You have 3 hearts of life, when you meet an obstacle, that can destroy a half of one heart and lose you some money, if you caught one of the special obstacles you lose one full heart(Vampire minions;) and money or lose everything(Emperor;)
 
 ## Collectables:
 - Check aid from an helping friend - instantly gains 500 royals
