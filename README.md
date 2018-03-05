@@ -15,7 +15,7 @@ This is a runner game, made with obstacles to avoid and collectibles that change
 The game is made of 4 periods(stages) of the year, wich in each one you had to make a certain amount of money in an certain time.
 
 The First and Second Trimester:
-This one is easy the beginning of the year you had an large amount of bills to pay but you had nice incomes in the past year's december bonus. [ Until 6.000m ]
+This one is easy the beginning of the year you had an large amount of bills to pay but you had nice incomes in the past year's december bonus. [ Until 12.000m ]
 
 ### Objectivies
 - In this part you just need to collect a 3 thousand royals.
@@ -28,21 +28,20 @@ Now your problems begin the vampire notice that some poor cows are making it! So
 ### Objectivies
 - Collect 30 thousand royals to win the rest of the year
 - You from here can be lucky and collect the jackpot which coud make you 10 thousand royals richer  
-- But be careful now you have to deal with the judge vampire minions and the emperor himself, these are powerful beings which have the power to sent you to prision and end your game
+- But be careful now you have to deal with  the emperor himself, he is powerful and have the power to sent you to prision and end your game
 
 
 ## Obstacles
 - Money spent;
 - Special Obstacles
 - Vampire minions;
-- Judge vampire minions;
 
 ## Navigation
 
 ![alt text](https://raw.githubusercontent.com/ypedroo/cow-hand/master/diagram.jpg)
 
 ## Point System
-Money, is problem and  solution. Each income gives you 100 royals, with collectibles you can increase the scores. And when the time pass, month per month(1000m each one of them), you have 3 hearts of life, when you meet an obstacle that can destroy a quarter of yout heart and lose you some money, if you caught one of the special obstacles you lose one full heart(Vampire minions;) and money or lose everything(Judge vampire minions;)
+Money is problem and solution for everything. Each income gives you 100 royals, with collectibles you can increase the scores. And when the time pass, month per month(2000m each one of them), you have 3 hearts of life, when you meet an obstacle, that can destroy a half of one heart and lose you some money, if you caught one of the special obstacles you lose one full heart(Vampire minions;) and money or lose everything(Emperor;)
 
 ## Collectables:
 - Check aid from an helping friend - instantly gains 500 royals
