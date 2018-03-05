@@ -10,13 +10,15 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
 
+local mu = audio.loadSound( "soundsfile/mu.wav" )
+
 local function gotoGame()
-    composer.gotoScene( "game", { time=800, effect="crossFade" } )
+	composer.gotoScene( "game", { time=800, effect="crossFade" } )
 end
  
-local function gotoCredits()
-    composer.gotoScene( "credits", { time=800, effect="crossFade" } )
-end
+--local function gotoCredits()
+  --  composer.gotoScene( "credits", { time=800, effect="crossFade" } )
+--end
  
 
 function scene:create( event )
@@ -43,6 +45,7 @@ function scene:create( event )
         quit.y = display.contentCenterY  
 
         start:addEventListener( "tap", gotoGame )
+        audio.play( mu )
     --credits:addEventListener( "tap", gotoCredits )
     --quit:addEventListener( "tap", gotoQuit )
  
