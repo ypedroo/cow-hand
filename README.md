@@ -23,7 +23,7 @@ This one is easy the beginning of the year you had an large amount of bills to p
 - CAREFUL with the vampire minions(everytime one of them catches you makes you lose 1000 royals). 
 
 The Third and Fourth Trimester
-Now your problems begin the vampire notice that some poor cows are making it! So he tries to not let them [ Until 12.000m ]
+Now your problems begin the vampire notice that some poor cows are making it! So he tries to not let them [ Until 24.000m ]
 
 ### Objectivies
 - Collect 30 thousand royals to win the rest of the year
