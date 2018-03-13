@@ -3,6 +3,7 @@ local composer = require( "composer" )
 
 local scene = composer.newScene()
 
+local widget = require "widget"
 
 --physics.setGravity( 9, 8 )
 
@@ -42,7 +43,7 @@ function scene:create( event )
    -- uiGroup = display.newGroup()    -- Display group for UI objects like the score
     --sceneGroup:insert( uiGroup )    -- Insert into the scene's view group
     
-    local sky = display.newImageRect("ui/sky.png", 1500, 750)
+    local sky = display.newImageRect("ui/sky.png", 1400, 750)
     sky.x = display.contentCenterX
     sky.y = display.contentCenterY
 
@@ -51,7 +52,21 @@ function scene:create( event )
     bg.x = display.contentCenterX
     bg.y = display.contentCenterY
 
-    local ground = display.newImageRect( "ui/ground.png", 26000, 30)
+    local bg1 = display.newImageRect("ui/bg1.png",1400, 750)
+    bg1.x = 2000
+    bg1.y = 400
+
+    local bg2 = display.newImageRect("ui/bg2.png", 1400, 200)
+    bg2.x = display.contentCenterX 
+    bg2.y = display.contentCenterY +250
+
+    
+    local bg3 = display.newImageRect("ui/bg2.png", 1600, 200)
+    bg3.x =  1800
+    bg3.y =  640
+
+
+    local ground = display.newImageRect( "ui/ground.png", 260000, 30)
     ground.x = display.contentCenterX 
     ground.y =  display.contentHeight -10
     physics.addBody(ground, "static")
@@ -59,25 +74,42 @@ function scene:create( event )
 
 
     local cow = display.newImageRect( "ui/cow.png", 120, 130 )
-    cow.x = display.contentCenterX -400
+    cow.x = display.contentCenterX -550
     cow.y = display.contentHeight -80
-    --physics.addBody( cow, { radius=30 })
-    physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = .3, gravity = 0 })
+    physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = .02, gravity = 0 })
 
-
-    local button = display.newImageRect( "ui/button.png", 130, 140 )
-    button.x = display.contentCenterX -600
-    button.y = display.contentHeight -80
 
     local function onTouch(event)
         if(event.phase == "began") then
             cow:applyLinearImpulse(0, -1, cow.x, cow.y)
         end
     end
+
+
+    local function scrollCity(self, event )
+        if self.x < -1024 then
+            self.x = display.contentCenterX + 1200
+        else
+            self.x = self.x -4
+        end
+
+    end
+
+    bg.enterFrame = scrollCity
+    Runtime:addEventListener("enterFrame", bg)
+
+    bg1.enterFrame = scrollCity
+    Runtime:addEventListener("enterFrame", bg1)
+
+    bg2.enterFrame = scrollCity
+    Runtime:addEventListener("enterFrame", bg2)
+
+    bg3.enterFrame = scrollCity
+    Runtime:addEventListener("enterFrame", bg3)
     
 
     cow:addEventListener("touch", onTouch)
-    musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
+    --musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 end
 
 function scene:show( event )
