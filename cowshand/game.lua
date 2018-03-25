@@ -147,9 +147,9 @@ function scene:create( event )
 
     baddola2.enterFrame = moveEnemies
     Runtime:addEventListener("enterFrame", baddola2)
-    
-    --cow.collision = onCollision
 
+    Runtime:removeEventListener( "collision", onCollision)
+    
     cow:addEventListener("touch", onTouch)
 
     musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
