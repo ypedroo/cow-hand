@@ -140,7 +140,7 @@ function scene:create( event )
         end
 
     end
-    local function onCollision(event)
+    local function onCollision(self, event)
         if (event.phase == "began") then
             composer.gotoScene( "restart", { time=800, effect="fade" } )
         end
@@ -167,9 +167,10 @@ function scene:create( event )
     baddola2.enterFrame = moveEnemies
     Runtime:addEventListener("enterFrame", baddola2)
     
-    Runtime:addEventListener("collision", onCollision)
+    --cow.collision = onCollision
 
     cow:addEventListener("touch", onTouch)
+
     musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 end
 
@@ -201,11 +202,12 @@ function scene:hide( event )
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
-
+        Runtime:removeEventListener( "collision", onLocalCollision)
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
 		physics.pause()
-		composer.removeScene( "game" )
+        composer.removeScene( "game" )
+        
 	end
 end
 
