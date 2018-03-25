@@ -43,27 +43,31 @@ function scene:create( event )
    -- uiGroup = display.newGroup()    -- Display group for UI objects like the score
     --sceneGroup:insert( uiGroup )    -- Insert into the scene's view group
     
+    --Background
+
     local sky = display.newImageRect("ui/sky.png", 1400, 750)
     sky.x = display.contentCenterX
-    sky.y = display.contentCenterY
-
+    sky.y = display.contentCenterY 
 
     local bg = display.newImageRect("ui/bg1.png", 1400, 750)
     bg.x = display.contentCenterX
     bg.y = display.contentCenterY
+    bg.speed = 1
 
     local bg1 = display.newImageRect("ui/bg1.png",1400, 750)
     bg1.x = 2000
     bg1.y = 400
+    bg1.speed = 1
 
     local bg2 = display.newImageRect("ui/bg2.png", 1400, 200)
     bg2.x = display.contentCenterX 
     bg2.y = display.contentCenterY +250
-
+    bg2.speed = 2
     
     local bg3 = display.newImageRect("ui/bg2.png", 1600, 200)
     bg3.x =  1800
     bg3.y =  640
+    bg3.speed = 2
 
 
     local ground = display.newImageRect( "ui/ground.png", 260000, 30)
@@ -75,7 +79,7 @@ function scene:create( event )
 
     local cow = display.newImageRect( "ui/cow.png", 120, 130 )
     cow.x = display.contentCenterX -550
-    cow.y = display.contentHeight -80
+    cow.y = display.contentHeight -85
     physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = .02, gravity = 0 })
 
 
@@ -90,7 +94,7 @@ function scene:create( event )
         if self.x < -1024 then
             self.x = display.contentCenterX + 1200
         else
-            self.x = self.x -4
+            self.x = self.x -3  - self.speed
         end
 
     end
@@ -109,7 +113,7 @@ function scene:create( event )
     
 
     cow:addEventListener("touch", onTouch)
-    --musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
+    musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 end
 
 function scene:show( event )
