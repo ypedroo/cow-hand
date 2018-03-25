@@ -8,6 +8,6 @@ math.randomseed( os.time() )
 
 -- Reserve channel 1 for background music
 audio.reserveChannels( 1 )
-audio.setVolume( 0.5, { channel=1 } )
+audio.setVolume( 0.3, { channel=1 } )
 -- Go to the menu screen
 composer.gotoScene( "menu" )

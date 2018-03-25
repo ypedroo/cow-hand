@@ -61,7 +61,8 @@ function scene:create( event )
     local cow = display.newImageRect( "ui/cow.png", 120, 130 )
     cow.x = display.contentCenterX -550
     cow.y = display.contentHeight -85
-    physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
+    physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 1 })
+
 --enemies
     local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
     baddola.x = display.contentCenterX +550
@@ -90,7 +91,8 @@ function scene:create( event )
     baddola2.angle = math.random(20,100)
     physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
 
-    
+    --Functions
+
     local function onTouch(event)
         if(event.phase == "began") then
             cow:applyLinearImpulse(0, -1, cow.x, cow.y)
@@ -121,8 +123,8 @@ function scene:create( event )
         end
 
     end
-    local function onCollision(self, event)
-        if (event.phase == "began") then
+    local function onCollision(event)
+        if event.phase == "began" then
             composer.gotoScene( "restart", { time=800, effect="fade" } )
         end
     end
@@ -148,9 +150,9 @@ function scene:create( event )
     baddola2.enterFrame = moveEnemies
     Runtime:addEventListener("enterFrame", baddola2)
 
-    Runtime:removeEventListener( "collision", onCollision)
-    
-    cow:addEventListener("touch", onTouch)
+    Runtime:addEventListener("touch", onTouch)
+    Runtime:addEventListener( "collision", onCollision)
+    --cow:addEventListener("touch", onTouch)
 
     musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 end
@@ -166,7 +168,7 @@ function scene:show( event )
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
         --physics.start()
-        -- audio.play( musicTrack, { channel=1, loops=-1 } )
+         audio.play( musicTrack, { channel=1, loops=-1 } )
        
  
     end
@@ -188,7 +190,7 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
 		physics.pause()
         composer.removeScene( "game" )
-        --Runtime:removeEventListener( "collision", onLocalCollision)
+        --Runtime:addEventListener( "collision", onLocalCollision)
 	end
 end
 
