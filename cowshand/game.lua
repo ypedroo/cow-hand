@@ -5,9 +5,6 @@ local scene = composer.newScene()
 
 local widget = require "widget"
 
---physics.setGravity( 9, 8 )
-
-
 --Display live and scroe
 --livesText = display.newText( uiGroup, "Lives:".. Lives, 200, 80, native.systemFont, 36)
 --mesText = display.newText( uiGroup, "mes:".. Mes, 600, 80, native.systemFont, 36)
@@ -21,28 +18,12 @@ local died --= false
 
 local musicTrack
 
-
---physics.start()
---physics.setGravity( 9, 8 )
-
 function scene:create( event )
  
     local sceneGroup = self.view
-    -- Code here runs when the scene is first created but has not yet appeared on screen
     
     physics.start()  -- Temporarily pause the physics engine
    
- 
-    -- Set up display groups
-   -- backGroup = display.newGroup()  -- Display group for the background image
-   -- sceneGroup:insert( backGroup )  -- Insert into the scene's view group
- 
---    mainGroup = display.newGroup()  -- Display group for the ship, asteroids, lasers, etc.
-  --  sceneGroup:insert( mainGroup )  -- Insert into the scene's view group
- 
-   -- uiGroup = display.newGroup()    -- Display group for UI objects like the score
-    --sceneGroup:insert( uiGroup )    -- Insert into the scene's view group
-    
     --Background
 
     local sky = display.newImageRect("ui/sky.png", 1400, 750)
@@ -185,7 +166,7 @@ function scene:show( event )
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
         --physics.start()
-       -- audio.play( musicTrack, { channel=1, loops=-1 } )
+        -- audio.play( musicTrack, { channel=1, loops=-1 } )
        
  
     end
@@ -202,12 +183,12 @@ function scene:hide( event )
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
-        Runtime:removeEventListener( "collision", onLocalCollision)
+
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
 		physics.pause()
         composer.removeScene( "game" )
-        
+        --Runtime:removeEventListener( "collision", onLocalCollision)
 	end
 end
 

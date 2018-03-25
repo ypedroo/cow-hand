@@ -1,10 +1,6 @@
 
 local composer = require( "composer")
 local scene = composer.newScene()
---composer.recycleOnSceneChange = true
---local widget = require( "widget" )
---local sounds = require( "soundsfile" )
---local base = require( "base")
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
