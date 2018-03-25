@@ -82,7 +82,13 @@ function scene:create( event )
     cow.y = display.contentHeight -85
     physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = .02, gravity = 0 })
 
+    local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
+    baddola.x = display.contentCenterX +550
+    baddola.y = display.contentHeight +50
+    baddola.speed = math.random(2,6)
+    physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
 
+    
     local function onTouch(event)
         if(event.phase == "began") then
             cow:applyLinearImpulse(0, -1, cow.x, cow.y)
@@ -93,6 +99,15 @@ function scene:create( event )
     local function scrollCity(self, event )
         if self.x < -1024 then
             self.x = display.contentCenterX + 1200
+        else
+            self.x = self.x -3  - self.speed
+        end
+
+    end
+
+    local function moveEnemies(self, event )
+        if self.x < -50 then
+            self.x = display.contentCenterX + 500
         else
             self.x = self.x -3  - self.speed
         end
@@ -110,6 +125,9 @@ function scene:create( event )
 
     bg3.enterFrame = scrollCity
     Runtime:addEventListener("enterFrame", bg3)
+
+    baddola.enterFrame = moveEnemies
+    Runtime:addEventListener("enterFrame", baddola)
     
 
     cow:addEventListener("touch", onTouch)
