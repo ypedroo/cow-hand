@@ -75,7 +75,7 @@ function scene:create( event )
     ground.y =  display.contentHeight -10
     physics.addBody(ground, "static")
 
-
+-- Cow
 
     local cow = display.newImageRect( "ui/cow.png", 120, 130 )
     cow.x = display.contentCenterX -550
