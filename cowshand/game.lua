@@ -80,12 +80,33 @@ function scene:create( event )
     local cow = display.newImageRect( "ui/cow.png", 120, 130 )
     cow.x = display.contentCenterX -550
     cow.y = display.contentHeight -85
-    physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = .02, gravity = 0 })
-
+    physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
+--enemies
     local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
     baddola.x = display.contentCenterX +550
-    baddola.y = display.contentHeight +50
-    baddola.speed = math.random(2,6)
+    baddola.y = display.contentHeight  -100
+    baddola.speed = math.random(2,8)
+    baddola.initY = baddola.y
+    baddola.amp   = math.random(20,100)
+    baddola.angle = math.random(20,100)
+    physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
+
+    local baddola1 = display.newImageRect( "ui/baddola.png", 70, 70 )
+    baddola1.x = display.contentCenterX +550
+    baddola1.y = display.contentHeight  -100
+    baddola1.speed = math.random(2,8)
+    baddola1.initY = baddola.y
+    baddola1.amp   = math.random(20,100)
+    baddola1.angle = math.random(20,100)
+    physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
+
+    local baddola2 = display.newImageRect( "ui/baddola.png", 70, 70 )
+    baddola2.x = display.contentCenterX +550
+    baddola2.y = display.contentHeight  -100
+    baddola2.speed = math.random(2,8)
+    baddola2.initY = baddola.y
+    baddola2.amp   = math.random(20,100)
+    baddola2.angle = math.random(20,100)
     physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
 
     
@@ -98,7 +119,7 @@ function scene:create( event )
 
     local function scrollCity(self, event )
         if self.x < -1024 then
-            self.x = display.contentCenterX + 1200
+           self.x = display.contentCenterX + 1200
         else
             self.x = self.x -3  - self.speed
         end
@@ -106,12 +127,23 @@ function scene:create( event )
     end
 
     local function moveEnemies(self, event )
-        if self.x < -50 then
-            self.x = display.contentCenterX + 500
+        if self.x < -1000 then
+            self.x = display.contentCenterX + 1000
+            self.y = math.random(90,220)
+            self.speed = math.random(2,8)
+            self.amp   = math.random(20,100)
+            self.angle = math.random(20,100)
         else
-            self.x = self.x -3  - self.speed
+            self.x = self.x - self.speed
+            self.angle = self.angle + .1
+            self.y = self.amp * math.sin(self.angle)+self.initY
         end
 
+    end
+    local function onCollision(event)
+        if (event.phase == "began") then
+            composer.gotoScene( "restart", { time=800, effect="fade" } )
+        end
     end
 
     bg.enterFrame = scrollCity
@@ -128,7 +160,14 @@ function scene:create( event )
 
     baddola.enterFrame = moveEnemies
     Runtime:addEventListener("enterFrame", baddola)
+
+    baddola1.enterFrame = moveEnemies
+    Runtime:addEventListener("enterFrame", baddola1)
+
+    baddola2.enterFrame = moveEnemies
+    Runtime:addEventListener("enterFrame", baddola2)
     
+    Runtime:addEventListener("collision", onCollision)
 
     cow:addEventListener("touch", onTouch)
     musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
@@ -145,7 +184,7 @@ function scene:show( event )
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
         --physics.start()
-        audio.play( musicTrack, { channel=1, loops=-1 } )
+       -- audio.play( musicTrack, { channel=1, loops=-1 } )
        
  
     end

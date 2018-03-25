@@ -29,9 +29,9 @@ function scene:create( event )
         menuBg.x = display.contentCenterX
         menuBg.y = display.contentCenterY
 
-        local start = display.newImageRect("ui/restart/start.png", 300, 300)
-        start.x = display.contentCenterX -430
-        start.y = display.contentCenterY +80
+        local restart = display.newImageRect("ui/restart/start.png", 300, 300)
+        restart.x = display.contentCenterX -430
+        restart.y = display.contentCenterY +80
 
         restart:addEventListener( "tap", gotoGame )
         audio.play( mu ) 
