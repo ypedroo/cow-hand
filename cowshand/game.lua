@@ -81,16 +81,6 @@ function scene:create( event )
     baddola1.amp   = math.random(20,100)
     baddola1.angle = math.random(20,100)
     physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
-
-    local baddola2 = display.newImageRect( "ui/baddola.png", 70, 70 )
-    baddola2.x = display.contentCenterX +550
-    baddola2.y = display.contentHeight  -100
-    baddola2.speed = math.random(2,8)
-    baddola2.initY = baddola.y
-    baddola2.amp   = math.random(20,100)
-    baddola2.angle = math.random(20,100)
-    physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
-
     --Functions
 
     local function onTouch(event)
@@ -147,11 +137,8 @@ function scene:create( event )
     baddola1.enterFrame = moveEnemies
     Runtime:addEventListener("enterFrame", baddola1)
 
-    baddola2.enterFrame = moveEnemies
-    Runtime:addEventListener("enterFrame", baddola2)
-
     Runtime:addEventListener("touch", onTouch)
-    Runtime:addEventListener( "collision", onCollision)
+    --Runtime:addEventListener( "collision", onCollision)
     --cow:addEventListener("touch", onTouch)
 
     musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
