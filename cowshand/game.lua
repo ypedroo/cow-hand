@@ -65,6 +65,25 @@ function scene:create( event )
     cow.y = display.contentHeight -85
     physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 1 })
 
+-- Colectables
+    local dola = display.newImageRect( "ui/dola.png", 70, 70 )
+    dola.x = display.contentCenterX +550
+    dola.y = display.contentHeight  -100
+    dola.speed = math.random(2,8)
+    dola.initY = baddola.y
+    dola.amp   = math.random(20,100)
+    dola.angle = math.random(20,100)
+    physics.addBody(dola, "static", { density = 0, friction = 0, bounce = .02 })
+
+    local check = display.newImageRect( "ui/check.png", 70, 70 )
+    check.x = display.contentCenterX +550
+    check.y = display.contentHeight  -100
+    check.speed = math.random(2,8)
+    check.initY = baddola.y
+    check.amp   = math.random(20,100)
+    check.angle = math.random(20,100)
+    physics.addBody(check, "static", { density = 0, friction = 0, bounce = .02 })
+
 --enemies
     local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
     baddola.x = display.contentCenterX +550
