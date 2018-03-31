@@ -5,6 +5,8 @@ local scene = composer.newScene()
 
 local widget = require "widget"
 
+composer.recycleOnSceneChange = true
+
 --Display live and scroe
 --livesText = display.newText( uiGroup, "Lives:".. Lives, 200, 80, native.systemFont, 36)
 --mesText = display.newText( uiGroup, "mes:".. Mes, 600, 80, native.systemFont, 36)
@@ -80,7 +82,7 @@ function scene:create( event )
     baddola1.initY = baddola.y
     baddola1.amp   = math.random(20,100)
     baddola1.angle = math.random(20,100)
-    physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
+    physics.addBody(baddola1, "static", { density = 0, friction = 0, bounce = .02 })
     --Functions
 
     local function onTouch(event)
@@ -113,8 +115,9 @@ function scene:create( event )
         end
 
     end
+
     local function onCollision(event)
-        if event.phase == "began" then
+        if (event.phase == "began") then
             composer.gotoScene( "restart", { time=800, effect="fade" } )
         end
     end
@@ -177,6 +180,7 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
 		physics.pause()
         composer.removeScene( "game" )
+        cow.removeSelf();
         --Runtime:addEventListener( "collision", onLocalCollision)
 	end
 end
