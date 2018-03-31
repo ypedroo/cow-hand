@@ -13,9 +13,10 @@ composer.recycleOnSceneChange = true
 
 
 local physics = require( "physics" )
-        
+
+local distance --=0 
 local Lives --= 6
-local mes --= 0
+local money --= 0
 local died --= false
 
 local musicTrack
