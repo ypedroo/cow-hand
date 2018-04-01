@@ -7,17 +7,17 @@ local widget = require "widget"
 
 composer.recycleOnSceneChange = true
 
---Display live and scroe
---livesText = display.newText( uiGroup, "Lives:".. Lives, 200, 80, native.systemFont, 36)
---mesText = display.newText( uiGroup, "mes:".. Mes, 600, 80, native.systemFont, 36)
-
+local uiGroup = display.newGroup() 
 
 local physics = require( "physics" )
 
-local distance --=0 
-local Lives --= 6
-local money --= 0
+local lives = 6
+local money = 0
 local died --= false
+
+livesText = display.newText( uiGroup, "Lives:".. Lives, 200, 80, native.systemFont, 36)
+moneyText = display.newText( uiGroup, "moneys:".. Mes, 600, 80, native.systemFont, 36)
+
 
 local musicTrack
 
