@@ -7,16 +7,13 @@ local widget = require "widget"
 
 composer.recycleOnSceneChange = true
 
-local uiGroup = display.newGroup() 
+--local uiGroup = display.newGroup() 
 
 local physics = require( "physics" )
 
 local lives = 6
 local money = 0
 local died --= false
-
-livesText = display.newText( uiGroup, "Lives:".. Lives, 200, 80, native.systemFont, 36)
-moneyText = display.newText( uiGroup, "moneys:".. Mes, 600, 80, native.systemFont, 36)
 
 
 local musicTrack
@@ -58,6 +55,12 @@ function scene:create( event )
     ground.x = display.contentCenterX 
     ground.y =  display.contentHeight -10
     physics.addBody(ground, "static")
+
+-- Score
+    livesText = display.newText( "Lives:".. lives, 0, 100, native.systemFont, 36)
+    livesText:setFillColor( 0, 0, 0 )
+    moneyText = display.newText( "Money:".. money, 300, 100, native.systemFont, 36)
+    moneyText:setFillColor( 33,94,33 )
 
 -- Cow
 
