@@ -51,16 +51,16 @@ function scene:create( event )
     bg3.speed = 2
 
 
-    local ground = display.newImageRect( "ui/ground.png", 260000, 30)
+    local ground = display.newImageRect( "ui/ground.png", 2600000, 30)
     ground.x = display.contentCenterX 
     ground.y =  display.contentHeight -10
     physics.addBody(ground, "static")
 
 -- Score
-    livesText = display.newText( "Lives:".. lives, 0, 100, native.systemFont, 36)
+    livesText = display.newText( "Lives: ".. lives, 0, 100, native.systemFont, 36)
     livesText:setFillColor( 0, 0, 0 )
-    moneyText = display.newText( "Money:".. money, 300, 100, native.systemFont, 36)
-    moneyText:setFillColor( 33,94,33 )
+    moneyText = display.newText( "Money: ".. money, 300, 100, native.systemFont, 36)
+    moneyText:setFillColor( 0, 0, 0 )
 
 -- Cow
 
@@ -77,7 +77,7 @@ function scene:create( event )
     dola.initY = dola.y
     dola.amp   = math.random(20,100)
     dola.angle = math.random(20,100)
-    physics.addBody(dola, "static", { density = 0, friction = 0, bounce = .02 })
+    --physics.addBody(dola, "dynamic", { density = 0, friction = 0, bounce = .02 })
 
     local check = display.newImageRect( "ui/check.png", 70, 70 )
     check.x = display.contentCenterX +550
@@ -86,7 +86,7 @@ function scene:create( event )
     check.initY = check.y
     check.amp   = math.random(20,100)
     check.angle = math.random(20,100)
-    physics.addBody(check, "static", { density = 0, friction = 0, bounce = .02 })
+    --physics.addBody(check, "dynamic", { density = 0, friction = 0, bounce = .02 })
 
 --enemies
     local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
@@ -102,16 +102,16 @@ function scene:create( event )
     baddola1.x = display.contentCenterX +550
     baddola1.y = display.contentHeight  -100
     baddola1.speed = math.random(2,8)
-    baddola1.initY = baddola.y
+    baddola1.initY = baddola1.y
     baddola1.amp   = math.random(20,100)
     baddola1.angle = math.random(20,100)
     physics.addBody(baddola1, "static", { density = 0, friction = 0, bounce = .02 })
 
-    local gorgoyle = display.newImageRect( "ui/gorgoyle.png", 150, 160 )
+    local gorgoyle = display.newImageRect( "ui/gorgoyle.png", 160, 160 )
     gorgoyle.x = display.contentCenterX +550
     gorgoyle.y = display.contentHeight  -100
     gorgoyle.speed = math.random(2,8)
-    gorgoyle.initY = baddola.y
+    gorgoyle.initY = gorgoyle.y
     gorgoyle.amp   = math.random(20,100)
     gorgoyle.angle = math.random(20,100)
     physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
@@ -119,14 +119,14 @@ function scene:create( event )
 
     local function onTouch(event)
         if(event.phase == "began") then
-            cow:applyLinearImpulse(0, -1, cow.x, cow.y)
+            cow:applyLinearImpulse(0, -1.3, cow.x, cow.y)
         end
     end
 
 
     local function scrollCity(self, event )
         if self.x < -1024 then
-           self.x = display.contentCenterX + 1200
+           self.x = display.contentCenterX + 1199
         else
             self.x = self.x -3  - self.speed
         end
@@ -134,7 +134,7 @@ function scene:create( event )
     end
 
     local function moveEnemies(self, event )
-        if self.x < -1000 then
+        if self.x < -5000 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
             self.speed = math.random(2,8)
@@ -148,7 +148,7 @@ function scene:create( event )
 
     end
 
-    local function moveElements(self, event )
+    local function moveBaddola(self, event )
         if self.x < -1000 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
@@ -165,7 +165,22 @@ function scene:create( event )
 
     
     local function moveCollect(self, event )
-        if self.x < -1000 then
+        if self.x < -2000 then
+            self.x = display.contentCenterX + 1000
+            self.y = math.random(90,220)
+            self.speed = math.random(2,8)
+            self.amp   = math.random(20,100)
+            self.angle = math.random(20,100)
+        else
+            self.x = self.x - self.speed
+            self.angle = self.angle + .1
+            self.y = self.amp * math.sin(self.angle)+self.initY
+        end
+
+    end
+
+    local function moveCheck(self, event )
+        if self.x < -6000 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
             self.speed = math.random(2,8)
@@ -197,16 +212,25 @@ function scene:create( event )
     bg3.enterFrame = scrollCity
     Runtime:addEventListener("enterFrame", bg3)
 
-    baddola.enterFrame = moveEnemies
+    baddola.enterFrame = moveBaddola
     Runtime:addEventListener("enterFrame", baddola)
 
-    baddola1.enterFrame = moveEnemies
+    baddola1.enterFrame = moveBaddola
     Runtime:addEventListener("enterFrame", baddola1)
 
-    Runtime:addEventListener("touch", onTouch)
-    --Runtime:addEventListener( "collision", onCollision)
-    --cow:addEventListener("touch", onTouch)
+    gorgoyle.enterFrame = moveEnemies
+    Runtime:addEventListener("enterFrame", gorgoyle)
 
+    dola.enterFrame = moveCollect
+    Runtime:addEventListener("enterFrame", dola)
+    
+    check.enterFrame = moveCheck
+    Runtime:addEventListener("enterFrame", check)
+
+    Runtime:addEventListener("touch", onTouch)
+    
+    --Runtime:addEventListener( "collision", onCollision)
+    
     --musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 end
 
@@ -243,7 +267,7 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
 		physics.pause()
         composer.removeScene( "game" )
-        cow.removeSelf();
+        --cow.removeSelf();
         --Runtime:addEventListener( "collision", onLocalCollision)
 	end
 end
