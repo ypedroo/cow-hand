@@ -25,6 +25,7 @@ function scene:create( event )
     local lives = 6
     local money = 0
     local died 
+    local jumpLimit = 0
     
     physics.start()  -- Temporarily pause the physics engine
    
@@ -120,20 +121,22 @@ function scene:create( event )
     gorgoyle.angle = math.random(20,100)
     physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
     --Functions
-
-    local function onTouch(event)
-        if(event.phase == "began") then
-            cow:applyLinearImpulse(0, -1.3, cow.x, cow.y)
-        end
-    end
-    Runtime:addEventListener("touch", onTouch)
-
+	function cow:touch(event)		
+		if(event.phase == "began") then
+			jumpLimit = jumpLimit + 1				
+			if jumpLimit < 5 then
+			    cow:setLinearVelocity(0, -140)
+			end		
+		end
+	end
+	cow:addEventListener("touch", cow)
     
     local function onCollision(event)
         if (event.phase == "began") then
-           lives = lives - 1
+           composer.gotoScene("scene.restart")
         end
     end
+    --cow:addEventListener( "collision", onCollision)
 
 
 
@@ -234,7 +237,7 @@ function scene:create( event )
     check.enterFrame = moveCheck
     Runtime:addEventListener("enterFrame", check)
     
-    Runtime:addEventListener( "collision", onCollision)
+    
     
     --musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 end
