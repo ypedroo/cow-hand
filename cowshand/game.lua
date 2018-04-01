@@ -103,6 +103,15 @@ function scene:create( event )
     baddola1.amp   = math.random(20,100)
     baddola1.angle = math.random(20,100)
     physics.addBody(baddola1, "static", { density = 0, friction = 0, bounce = .02 })
+
+    local gorgoyle = display.newImageRect( "ui/gorgoyle.png", 70, 70 )
+    gorgoyle.x = display.contentCenterX +550
+    gorgoyle.y = display.contentHeight  -100
+    gorgoyle.speed = math.random(2,8)
+    gorgoyle.initY = baddola.y
+    gorgoyle.amp   = math.random(20,100)
+    gorgoyle.angle = math.random(20,100)
+    physics.addBody(baddgorgoyleola, "static", { density = 0, friction = 0, bounce = .02 })
     --Functions
 
     local function onTouch(event)
@@ -122,6 +131,37 @@ function scene:create( event )
     end
 
     local function moveEnemies(self, event )
+        if self.x < -1000 then
+            self.x = display.contentCenterX + 1000
+            self.y = math.random(90,220)
+            self.speed = math.random(2,8)
+            self.amp   = math.random(20,100)
+            self.angle = math.random(20,100)
+        else
+            self.x = self.x - self.speed
+            self.angle = self.angle + .1
+            self.y = self.amp * math.sin(self.angle)+self.initY
+        end
+
+    end
+
+    local function moveElements(self, event )
+        if self.x < -1000 then
+            self.x = display.contentCenterX + 1000
+            self.y = math.random(90,220)
+            self.speed = math.random(2,8)
+            self.amp   = math.random(20,100)
+            self.angle = math.random(20,100)
+        else
+            self.x = self.x - self.speed
+            self.angle = self.angle + .1
+            self.y = self.amp * math.sin(self.angle)+self.initY
+        end
+
+    end
+
+    
+    local function moveCollect(self, event )
         if self.x < -1000 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
