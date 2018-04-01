@@ -64,7 +64,7 @@ function scene:create( event )
     local cow = display.newImageRect( "ui/cow.png", 120, 130 )
     cow.x = display.contentCenterX -550
     cow.y = display.contentHeight -85
-    physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 1 })
+    physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = -1, gravity = 1 })
 
 -- Colectables
     local dola = display.newImageRect( "ui/dola.png", 70, 70 )
@@ -104,7 +104,7 @@ function scene:create( event )
     baddola1.angle = math.random(20,100)
     physics.addBody(baddola1, "static", { density = 0, friction = 0, bounce = .02 })
 
-    local gorgoyle = display.newImageRect( "ui/gorgoyle.png", 70, 70 )
+    local gorgoyle = display.newImageRect( "ui/gorgoyle.png", 150, 160 )
     gorgoyle.x = display.contentCenterX +550
     gorgoyle.y = display.contentHeight  -100
     gorgoyle.speed = math.random(2,8)
