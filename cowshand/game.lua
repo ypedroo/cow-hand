@@ -71,7 +71,7 @@ function scene:create( event )
     dola.x = display.contentCenterX +550
     dola.y = display.contentHeight  -100
     dola.speed = math.random(2,8)
-    dola.initY = baddola.y
+    dola.initY = dola.y
     dola.amp   = math.random(20,100)
     dola.angle = math.random(20,100)
     physics.addBody(dola, "static", { density = 0, friction = 0, bounce = .02 })
@@ -80,7 +80,7 @@ function scene:create( event )
     check.x = display.contentCenterX +550
     check.y = display.contentHeight  -100
     check.speed = math.random(2,8)
-    check.initY = baddola.y
+    check.initY = check.y
     check.amp   = math.random(20,100)
     check.angle = math.random(20,100)
     physics.addBody(check, "static", { density = 0, friction = 0, bounce = .02 })
