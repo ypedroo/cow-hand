@@ -111,7 +111,7 @@ function scene:create( event )
     gorgoyle.initY = baddola.y
     gorgoyle.amp   = math.random(20,100)
     gorgoyle.angle = math.random(20,100)
-    physics.addBody(baddgorgoyleola, "static", { density = 0, friction = 0, bounce = .02 })
+    physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
     --Functions
 
     local function onTouch(event)
@@ -204,7 +204,7 @@ function scene:create( event )
     --Runtime:addEventListener( "collision", onCollision)
     --cow:addEventListener("touch", onTouch)
 
-    musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
+    --musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 end
 
 function scene:show( event )
