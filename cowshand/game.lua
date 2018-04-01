@@ -21,6 +21,10 @@ local musicTrack
 function scene:create( event )
  
     local sceneGroup = self.view
+
+    local lives = 6
+    local money = 0
+    local died 
     
     physics.start()  -- Temporarily pause the physics engine
    
@@ -122,6 +126,15 @@ function scene:create( event )
             cow:applyLinearImpulse(0, -1.3, cow.x, cow.y)
         end
     end
+    Runtime:addEventListener("touch", onTouch)
+
+    
+    local function onCollision(event)
+        if (event.phase == "began") then
+           lives = lives - 1
+        end
+    end
+
 
 
     local function scrollCity(self, event )
@@ -164,7 +177,7 @@ function scene:create( event )
     end
 
     
-    local function moveCollect(self, event )
+    local function moveIncome(self, event )
         if self.x < -2000 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
@@ -194,12 +207,6 @@ function scene:create( event )
 
     end
 
-    local function onCollision(event)
-        if (event.phase == "began") then
-            composer.gotoScene( "restart", { time=800, effect="fade" } )
-        end
-    end
-
     bg.enterFrame = scrollCity
     Runtime:addEventListener("enterFrame", bg)
 
@@ -221,15 +228,13 @@ function scene:create( event )
     gorgoyle.enterFrame = moveEnemies
     Runtime:addEventListener("enterFrame", gorgoyle)
 
-    dola.enterFrame = moveCollect
+    dola.enterFrame = moveIncome
     Runtime:addEventListener("enterFrame", dola)
     
     check.enterFrame = moveCheck
     Runtime:addEventListener("enterFrame", check)
-
-    Runtime:addEventListener("touch", onTouch)
     
-    --Runtime:addEventListener( "collision", onCollision)
+    Runtime:addEventListener( "collision", onCollision)
     
     --musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 end
