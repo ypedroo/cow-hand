@@ -5,15 +5,9 @@ local scene = composer.newScene()
 
 local widget = require "widget"
 
-composer.recycleOnSceneChange = true
-
---local uiGroup = display.newGroup() 
+--composer.recycleOnSceneChange = true
 
 local physics = require( "physics" )
-
-local lives = 6
-local money = 0
-local died --= false
 
 
 local musicTrack
@@ -24,8 +18,7 @@ function scene:create( event )
 
     local lives = 6
     local money = 0
-    local died 
-    local jumpLimit = 0
+    local jumpLimit = 0 
     
     physics.start()  -- Temporarily pause the physics engine
    
@@ -72,7 +65,7 @@ function scene:create( event )
     local cow = display.newImageRect( "ui/cow.png", 120, 130 )
     cow.x = display.contentCenterX -550
     cow.y = display.contentHeight -85
-    physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = -1, gravity = 1 })
+    physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
 
 -- Colectables
     local dola = display.newImageRect( "ui/dola.png", 70, 70 )
@@ -121,22 +114,24 @@ function scene:create( event )
     gorgoyle.angle = math.random(20,100)
     physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
     --Functions
-	function cow:touch(event)		
-		if(event.phase == "began") then
-			jumpLimit = jumpLimit + 1				
-			if jumpLimit < 5 then
-			    cow:setLinearVelocity(0, -140)
-			end		
-		end
-	end
-	cow:addEventListener("touch", cow)
+
+    local function onTouch(event)
+        if(event.phase == "began") then
+            jumpLimit = jumpLimit + 1
+            if jumpLimit < 5 then
+              cow:applyLinearImpulse(0, -1.3, cow.x, cow.y)
+            end
+        end
+    end
+    Runtime:addEventListener("touch", onTouch)
+
     
     local function onCollision(event)
         if (event.phase == "began") then
-           composer.gotoScene("scene.restart")
+            composer.gotoScene( "restart", { time=800, effect="crossFade" } )
         end
     end
-    --cow:addEventListener( "collision", onCollision)
+    Runtime:addEventListener( "collision", onCollision)
 
 
 
@@ -275,8 +270,9 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
 		physics.pause()
         composer.removeScene( "game" )
-        --cow.removeSelf();
-        --Runtime:addEventListener( "collision", onLocalCollision)
+		composer.hideOverlay()
+		Runtime:removeEventListener( "collision", onCollision)
+		Runtime:removeEventListener("touch", onTouch)
 	end
 end
 
