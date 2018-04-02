@@ -131,7 +131,7 @@ function scene:create( event )
             composer.gotoScene( "restart", { time=800, effect="crossFade" } )
         end
     end
-    Runtime:addEventListener( "collision", onCollision)
+    --Runtime:addEventListener( "collision", onCollision)
 
 
 
@@ -145,7 +145,7 @@ function scene:create( event )
     end
 
     local function moveEnemies(self, event )
-        if self.x < -5000 then
+        if self.x < -2300 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
             self.speed = math.random(2,8)
@@ -176,7 +176,7 @@ function scene:create( event )
 
     
     local function moveIncome(self, event )
-        if self.x < -2000 then
+        if self.x < -1800 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
             self.speed = math.random(2,8)
@@ -191,7 +191,7 @@ function scene:create( event )
     end
 
     local function moveCheck(self, event )
-        if self.x < -6000 then
+        if self.x < -3000 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
             self.speed = math.random(2,8)
@@ -234,7 +234,7 @@ function scene:create( event )
     
     
     
-    --musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
+    musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 end
 
 function scene:show( event )

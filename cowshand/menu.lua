@@ -41,7 +41,7 @@ function scene:create( event )
         quit.y = display.contentCenterY  
 
         start:addEventListener( "tap", gotoGame )
-        --audio.play( mu )
+        audio.play( mu )
     --credits:addEventListener( "tap", gotoCredits )
     --quit:addEventListener( "tap", gotoQuit )
  
