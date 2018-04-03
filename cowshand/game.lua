@@ -55,17 +55,17 @@ function scene:create( event )
     physics.addBody(ground, "static")
 
 -- Score
-    livesText = display.newText( "Lives: ".. lives, 0, 100, native.systemFont, 36)
+    livesText = display.newText( "Lives: ".. lives, 0, 100, native.systemFont, 40)
     livesText:setFillColor( 0, 0, 0 )
-    moneyText = display.newText( "Money: ".. money, 300, 100, native.systemFont, 36)
-    moneyText:setFillColor( 0, 0, 0 )
+    moneyText = display.newText( "Money: ".. money, 300, 100, native.systemFont, 40)
+    moneyText:setFillColor( 0, 0, 0  )
 
 -- Cow
 
     local cow = display.newImageRect( "ui/cow.png", 120, 130 )
     cow.x = display.contentCenterX -550
     cow.y = display.contentHeight -85
-    physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
+    physics.addBody(cow, "dynamic", { density = 0.019, friction = 0, bounce = 0, gravity = 0 })
 
 -- Colectables
     local dola = display.newImageRect( "ui/dola.png", 70, 70 )
@@ -75,7 +75,6 @@ function scene:create( event )
     dola.initY = dola.y
     dola.amp   = math.random(20,100)
     dola.angle = math.random(20,100)
-    --physics.addBody(dola, "dynamic", { density = 0, friction = 0, bounce = .02 })
 
     local check = display.newImageRect( "ui/check.png", 70, 70 )
     check.x = display.contentCenterX +550
@@ -84,7 +83,6 @@ function scene:create( event )
     check.initY = check.y
     check.amp   = math.random(20,100)
     check.angle = math.random(20,100)
-    --physics.addBody(check, "dynamic", { density = 0, friction = 0, bounce = .02 })
 
 --enemies
     local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
@@ -120,7 +118,9 @@ function scene:create( event )
             jumpLimit = jumpLimit + 1
             if jumpLimit < 5 then
               cow:applyLinearImpulse(0, -1.3, cow.x, cow.y)
+              cow:addEventListener("collision")
             end
+         jumpLimit = 0
         end
     end
     Runtime:addEventListener("touch", onTouch)
@@ -128,10 +128,14 @@ function scene:create( event )
     
     local function onCollision(event)
         if (event.phase == "began") then
+           lives = lives - 1
+           if (lives == 0) then
             composer.gotoScene( "restart", { time=800, effect="crossFade" } )
+           end
         end
     end
-    --Runtime:addEventListener( "collision", onCollision)
+	cow.collision = onCollision
+	cow:addEventListener("collision")
 
 
 
@@ -140,6 +144,7 @@ function scene:create( event )
            self.x = display.contentCenterX + 1199
         else
             self.x = self.x -3  - self.speed
+            
         end
 
     end
@@ -155,12 +160,13 @@ function scene:create( event )
             self.x = self.x - self.speed
             self.angle = self.angle + .1
             self.y = self.amp * math.sin(self.angle)+self.initY
+            --gorgoyle:removeSelf()
         end
 
     end
 
     local function moveBaddola(self, event )
-        if self.x < -1000 then
+        if self.x < -1500 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
             self.speed = math.random(2,8)
@@ -176,7 +182,7 @@ function scene:create( event )
 
     
     local function moveIncome(self, event )
-        if self.x < -1800 then
+        if self.x < -2000 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
             self.speed = math.random(2,8)
@@ -202,6 +208,7 @@ function scene:create( event )
             self.angle = self.angle + .1
             self.y = self.amp * math.sin(self.angle)+self.initY
         end
+        
 
     end
 

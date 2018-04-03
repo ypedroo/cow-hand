@@ -8,6 +8,7 @@ local mu = audio.loadSound( "soundsfile/mu.wav" )
 
 local function gotoGame()
 	composer.gotoScene( "game", { time=800, effect="crossFade" } )
+	audio.play( mu ) 
 end
 
 function scene:create( event )
@@ -23,7 +24,7 @@ function scene:create( event )
         restart.y = display.contentCenterY +85
 
         restart:addEventListener( "tap", gotoGame )
-        audio.play( mu ) 
+        
  
 end
 
