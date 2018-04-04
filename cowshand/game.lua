@@ -65,7 +65,7 @@ function scene:create( event )
     local cow = display.newImageRect( "ui/cow.png", 120, 130 )
     cow.x = display.contentCenterX -550
     cow.y = display.contentHeight -85
-    physics.addBody(cow, "dynamic", { density = 0.019, friction = 0, bounce = 0, gravity = 0 })
+
 
 -- Colectables
     local dola = display.newImageRect( "ui/dola.png", 70, 70 )
@@ -117,6 +117,7 @@ function scene:create( event )
         if(event.phase == "began") then
             jumpLimit = jumpLimit + 1
             if jumpLimit < 5 then
+              physics.addBody(cow, "dynamic", { density = 0.019, friction = 0, bounce = 0, gravity = 0 })
               cow:applyLinearImpulse(0, -1.3, cow.x, cow.y)
               cow:addEventListener("collision")
             end
