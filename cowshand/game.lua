@@ -1,4 +1,4 @@
-
+--Testa criar um name pra cada object e usar self como na doc para testar collision
 local composer = require( "composer" )
 
 local scene = composer.newScene()
