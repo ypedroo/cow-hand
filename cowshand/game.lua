@@ -53,6 +53,7 @@ function scene:create( event )
     ground.x = display.contentCenterX 
     ground.y =  display.contentHeight -10
     physics.addBody(ground, "static")
+    groud.name = "ground"
 
 -- Score
     livesText = display.newText( "Lives: ".. lives, 0, 100, native.systemFont, 40)
@@ -65,6 +66,7 @@ function scene:create( event )
     local cow = display.newImageRect( "ui/cow.png", 120, 130 )
     cow.x = display.contentCenterX -550
     cow.y = display.contentHeight -85
+    cow.name = "cow"
 
 
 -- Colectables
@@ -75,6 +77,7 @@ function scene:create( event )
     dola.initY = dola.y
     dola.amp   = math.random(20,100)
     dola.angle = math.random(20,100)
+    dola.name = "dola"
 
     local check = display.newImageRect( "ui/check.png", 70, 70 )
     check.x = display.contentCenterX +550
@@ -83,6 +86,7 @@ function scene:create( event )
     check.initY = check.y
     check.amp   = math.random(20,100)
     check.angle = math.random(20,100)
+    check.name = "check"
 
 --enemies
     local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
@@ -92,6 +96,7 @@ function scene:create( event )
     baddola.initY = baddola.y
     baddola.amp   = math.random(20,100)
     baddola.angle = math.random(20,100)
+    baddola.name = "baddola"
     physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
 
     local baddola1 = display.newImageRect( "ui/baddola.png", 70, 70 )
@@ -101,6 +106,7 @@ function scene:create( event )
     baddola1.initY = baddola1.y
     baddola1.amp   = math.random(20,100)
     baddola1.angle = math.random(20,100)
+    baddola1.name = "baddola"
     physics.addBody(baddola1, "static", { density = 0, friction = 0, bounce = .02 })
 
     local gorgoyle = display.newImageRect( "ui/gorgoyle.png", 160, 160 )
@@ -110,6 +116,7 @@ function scene:create( event )
     gorgoyle.initY = gorgoyle.y
     gorgoyle.amp   = math.random(20,100)
     gorgoyle.angle = math.random(20,100)
+    gorgoyle.name = "gorgoyle"
     physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
     --Functions
 
@@ -117,7 +124,7 @@ function scene:create( event )
         if(event.phase == "began") then
             jumpLimit = jumpLimit + 1
             if jumpLimit < 5 then
-              physics.addBody(cow, "dynamic", { density = 0.019, friction = 0, bounce = 0, gravity = 0 })
+              physics.addBody(cow, "dynamic", { density = 0.015, friction = 0, bounce = 0, gravity = 0 })
               cow:applyLinearImpulse(0, -1.3, cow.x, cow.y)
               cow:addEventListener("collision")
             end
