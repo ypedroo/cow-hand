@@ -19,6 +19,7 @@ function scene:create( event )
     local lives = 6
     local money = 0
     local jumpLimit = 0 
+    local dead = false
     
     physics.start()  -- Temporarily pause the physics engine
    
@@ -133,17 +134,6 @@ function scene:create( event )
     Runtime:addEventListener("touch", onTouch)
 
     
-    --[[local function onCollision(event)
-        if (event.other.name == "ground") then
-            jumpLimit = 0
-           if (lives == 0) then
-            composer.gotoScene( "restart", { time=800, effect="crossFade" } )
-           end
-        end
-    end
-	cow.collision = onCollision
-    cow:addEventListener("collision")]]
-    
     local function onCollision( event )
 	
         if ( event.phase == "began" ) then
@@ -151,32 +141,38 @@ function scene:create( event )
             local obj1 = event.object1
             local obj2 = event.object2
     
-            if ( ( obj1.name == "cow" and obj2.name == "dola" )) then
+            if ( ( obj1.name == "cow" and obj2.name == "dola" )) or 
+               ( ( obj1.name == "check" and obj2.name == "cow" )) then
                 display.remove( obj1 )
                 display.remove( obj2 )
                 money = money + 100
                 moneyText.text = "Money: " .. money
             
 
-            elseif ( ( obj1.name == "cow" and obj2.name == "check" )) then
+            elseif ( ( obj1.name == "cow" and obj2.name == "check" )) or
+                   ( ( obj1.name == "check" and obj2.name == "cow" ))  then
                 display.remove( obj1 )
                 display.remove( obj2 )
+                money = money + 500
                 moneyText.text = "Money: " .. money
             
             
-            elseif ( ( obj1.name == "cow" and obj2.name == "baddola" )) then
+            elseif ( ( obj1.name == "cow" and obj2.name == "baddola" )) or
+                    ( ( obj1.name == "baddola" and obj2.name == "cow" )) then
                 display.remove( obj1 )
                 display.remove( obj2 )
+                money = money - 100
                 moneyText.text = "Money: " .. money
             
  
-            elseif ( ( obj1.name == "cow" and obj2.name == "gorgoyle" )) then
+            elseif ( ( obj1.name == "cow" and obj2.name == "gorgoyle" )) or
+                  ( ( obj1.name == "gorgoyle" and obj2.name == "cow" ))   then
                 display.remove( obj1 )
                 display.remove( obj2 )
                 money = money - 300
                 lives = lives - 1
                 moneyText.text = "Money: " .. money
-                livesText.text = "Lives: " .. lives
+                livesText.text = "lives: " .. lives
             end
         
         end
