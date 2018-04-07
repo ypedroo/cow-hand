@@ -165,20 +165,21 @@ function scene:create( event )
                 money = money + 500
             end
             
-        elseif ( ( obj1.name == "cow" and obj2.name == "baddola" )) then
-            display.remove( obj1 )
-            display.remove( obj2 )
-            money = money - 100
-        end
+            elseif ( ( obj1.name == "cow" and obj2.name == "baddola" )) then
+                display.remove( obj1 )
+                display.remove( obj2 )
+                money = money - 100
+            end
  
-        elseif ( ( obj1.name == "cow" and obj2.name == "gorgoyle" )) then
-            display.remove( obj1 )
-            display.remove( obj2 )
-            money = money - 300
-            lives = lives - 1
+            elseif ( ( obj1.name == "cow" and obj2.name == "gorgoyle" )) then
+                display.remove( obj1 )
+                display.remove( obj2 )
+                money = money - 300
+                lives = lives - 1
+            end
+        
         end
-        end
-    end
+    end 
     
     Runtime:addEventListener( "collision", onCollision )
        
