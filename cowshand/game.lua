@@ -134,16 +134,54 @@ function scene:create( event )
     Runtime:addEventListener("touch", onTouch)
 
     
-    local function onCollision(event)
-        if (event.phase == "began") then
-           lives = lives - 1
+    --[[local function onCollision(event)
+        if (event.other.name == "ground") then
+            jumpLimit = 0
            if (lives == 0) then
             composer.gotoScene( "restart", { time=800, effect="crossFade" } )
            end
         end
     end
 	cow.collision = onCollision
-	cow:addEventListener("collision")
+    cow:addEventListener("collision")]]
+    
+    local function onCollision( event )
+	
+        if ( event.phase == "began" ) then
+    
+            local obj1 = event.object1
+            local obj2 = event.object2
+    
+            if ( ( obj1.name == "cow" and obj2.name == "dola" )) then
+                -- Remove both the municao and headGado
+                display.remove( obj1 )
+                display.remove( obj2 )
+                money = money + 100
+            end
+
+            elseif ( ( obj1.name == "cow" and obj2.name == "check" )) then
+                display.remove( obj1 )
+                display.remove( obj2 )
+                money = money + 500
+            end
+            
+        elseif ( ( obj1.name == "cow" and obj2.name == "baddola" )) then
+            display.remove( obj1 )
+            display.remove( obj2 )
+            money = money - 100
+        end
+ 
+        elseif ( ( obj1.name == "cow" and obj2.name == "gorgoyle" )) then
+            display.remove( obj1 )
+            display.remove( obj2 )
+            money = money - 300
+            lives = lives - 1
+        end
+        end
+    end
+    
+    Runtime:addEventListener( "collision", onCollision )
+       
 
 
 
