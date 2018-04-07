@@ -126,7 +126,6 @@ function scene:create( event )
             if jumpLimit < 5 then
               physics.addBody(cow, "dynamic", { density = 0.015, friction = 0, bounce = 0, gravity = 0 })
               cow:applyLinearImpulse(0, -1.3, cow.x, cow.y)
-              cow:addEventListener("collision")
             end
          jumpLimit = 0
         end
@@ -156,18 +155,19 @@ function scene:create( event )
                 display.remove( obj1 )
                 display.remove( obj2 )
                 money = money + 100
+                moneyText.text = "Money: " .. money
             
 
             elseif ( ( obj1.name == "cow" and obj2.name == "check" )) then
                 display.remove( obj1 )
                 display.remove( obj2 )
-                money = money + 500
+                moneyText.text = "Money: " .. money
             
             
             elseif ( ( obj1.name == "cow" and obj2.name == "baddola" )) then
                 display.remove( obj1 )
                 display.remove( obj2 )
-                money = money - 100
+                moneyText.text = "Money: " .. money
             
  
             elseif ( ( obj1.name == "cow" and obj2.name == "gorgoyle" )) then
@@ -175,12 +175,14 @@ function scene:create( event )
                 display.remove( obj2 )
                 money = money - 300
                 lives = lives - 1
+                moneyText.text = "Money: " .. money
+                livesText.text = "Lives: " .. lives
             end
         
         end
     end 
     
-   --Runtime:addEventListener( "collision", onCollision )
+   Runtime:addEventListener( "collision", onCollision )
        
 
 
