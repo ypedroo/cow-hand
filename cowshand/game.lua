@@ -53,7 +53,7 @@ function scene:create( event )
     ground.x = display.contentCenterX 
     ground.y =  display.contentHeight -10
     physics.addBody(ground, "static")
-    groud.name = "ground"
+    ground.name = "ground"
 
 -- Score
     livesText = display.newText( "Lives: ".. lives, 0, 100, native.systemFont, 40)
@@ -153,23 +153,22 @@ function scene:create( event )
             local obj2 = event.object2
     
             if ( ( obj1.name == "cow" and obj2.name == "dola" )) then
-                -- Remove both the municao and headGado
                 display.remove( obj1 )
                 display.remove( obj2 )
                 money = money + 100
-            end
+            
 
             elseif ( ( obj1.name == "cow" and obj2.name == "check" )) then
                 display.remove( obj1 )
                 display.remove( obj2 )
                 money = money + 500
-            end
+            
             
             elseif ( ( obj1.name == "cow" and obj2.name == "baddola" )) then
                 display.remove( obj1 )
                 display.remove( obj2 )
                 money = money - 100
-            end
+            
  
             elseif ( ( obj1.name == "cow" and obj2.name == "gorgoyle" )) then
                 display.remove( obj1 )
@@ -181,7 +180,7 @@ function scene:create( event )
         end
     end 
     
-    Runtime:addEventListener( "collision", onCollision )
+   --Runtime:addEventListener( "collision", onCollision )
        
 
 
