@@ -7,7 +7,8 @@ local widget = require "widget"
 
 --composer.recycleOnSceneChange = true
 
-local physics = require( "physics" )
+physics = require( "physics" )
+physics.start()
 
 
 local musicTrack
@@ -20,8 +21,7 @@ function scene:create( event )
     local money = 0
     local jumpLimit = 0 
     local dead = false
-    
-    physics.start()  -- Temporarily pause the physics engine
+    local headsTable = {}
    
     --Background
 
@@ -71,7 +71,7 @@ function scene:create( event )
 
 
 -- Colectables
-    local function createMoney()
+  --[[  local function createMoney()
         local dola = display.newImageRect( "ui/dola.png", 70, 70 )
         dola.x = display.contentCenterX +550
         dola.y = display.contentHeight  -100
@@ -106,10 +106,44 @@ function scene:create( event )
         baddola.angle = math.random(20,100)
         baddola.name = "baddola"
         physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
+    end]]--
+
+    local function createBaddola()
+        local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
+        table.insert( headsTable, newHead )
+        physics.addBody( newHead, "dynamic", { radius=30, bounce=0.4 } )
+        newHead.name = "baddola"
+        newHead.isFixedRotation = true
+        newHead.speed = math.random(2,8)
+        newHead.initY = baddola.y
+        newHead.amp   = math.random(20,100)
+        newHead.angle = math.random(20,100)
+     
+    
+        local whereFrom = math.random( 3 )
+    
+        if ( whereFrom == 1 ) then
+            -- From the left
+            newHead.x = -60
+            newHead.y = math.random( 100 )
+            newHead:setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ) )
+        elseif ( whereFrom == 2 ) then
+            -- From the top
+            newHead.x = math.random( display.contentWidth )
+            newHead.y =  -60
+            newHead:setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ) )
+        elseif ( whereFrom == 3 ) then
+            -- From the right
+            newHead.x = display.contentWidth + 60 
+            newHead.y = math.random( 100 )
+            newHead:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ) )
+        end
+        
+        newHead:applyTorque( math.random( -3,3 ) )
     end
 
     
-    local function createBaddola1()
+    --[[local function createBaddola1()
         local baddola1 = display.newImageRect( "ui/baddola.png", 70, 70 )
         baddola1.x = display.contentCenterX +550
         baddola1.y = display.contentHeight  -100
@@ -131,7 +165,7 @@ function scene:create( event )
         gorgoyle.angle = math.random(20,100)
         gorgoyle.name = "gorgoyle"
         physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
-    end
+    end]]
         --Functions
     local function gameLoop()
  
@@ -210,7 +244,7 @@ function scene:create( event )
 
     end
 
-    local function moveEnemies(self, event )
+    --[[local function moveEnemies(self, event )
         if self.x < -2300 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
@@ -239,7 +273,7 @@ function scene:create( event )
             self.y = self.amp * math.sin(self.angle)+self.initY
         end
 
-    end
+    end--]]
 
     
     local function moveIncome(self, event )
@@ -285,11 +319,11 @@ function scene:create( event )
     bg3.enterFrame = scrollCity
     Runtime:addEventListener("enterFrame", bg3)
 
-    baddola.enterFrame = moveBaddola
+    --[[baddola.enterFrame = moveBaddola
     Runtime:addEventListener("enterFrame", baddola)
 
     baddola1.enterFrame = moveBaddola
-    Runtime:addEventListener("enterFrame", baddola1)
+    Runtime:addEventListener("enterFrame", baddola1)--]]
 
     gorgoyle.enterFrame = moveEnemies
     Runtime:addEventListener("enterFrame", gorgoyle)
