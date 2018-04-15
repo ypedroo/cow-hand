@@ -79,6 +79,7 @@ function scene:create( event )
     dola.amp   = math.random(20,100)
     dola.angle = math.random(20,100)
     dola.name = "dola"
+    physics.addBody(dola, "static", { density = 0, friction = 0, bounce = .02 })
 
     local check = display.newImageRect( "ui/check.png", 70, 70 )
     check.x = display.contentCenterX +550
@@ -88,6 +89,7 @@ function scene:create( event )
     check.amp   = math.random(20,100)
     check.angle = math.random(20,100)
     check.name = "check"
+    physics.addBody(check, "static", { density = 0, friction = 0, bounce = .02 })
 
 --enemies
     local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
