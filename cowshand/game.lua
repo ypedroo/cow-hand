@@ -22,6 +22,7 @@ function scene:create( event )
     local jumpLimit = 0 
     local dead = false
     local headsTable = {}
+    local gameLoopTimer
    
     --Background
 
@@ -118,28 +119,21 @@ function scene:create( event )
         newHead.initY = baddola.y
         newHead.amp   = math.random(20,100)
         newHead.angle = math.random(20,100)
-     
     
-        local whereFrom = math.random( 3 )
-    
-        if ( whereFrom == 1 ) then
-            -- From the left
-            newHead.x = -60
-            newHead.y = math.random( 100 )
-            newHead:setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ) )
-        elseif ( whereFrom == 2 ) then
-            -- From the top
-            newHead.x = math.random( display.contentWidth )
-            newHead.y =  -60
-            newHead:setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ) )
-        elseif ( whereFrom == 3 ) then
-            -- From the right
-            newHead.x = display.contentWidth + 60 
-            newHead.y = math.random( 100 )
-            newHead:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ) )
+        if newHead.x < -2300 then
+            newHead.x = display.contentCenterX + 1000
+            newHead.y = math.random(90,220)
+            newHead.speed = math.random(2,8)
+            newHead.amp   = math.random(20,100)
+            newHead.angle = math.random(20,100)
+        else
+            newHead.x = self.x - self.speed
+            newHead.angle = self.angle + .1
+            newHead.y = self.amp * math.sin(self.angle)+self.initY
+            --gorgoyle:removeSelf()
         end
-        
         newHead:applyTorque( math.random( -3,3 ) )
+        
     end
 
     
@@ -167,10 +161,25 @@ function scene:create( event )
         physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
     end]]
         --Functions
-    local function gameLoop()
- 
- 
-    end
+        local function gameLoop()
+	
+            -- Create new headGado
+            createBaddola()
+         
+            -- Remove headGados which have drifted off screen
+            for i = #headsTable, 1, -1 do
+             local thisHead = headsTable[i]
+             
+                    if ( thisHead.x < -100 or
+                            thisHead.x > display.contentWidth + 50 or
+                            thisHead.y < -100 or
+                            thisHead.y > display.contentHeight + 50 )
+                    then
+                        display.remove( thisHead )
+                        table.remove( headsTable, i )
+                    end
+            end
+        end
 
     local function onTouch(event)
         if(event.phase == "began") then
@@ -193,14 +202,14 @@ function scene:create( event )
             local obj2 = event.object2
     
             if ( ( obj1.name == "cow" and obj2.name == "dola" )) or 
-               ( ( obj1.name == "check" and obj2.name == "cow" )) then
+               ( ( obj1.name == "dola" and obj2.name == "cow" )) then
                 display.remove( obj1 )
                 display.remove( obj2 )
                 money = money + 100
                 moneyText.text = "Money: " .. money
             
 
-            elseif ( ( obj1.name == "cow" and obj2.name == "check" )) or
+            --[[elseif ( ( obj1.name == "cow" and obj2.name == "check" )) or
                    ( ( obj1.name == "check" and obj2.name == "cow" ))  then
                 display.remove( obj1 )
                 display.remove( obj2 )
@@ -223,7 +232,7 @@ function scene:create( event )
                 money = money - 300
                 lives = lives - 1
                 moneyText.text = "Money: " .. money
-                livesText.text = "lives: " .. lives
+                livesText.text = "lives: " .. lives]]
             end
         
         end
@@ -244,7 +253,7 @@ function scene:create( event )
 
     end
 
-    --[[local function moveEnemies(self, event )
+    local function moveEnemies(self, event )
         if self.x < -2300 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
@@ -260,7 +269,7 @@ function scene:create( event )
 
     end
 
-    local function moveBaddola(self, event )
+    --[[local function moveBaddola(self, event )
         if self.x < -1500 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
@@ -319,11 +328,11 @@ function scene:create( event )
     bg3.enterFrame = scrollCity
     Runtime:addEventListener("enterFrame", bg3)
 
-    --[[baddola.enterFrame = moveBaddola
+   --[[ baddola.enterFrame = movmoveEnemies
     Runtime:addEventListener("enterFrame", baddola)
 
     baddola1.enterFrame = moveBaddola
-    Runtime:addEventListener("enterFrame", baddola1)--]]
+    Runtime:addEventListener("enterFrame", baddola1)
 
     gorgoyle.enterFrame = moveEnemies
     Runtime:addEventListener("enterFrame", gorgoyle)
@@ -332,11 +341,11 @@ function scene:create( event )
     Runtime:addEventListener("enterFrame", dola)
     
     check.enterFrame = moveCheck
-    Runtime:addEventListener("enterFrame", check)
+    Runtime:addEventListener("enterFrame", check)]]
     
     
     
-    musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
+    --musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 end
 
 function scene:show( event )
@@ -350,7 +359,11 @@ function scene:show( event )
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
         --physics.start()
-         audio.play( musicTrack, { channel=1, loops=-1 } )
+        physics.start()
+		Runtime:addEventListener( "collision", onCollision )
+		gameLoopTimer = timer.performWithDelay( 1300, gameLoop, 0 )
+				
+        audio.play( musicTrack, { channel=1, loops=-1 } )
        
  
     end
