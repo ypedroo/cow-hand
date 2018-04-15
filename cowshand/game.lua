@@ -71,57 +71,68 @@ function scene:create( event )
 
 
 -- Colectables
-    local dola = display.newImageRect( "ui/dola.png", 70, 70 )
-    dola.x = display.contentCenterX +550
-    dola.y = display.contentHeight  -100
-    dola.speed = math.random(2,8)
-    dola.initY = dola.y
-    dola.amp   = math.random(20,100)
-    dola.angle = math.random(20,100)
-    dola.name = "dola"
-    physics.addBody(dola, "static", { density = 0, friction = 0, bounce = .02 })
+    local function createMoney()
+        local dola = display.newImageRect( "ui/dola.png", 70, 70 )
+        dola.x = display.contentCenterX +550
+        dola.y = display.contentHeight  -100
+        dola.speed = math.random(2,8)
+        dola.initY = dola.y
+        dola.amp   = math.random(20,100)
+        dola.angle = math.random(20,100)
+        dola.name = "dola"
+        physics.addBody(dola, "static", { density = 0, friction = 0, bounce = .02 })
+    end
 
-    local check = display.newImageRect( "ui/check.png", 70, 70 )
-    check.x = display.contentCenterX +550
-    check.y = display.contentHeight  -100
-    check.speed = math.random(2,8)
-    check.initY = check.y
-    check.amp   = math.random(20,100)
-    check.angle = math.random(20,100)
-    check.name = "check"
-    physics.addBody(check, "static", { density = 0, friction = 0, bounce = .02 })
+    local function createCheck()
+        local check = display.newImageRect( "ui/check.png", 70, 70 )
+        check.x = display.contentCenterX +550
+        check.y = display.contentHeight  -100
+        check.speed = math.random(2,8)
+        check.initY = check.y
+        check.amp   = math.random(20,100)
+        check.angle = math.random(20,100)
+        check.name = "check"
+        physics.addBody(check, "static", { density = 0, friction = 0, bounce = .02 })
+    end
 
 --enemies
-    local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
-    baddola.x = display.contentCenterX +550
-    baddola.y = display.contentHeight  -100
-    baddola.speed = math.random(2,8)
-    baddola.initY = baddola.y
-    baddola.amp   = math.random(20,100)
-    baddola.angle = math.random(20,100)
-    baddola.name = "baddola"
-    physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
+    local function createBaddola()
+        local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
+        baddola.x = display.contentCenterX +550
+        baddola.y = display.contentHeight  -100
+        baddola.speed = math.random(2,8)
+        baddola.initY = baddola.y
+        baddola.amp   = math.random(20,100)
+        baddola.angle = math.random(20,100)
+        baddola.name = "baddola"
+        physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
+    end
 
-    local baddola1 = display.newImageRect( "ui/baddola.png", 70, 70 )
-    baddola1.x = display.contentCenterX +550
-    baddola1.y = display.contentHeight  -100
-    baddola1.speed = math.random(2,8)
-    baddola1.initY = baddola1.y
-    baddola1.amp   = math.random(20,100)
-    baddola1.angle = math.random(20,100)
-    baddola1.name = "baddola"
-    physics.addBody(baddola1, "static", { density = 0, friction = 0, bounce = .02 })
+    
+    local function createBaddola1()
+        local baddola1 = display.newImageRect( "ui/baddola.png", 70, 70 )
+        baddola1.x = display.contentCenterX +550
+        baddola1.y = display.contentHeight  -100
+        baddola1.speed = math.random(2,8)
+        baddola1.initY = baddola1.y
+        baddola1.amp   = math.random(20,100)
+        baddola1.angle = math.random(20,100)
+        baddola1.name = "baddola"
+        physics.addBody(baddola1, "static", { density = 0, friction = 0, bounce = .02 })
+    end
 
-    local gorgoyle = display.newImageRect( "ui/gorgoyle.png", 160, 160 )
-    gorgoyle.x = display.contentCenterX +550
-    gorgoyle.y = display.contentHeight  -100
-    gorgoyle.speed = math.random(2,8)
-    gorgoyle.initY = gorgoyle.y
-    gorgoyle.amp   = math.random(20,100)
-    gorgoyle.angle = math.random(20,100)
-    gorgoyle.name = "gorgoyle"
-    physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
-    --Functions
+    local function createGorgoyle()
+        local gorgoyle = display.newImageRect( "ui/gorgoyle.png", 160, 160 )
+        gorgoyle.x = display.contentCenterX +550
+        gorgoyle.y = display.contentHeight  -100
+        gorgoyle.speed = math.random(2,8)
+        gorgoyle.initY = gorgoyle.y
+        gorgoyle.amp   = math.random(20,100)
+        gorgoyle.angle = math.random(20,100)
+        gorgoyle.name = "gorgoyle"
+        physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
+    end
+        --Functions
     local function gameLoop()
  
  
