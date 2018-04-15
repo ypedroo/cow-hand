@@ -173,7 +173,7 @@ local function onCollision( event )
 			-- Increase pontos
 			royal = royal + 1
 			royalText.text = "Royal: " .. royal
-		--[[elseif ( ( obj1.myName == "lampiao" and obj2.myName == "headGado" ) or
+		[elseif ( ( obj1.myName == "lampiao" and obj2.myName == "headGado" ) or
 		( obj1.myName == "headGado" and obj2.myName == "lampiao" ) )
 			then
 			
@@ -195,7 +195,7 @@ local function onCollision( event )
 					lampiao.alpha = 0
 					timer.performWithDelay( 950, reviverLampiao )
 				end
-			end]]
+			end
 
 		end
 	end

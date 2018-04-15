@@ -109,30 +109,52 @@ function scene:create( event )
         physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
     end]]--
 
+
     local function createBaddola()
         local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
-        table.insert( headsTable, newHead )
-        physics.addBody( newHead, "dynamic", { radius=30, bounce=0.4 } )
-        newHead.myName = "baddola"
+            table.insert( headsTable, newHead )
+            physics.addBody( newHead, "dynamic", { radius=30, bounce=0.4 } )
+            newHead.myName = "baddola"
         local whereFrom = math.random( 3 )
             if ( whereFrom == 1 ) then
                 -- From the left
-                newHead.x = -60
-                newHead.y = math.random( 100 )
+                newHead.x = display.contentCenterX + 1000
+                newHead.y = math.random(90,220)
                 newHead:setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ) )
             elseif ( whereFrom == 2 ) then
                 -- From the top
-                newHead.x = math.random( display.contentWidth )
-                newHead.y =  -60
+                newHead.x = display.contentCenterX + 1000
+                newHead.y = math.random(90,220)
                 newHead:setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ) )
             elseif ( whereFrom == 3 ) then
                 -- From the right
-                newHead.x = display.contentWidth + 60 
-                newHead.y = math.random( 100 )
+                newHead.x = display.contentCenterX + 1000
+                newHead.y = math.random(90,220)
                 newHead:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ) )
             end
                  newHead:applyTorque( math.random( -3,3 ) )
 end
+
+
+local function gameLoop()
+    -- Create new badDola
+    createBaddola()
+    -- Remove headGados which have drifted off screen
+    for i = #headsTable, 1, -1 do
+     local thisHead = headsTable[i]
+     
+            if ( thisHead.x < -100 or
+                    thisHead.x > display.contentWidth + 50 or
+                    thisHead.y < -100 or
+                    thisHead.y > display.contentHeight + 50 )
+            then
+                display.remove( thisHead )
+                table.remove( headsTable, i )
+            end
+    end
+end
+
+gameLoopTimer = timer.performWithDelay(800, gameLoop, 0 )  
 
     
     --[[local function createBaddola1()
@@ -158,27 +180,7 @@ end
         gorgoyle.name = "gorgoyle"
         physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
     end]]
-        --Functions
-        local function gameLoop()
-	
-            -- Create new headGado
-            createBaddola()
-         
-            -- Remove headGados which have drifted off screen
-            for i = #headsTable, 1, -1 do
-             local thisHead = headsTable[i]
-             
-                    if ( thisHead.x < -100 or
-                            thisHead.x > display.contentWidth + 50 or
-                            thisHead.y < -100 or
-                            thisHead.y > display.contentHeight + 50 )
-                    then
-                        display.remove( thisHead )
-                        table.remove( headsTable, i )
-                    end
-            end
-        end
-
+        --Functions 
     local function onTouch(event)
         if(event.phase == "began") then
             jumpLimit = jumpLimit + 1
@@ -217,32 +219,7 @@ end
 			-- Increase pontos
 			money = money - 100
 			moneyText.text = "Money: " .. money
-            
-
-            --[[elseif ( ( obj1.myName == "cow" and obj2.myName == "check" )) or
-                   ( ( obj1.myName == "check" and obj2.myName == "cow" ))  then
-                display.remove( obj1 )
-                display.remove( obj2 )
-                money = money + 500
-                moneyText.text = "Money: " .. money
-            
-            
-            elseif ( ( obj1.myName == "cow" and obj2.myName == "baddola" )) or
-                    ( ( obj1.myName == "baddola" and obj2.myName == "cow" )) then
-                display.remove( obj1 )
-                display.remove( obj2 )
-                money = money - 100
-                moneyText.text = "Money: " .. money
-            
- 
-            elseif ( ( obj1.myName == "cow" and obj2.myName == "gorgoyle" )) or
-                  ( ( obj1.myName == "gorgoyle" and obj2.myName == "cow" ))   then
-                display.remove( obj1 )
-                display.remove( obj2 )
-                money = money - 300
-                lives = lives - 1
-                moneyText.text = "Money: " .. money
-                livesText.text = "lives: " .. lives]]
+        
             end
         
         end
