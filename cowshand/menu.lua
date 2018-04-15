@@ -1,4 +1,4 @@
-
+local mainGroup --= display.newGroup()  -- Display group for the Lampiao etc.
 local composer = require( "composer")
 local scene = composer.newScene()
 -- -----------------------------------------------------------------------------------

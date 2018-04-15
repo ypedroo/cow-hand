@@ -113,28 +113,26 @@ function scene:create( event )
         local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
         table.insert( headsTable, newHead )
         physics.addBody( newHead, "dynamic", { radius=30, bounce=0.4 } )
-        newHead.name = "baddola"
-        newHead.isFixedRotation = true
-        newHead.speed = math.random(2,8)
-        newHead.initY = baddola.y
-        newHead.amp   = math.random(20,100)
-        newHead.angle = math.random(20,100)
-    
-        if newHead.x < -2300 then
-            newHead.x = display.contentCenterX + 1000
-            newHead.y = math.random(90,220)
-            newHead.speed = math.random(2,8)
-            newHead.amp   = math.random(20,100)
-            newHead.angle = math.random(20,100)
-        else
-            newHead.x = self.x - self.speed
-            newHead.angle = self.angle + .1
-            newHead.y = self.amp * math.sin(self.angle)+self.initY
-            --gorgoyle:removeSelf()
-        end
-        newHead:applyTorque( math.random( -3,3 ) )
-        
-    end
+        newHead.myName = "baddola"
+        local whereFrom = math.random( 3 )
+            if ( whereFrom == 1 ) then
+                -- From the left
+                newHead.x = -60
+                newHead.y = math.random( 100 )
+                newHead:setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ) )
+            elseif ( whereFrom == 2 ) then
+                -- From the top
+                newHead.x = math.random( display.contentWidth )
+                newHead.y =  -60
+                newHead:setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ) )
+            elseif ( whereFrom == 3 ) then
+                -- From the right
+                newHead.x = display.contentWidth + 60 
+                newHead.y = math.random( 100 )
+                newHead:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ) )
+            end
+                 newHead:applyTorque( math.random( -3,3 ) )
+end
 
     
     --[[local function createBaddola1()
@@ -201,32 +199,44 @@ function scene:create( event )
             local obj1 = event.object1
             local obj2 = event.object2
     
-            if ( ( obj1.name == "cow" and obj2.name == "dola" )) or 
-               ( ( obj1.name == "dola" and obj2.name == "cow" )) then
-                display.remove( obj1 )
-                display.remove( obj2 )
-                money = money + 100
-                moneyText.text = "Money: " .. money
+            if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
+		       ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
+			then
+			
+			-- Remove both the municao and headGado
+			display.remove( obj1 )
+			display.remove( obj2 )
+
+			for i = #headsTable, 1, -1 do
+			if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
+				table.remove( headsTable, i )
+				break
+			end
+			end
+			
+			-- Increase pontos
+			money = money - 100
+			moneyText.text = "Money: " .. money
             
 
-            --[[elseif ( ( obj1.name == "cow" and obj2.name == "check" )) or
-                   ( ( obj1.name == "check" and obj2.name == "cow" ))  then
+            --[[elseif ( ( obj1.myName == "cow" and obj2.myName == "check" )) or
+                   ( ( obj1.myName == "check" and obj2.myName == "cow" ))  then
                 display.remove( obj1 )
                 display.remove( obj2 )
                 money = money + 500
                 moneyText.text = "Money: " .. money
             
             
-            elseif ( ( obj1.name == "cow" and obj2.name == "baddola" )) or
-                    ( ( obj1.name == "baddola" and obj2.name == "cow" )) then
+            elseif ( ( obj1.myName == "cow" and obj2.myName == "baddola" )) or
+                    ( ( obj1.myName == "baddola" and obj2.myName == "cow" )) then
                 display.remove( obj1 )
                 display.remove( obj2 )
                 money = money - 100
                 moneyText.text = "Money: " .. money
             
  
-            elseif ( ( obj1.name == "cow" and obj2.name == "gorgoyle" )) or
-                  ( ( obj1.name == "gorgoyle" and obj2.name == "cow" ))   then
+            elseif ( ( obj1.myName == "cow" and obj2.myName == "gorgoyle" )) or
+                  ( ( obj1.myName == "gorgoyle" and obj2.myName == "cow" ))   then
                 display.remove( obj1 )
                 display.remove( obj2 )
                 money = money - 300
@@ -360,7 +370,7 @@ function scene:show( event )
         -- Code here runs when the scene is entirely on screen
         --physics.start()
         physics.start()
-		Runtime:addEventListener( "collision", onCollision )
+		--Runtime:addEventListener( "collision", onCollision )
 		gameLoopTimer = timer.performWithDelay( 1300, gameLoop, 0 )
 				
         audio.play( musicTrack, { channel=1, loops=-1 } )
