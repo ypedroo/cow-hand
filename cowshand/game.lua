@@ -122,6 +122,10 @@ function scene:create( event )
     gorgoyle.name = "gorgoyle"
     physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
     --Functions
+    local function gameLoop()
+ 
+ 
+    end
 
     local function onTouch(event)
         if(event.phase == "began") then
