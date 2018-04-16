@@ -15,23 +15,27 @@ physics.start()
 
 system.activate( "multitouch" )
 
---[[Load Sprite Sheets
+--Load Sprite Sheets
 local sheetInfo = require("sprites.lampion")
 local sheet = graphics.newImageSheet( "assets/img/lampion.png", sheetInfo:getSheet() )
 
 local sheetInfo = require("sprites.gameObjetos")
 local objectSheet = graphics.newImageSheet( "assets/img/gameObjetos.png", sheetInfo:getSheet() )
-]]
+
 
 --Initialize Variables
 
 local vidas = 3
-local royal = 0
+local pontos = 0
 local morto = false
+
+local buttons = {}
 
 local headsTable = {}
 
 local background
+local cactu
+local cactu2
 local solo
 
 local barreira1
@@ -52,6 +56,14 @@ local eixoX = w - 5
 local eixoY = h
 
 
+local sequenceLamp = {
+    { name= "paradoLeft", start = 14, count = 0, time = 800 , loopCount = 0},--loopDirection = "forward"},
+	{ name= "paradoRight", start = 13, count = 0, time = 800 , loopCount = 0},--loopDirection = "forward"},
+    { name= "andandoRight", start= 1, count = 6, time =700, loopCount = 0}, --loopDirection= "forward" },
+    { name= "andandoLeft", start= 7, count = 6, time =700, loopCount = 0},-- loopDirection= "forward" }
+
+}
+
 -- Set up display groups
 local backGroup --= display.newGroup()  -- Display group for the background image
 local mainGroup --= display.newGroup()  -- Display group for the Lampiao etc.
@@ -59,7 +71,7 @@ local uiGroup --= display.newGroup()    -- Display group for UI objects like the
 
 local function updateText()
 	vidasText.text = "Vidas: " .. vidas
-	royalText.text = "Pontos: " .. pontos
+	pontosText.text = "Pontos: " .. pontos
 end
 
 
@@ -88,10 +100,10 @@ function updateBackgrounds()
 end
 
 local function createInimigo()
-	local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
-        table.insert( headsTable, newHead )
-        physics.addBody( newHead, "dynamic", { radius=30, bounce=0.4 } )
-        newHead.myName = "baddola"
+	local newHead = display.newImageRect( mainGroup, objectSheet, 2, 47, 98 )
+	table.insert( headsTable, newHead )
+	physics.addBody( newHead, "dynamic", { radius=30, bounce=0.4 } )
+	newHead.myName = "headGado"
 	newHead.isFixedRotation = true
 
 	local whereFrom = math.random( 3 )
@@ -116,7 +128,31 @@ local function createInimigo()
 	newHead:applyTorque( math.random( -3,3 ) )
 end
 
-
+local function tiroBala()
+	if lado == "direito" then
+		local newBala = display.newImageRect(mainGroup, "assets/img/municao.png", 7, 25)
+        newBala.rotation=newBala.rotation-270
+        physics.addBody(newBala, "dynamic", {isSensor = true})
+        newBala.isBullet = true
+        newBala.myName = "municao"
+        newBala.x = lampiao.x+70
+        newBala.y = lampiao.y+5
+        newBala:toBack()
+        transition.to(newBala, {x=1400, time=300, 
+			onComplete = function() display.remove(newBala) end})
+	elseif lado == "esquerdo" then
+        local newBala = display.newImageRect(mainGroup, "assets/img/municao.png", 7, 25)
+        newBala.rotation=newBala.rotation-90
+        physics.addBody(newBala, "dynamic", {isSensor = true})
+        newBala.isBullet = true
+        newBala.myName = "municao"
+        newBala.x = lampiao.x-70
+        newBala.y = lampiao.y+5
+        newBala:toBack()
+        transition.to(newBala, {x=-300, time=300, 
+			onComplete = function() display.remove(newBala) end})
+	end
+ end
 
 local function gameLoop()
 	
@@ -141,6 +177,20 @@ local function gameLoop()
 --gameLoopTimer = timer.performWithDelay( 800, gameLoop, 0 )
 
 --Reviver Lampião
+local function reviverLampiao()
+	
+	   lampiao.isBodyActive = false
+	   lampiao.x = solo.x - 600
+	   lampiao.y = solo.y-195
+	
+	   -- Fade in the lampiao
+	   transition.to( lampiao, { alpha=1, time=4000,
+		   onComplete = function()
+			   lampiao.isBodyActive = true
+			   morto = false
+		   end
+	   } )
+end
 
 local function endGame()
 	composer.setVariable( "finalScore", pontos )
@@ -155,8 +205,8 @@ local function onCollision( event )
 		local obj1 = event.object1
 		local obj2 = event.object2
 
-		if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
-		( obj1.myName == "baddola" and obj2.myName == "cow" ) )
+		if ( ( obj1.myName == "municao" and obj2.myName == "headGado" ) or
+		( obj1.myName == "headGado" and obj2.myName == "municao" ) )
 			then
 			
 			-- Remove both the municao and headGado
@@ -171,9 +221,9 @@ local function onCollision( event )
 			end
 			
 			-- Increase pontos
-			royal = royal + 1
-			royalText.text = "Royal: " .. royal
-		[elseif ( ( obj1.myName == "lampiao" and obj2.myName == "headGado" ) or
+			pontos = pontos + 1
+			pontosText.text = "Pontos: " .. pontos
+		elseif ( ( obj1.myName == "lampiao" and obj2.myName == "headGado" ) or
 		( obj1.myName == "headGado" and obj2.myName == "lampiao" ) )
 			then
 			
@@ -206,11 +256,43 @@ end
 
 function pular( event)
     if event.phase=="began" then
-		local vx, vy = cow:getLinearVelocity()
-        cow:applyLinearImpulse(0, -1.2, cow.x, cow.y)
+		local vx, vy = lampiao:getLinearVelocity()
+        lampiao:applyLinearImpulse(0, -1.2, lampiao.x, lampiao.y)
 	end
 end
 
+local function andandoRight( event )
+
+  if ( "began" == event.phase ) then
+	-- audio.play( moveTrack )
+	lado = "direito"
+    lampiao:setSequence( "andandoRight" )
+	lampiao:play()
+    -- start moving lampiao
+	lampiao:applyLinearImpulse( 1, 0, lampiao.x, lampiao.y )
+	--lampiao:addEventListener( "tap", tiroBala )
+  elseif ( "ended" == event.phase ) then
+    lampiao:setSequence( "paradoRight" )
+    lampiao:play()
+    lampiao:setLinearVelocity( 0,0 )
+  end
+end
+
+local function andandoLeft( event )
+	if ( "began" == event.phase ) then
+		-- audio.play( moveTrack )
+		lado = "esquerdo"
+    	lampiao:setSequence( "andandoLeft" )
+    	lampiao:play()
+		lampiao:applyLinearImpulse( -1, 0, lampiao.x, lampiao.y )
+		--lampiao:addEventListener( "tap", tiroBala )
+  	elseif ( "ended" == event.phase ) then
+    	lampiao:setSequence( "paradoLeft" )
+		lampiao:play()
+    	--lampiao:setFrame(1)
+    	lampiao:setLinearVelocity( 0,0 )
+  end
+end
 
 --timer.performWithDelay(1, update, -1)
 
@@ -239,44 +321,57 @@ function scene:create( event )
 
 		
 	--Backgroud image
-	local sky = display.newImageRect("ui/sky.png", 1400, 750)
-    sky.x = display.contentCenterX
-    sky.y = display.contentCenterY 
+	background = display.newImageRect( backGroup, "assets/img/quixada7.png", 1450, 950 )
+	background.x = display.contentCenterX
+	background.y = h - 510
 
-    local bg = display.newImageRect("ui/bg1.png", 1400, 750)
-    bg.x = display.contentCenterX
-    bg.y = display.contentCenterY
-    bg.speed = 1
+	--Solo image
+	solo = display.newImageRect( backGroup, "assets/img/solo.png", 1450, 320 )
+	solo.x = display.contentCenterX
+	solo.y = h - 50
+	physics.addBody(solo, "static",  {friction=.1, isSensor=false})
 
-    local bg1 = display.newImageRect("ui/bg1.png",1400, 750)
-    bg1.x = 2000
-    bg1.y = 400
-    bg1.speed = 1
+	cactu = display.newImageRect( backGroup, "assets/img/cactuSprite.png", 80, 75 )
+	cactu.x = display.contentCenterX - 130
+	cactu.y = solo.y-195
+	physics.addBody(cactu, "static", {friction= .1, isSensor=true})
 
-    local bg2 = display.newImageRect("ui/bg2.png", 1400, 200)
-    bg2.x = display.contentCenterX 
-    bg2.y = display.contentCenterY +250
-    bg2.speed = 2
-    
-    local bg3 = display.newImageRect("ui/bg2.png", 1600, 200)
-    bg3.x =  1800
-    bg3.y =  640
-    bg3.speed = 2
+	cactu2 = display.newImageRect( backGroup, "assets/img/cactuSprite.png", 90, 90 )
+	cactu2.x = display.contentCenterX + 400
+	cactu2.y = solo.y-195
+	physics.addBody(cactu2, "static", {friction= .1, isSensor=true})
+
+	barreira1 = display.newRect(2, 1080, 2, 1080)
+	barreira1.x = solo.x - 700
+	barreira1.y = solo.y-195
+	barreira1:setFillColor(0,255,0)
+	--barreira1.alpha = 2
+	physics.addBody(barreira1, "static")
+
+	barreira2 = display.newRect(2, 1080, 2, 1080)
+	barreira2.x = solo.x + 700
+	barreira2.y = solo.y-195
+	barreira2:setFillColor(0,255,0)
+	--barreira1.alpha = 2
+	physics.addBody(barreira2, "static")
 
 
-    local ground = display.newImageRect( "ui/ground.png", 2600000, 30)
-    ground.x = display.contentCenterX 
-    ground.y =  display.contentHeight -10
-    physics.addBody(ground, "static")
-    ground.name = "ground"
-
+	lampiao = display.newSprite( backGroup, sheet, sequenceLamp)
+	lampiao.x = solo.x - 600
+	lampiao.y = solo.y-195
+	physics.addBody( lampiao, "dynamic", {box, bounce=0.1, friction=0, isSensor=false},
+	{box={halfWidth=30, halfHeight=10, x=0, y=60}, isSensor=true } )
+	lampiao: setSequence("paradoRight")
+	lampiao:play()
+	lampiao.isFixedRotation = true
+	lampiao.myName = "lampiao"
 
 	
 	-- Display vidas and pontos
-	vidasText = display.newText(  "Vidas: " .. vidas, 10, 40, "xilosa.ttf", 36 )
+	vidasText = display.newText( uiGroup, "Vidas: " .. vidas, 10, 40, "xilosa.ttf", 36 )
 	vidasText:setFillColor( 0, 0, 0 )
-	royalText = display.newText( "Royal: " .. royal, 210, 40, "xilosa.ttf", 36 )
-	royalText:setFillColor( 0, 0, 0 )
+	pontosText = display.newText( uiGroup, "Pontos: " .. pontos, 210, 40, "xilosa.ttf", 36 )
+	pontosText:setFillColor( 0, 0, 0 )
 
 
 end
@@ -297,7 +392,62 @@ function scene:show( event )
 		physics.start()
 		Runtime:addEventListener( "collision", onCollision )
 		gameLoopTimer = timer.performWithDelay( 1300, gameLoop, 0 )
+				
+		-- Initialize widget(Botões)
+		widget = require("widget")
 
+
+		jump_button = widget.newButton( {
+			id = "jumpButton",
+			width = 120,
+			height = 120,
+			defaultFile = "assets/buttons/lineLight23.png",
+			left = 1000,
+			top = 615,
+			onEvent = pular
+		} )
+
+		atack_button = widget.newButton( {
+			id = "atack_button",
+			width = 120,
+			height = 120,
+			defaultFile = "assets/buttons/lineAtack.png",
+			left = 790,
+			top = 615,
+			onEvent = tiroBala;
+		} )
+
+		left_button = widget.newButton( {
+			id = "left_button",
+			width = 120,
+			height = 120,
+			defaultFile = "assets/buttons/lineLight22.png",
+			left = -100,
+			top = 615,
+			onEvent = andandoLeft
+		} )
+
+		right_button = widget.newButton( {
+			id = "right_button",
+			width = 120,
+			height = 120,
+			defaultFile = "assets/buttons/lineLight23.png",
+			left = 110,
+			top = 615,
+			onEvent = andandoRight
+		} )
+
+		right_button.alpha = .2;
+		left_button.alpha = .2;
+		atack_button.alpha = .2;
+		jump_button.alpha = .2;
+		jump_button.rotation = -90;
+
+		--uiGroup:insert( atk_button )
+		--uiGroup:insert( jump_button )
+		--uiGroup:insert( right_button )
+		--uiGroup:insert( left_button )
+		-- Load gamepad end
 
 	end
 end

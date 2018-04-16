@@ -111,25 +111,24 @@ function scene:create( event )
 
 
     local function createBaddola()
-        local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
+            baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
             table.insert( headsTable, newHead )
-            physics.addBody( newHead, "dynamic", { radius=30, bounce=0.4 } )
+            physics.addBody( newHead, "dynamic", { radius=30, bounce=0.1 } )
             newHead.myName = "baddola"
+
         local whereFrom = math.random( 3 )
+
             if ( whereFrom == 1 ) then
-                -- From the left
                 newHead.x = display.contentCenterX + 1000
                 newHead.y = math.random(90,220)
                 newHead:setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ) )
             elseif ( whereFrom == 2 ) then
-                -- From the top
                 newHead.x = display.contentCenterX + 1000
-                newHead.y = math.random(90,220)
+                newHead.y = math.random(80,220)
                 newHead:setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ) )
             elseif ( whereFrom == 3 ) then
-                -- From the right
                 newHead.x = display.contentCenterX + 1000
-                newHead.y = math.random(90,220)
+                newHead.y = math.random(75,220)
                 newHead:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ) )
             end
                  newHead:applyTorque( math.random( -3,3 ) )
@@ -137,15 +136,13 @@ end
 
 
 local function gameLoop()
-    -- Create new badDola
     createBaddola()
-    -- Remove headGados which have drifted off screen
     for i = #headsTable, 1, -1 do
      local thisHead = headsTable[i]
      
-            if ( thisHead.x < -100 or
+            if ( thisHead.x < -1000 or
                     thisHead.x > display.contentWidth + 50 or
-                    thisHead.y < -100 or
+                    thisHead.y < -1000 or
                     thisHead.y > display.contentHeight + 50 )
             then
                 display.remove( thisHead )
