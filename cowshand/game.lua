@@ -131,7 +131,7 @@ function scene:create( event )
                 newHead.y = math.random(75,220)
                 newHead:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ) )
             end
-                 newHead:applyTorque( math.random( -3,3 ) )
+                newHead:applyTorque( math.random( -3,3 ) )
 end
 
 
@@ -207,12 +207,13 @@ gameLoopTimer = timer.performWithDelay(800, gameLoop, 0 )
 			display.remove( obj2 )
 
 			for i = #headsTable, 1, -1 do
-			if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
-				table.remove( headsTable, i )
-				break
+			    if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
+			    	table.remove( headsTable, i )
+			    	break
+			    end
 			end
-			end
-			
+            
+            
 			-- Increase pontos
 			money = money - 100
 			moneyText.text = "Money: " .. money
@@ -237,7 +238,7 @@ gameLoopTimer = timer.performWithDelay(800, gameLoop, 0 )
 
     end
 
-    local function moveEnemies(self, event )
+    --[[local function moveEnemies(self, event )
         if self.x < -2300 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
@@ -253,7 +254,7 @@ gameLoopTimer = timer.performWithDelay(800, gameLoop, 0 )
 
     end
 
-    --[[local function moveBaddola(self, event )
+    local function moveBaddola(self, event )
         if self.x < -1500 then
             self.x = display.contentCenterX + 1000
             self.y = math.random(90,220)
