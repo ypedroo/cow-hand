@@ -13,16 +13,177 @@ physics.start()
 
 local musicTrack
 
+
+local lives = 6
+local money = 0
+local jumpLimit = 0 
+local dead = false
+local headsTable = {}
+local gameLoopTimer
+
+
+
+local function createBaddola()
+    baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
+    table.insert( headsTable, newHead )
+    physics.addBody( "dynamic", { radius=30, bounce=0 } )
+    newHead.myName = "baddola"
+
+local whereFrom = math.random( 3 )
+
+    if ( whereFrom == 1 ) then
+        newHead.x = display.contentCenterX + 1000
+        newHead.y = math.random(90,220)
+        newHead.setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ) )
+    elseif ( whereFrom == 2 ) then
+        newHead.x = display.contentCenterX + 1000
+        newHead.y = math.random(80,220)
+        newHead.setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ) )
+    elseif ( whereFrom == 3 ) then
+        newHead.x = display.contentCenterX + 1000
+        newHead.y = math.random(75,220)
+        newHead.setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ) )
+    end
+        newHead.applyTorque( math.random( -3,3 ) )
+end
+
+
+local function gameLoop()
+createBaddola()
+for i = #headsTable, 1, -1 do
+local thisHead = headsTable[i]
+
+    if ( thisHead.x < -1000 or
+            thisHead.x > display.contentWidth + 50 or
+            thisHead.y < -1000 or
+            thisHead.y > display.contentHeight + 50 )
+    then
+        display.remove( thisHead )
+        table.remove( headsTable, i )
+    end
+end
+end
+
+gameLoopTimer = timer.performWithDelay(800, gameLoop, 0 )  
+
+
+--[[local function createBaddola1()
+local baddola1 = display.newImageRect( "ui/baddola.png", 70, 70 )
+baddola1.x = display.contentCenterX +550
+baddola1.y = display.contentHeight  -100
+baddola1.speed = math.random(2,8)
+baddola1.initY = baddola1.y
+baddola1.amp   = math.random(20,100)
+baddola1.angle = math.random(20,100)
+baddola1.name = "baddola"
+physics.addBody(baddola1, "static", { density = 0, friction = 0, bounce = .02 })
+end
+
+local function createGorgoyle()
+local gorgoyle = display.newImageRect( "ui/gorgoyle.png", 160, 160 )
+gorgoyle.x = display.contentCenterX +550
+gorgoyle.y = display.contentHeight  -100
+gorgoyle.speed = math.random(2,8)
+gorgoyle.initY = gorgoyle.y
+gorgoyle.amp   = math.random(20,100)
+gorgoyle.angle = math.random(20,100)
+gorgoyle.name = "gorgoyle"
+physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
+end]]
+--Functions 
+local function onTouch(event)
+if(event.phase == "began") then
+    jumpLimit = jumpLimit + 1
+    if jumpLimit < 5 then
+      physics.addBody(cow, "dynamic", { density = 0.015, friction = 0, bounce = 0, gravity = 0 })
+      cow:applyLinearImpulse(0, -1.3, cow.x, cow.y)
+    end
+ jumpLimit = 0
+end
+end
+Runtime:addEventListener("touch", onTouch)
+
+
+local function onCollision( event )
+
+if ( event.phase == "began" ) then
+
+    local obj1 = event.object1
+    local obj2 = event.object2
+
+    if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
+       ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
+    then
+        
+    display.remove( obj1 )
+    display.remove( obj2 )
+
+    for i = #headsTable, 1, -1 do
+        if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
+            table.remove( headsTable, i )
+            break
+        end
+    end
+    
+    
+    -- Increase pontos
+    money = money - 100
+    moneyText.text = "Money: " .. money
+
+    end
+
+end
+end 
+
+Runtime:addEventListener( "collision", onCollision )
+
+local function scrollCity(self, event )
+    if self.x < -1024 then
+       self.x = display.contentCenterX + 1199
+    else
+        self.x = self.x -3  - self.speed
+        
+    end
+
+end
+
+    
+local function moveIncome(self, event )
+    if self.x < -2000 then
+        self.x = display.contentCenterX + 1000
+        self.y = math.random(90,220)
+        self.speed = math.random(2,8)
+        self.amp   = math.random(20,100)
+        self.angle = math.random(20,100)
+    else
+        self.x = self.x - self.speed
+        self.angle = self.angle + .1
+        self.y = self.amp * math.sin(self.angle)+self.initY
+    end
+
+end
+
+local function moveCheck(self, event )
+    if self.x < -3000 then
+        self.x = display.contentCenterX + 1000
+        self.y = math.random(90,220)
+        self.speed = math.random(2,8)
+        self.amp   = math.random(20,100)
+        self.angle = math.random(20,100)
+    else
+        self.x = self.x - self.speed
+        self.angle = self.angle + .1
+        self.y = self.amp * math.sin(self.angle)+self.initY
+    end
+    
+
+end
+
 function scene:create( event )
  
     local sceneGroup = self.view
+    local phase = event.phase
 
-    local lives = 6
-    local money = 0
-    local jumpLimit = 0 
-    local dead = false
-    local headsTable = {}
-    local gameLoopTimer
    
     --Background
 
@@ -108,135 +269,8 @@ function scene:create( event )
         baddola.name = "baddola"
         physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
     end]]--
-
-
-    local function createBaddola()
-            baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
-            table.insert( headsTable, newHead )
-            physics.addBody( "dynamic", { radius=30, bounce=0 } )
-            newHead.myName = "baddola"
-
-        local whereFrom = math.random( 3 )
-
-            if ( whereFrom == 1 ) then
-                newHead.x = display.contentCenterX + 1000
-                newHead.y = math.random(90,220)
-                newHead.setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ) )
-            elseif ( whereFrom == 2 ) then
-                newHead.x = display.contentCenterX + 1000
-                newHead.y = math.random(80,220)
-                newHead.setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ) )
-            elseif ( whereFrom == 3 ) then
-                newHead.x = display.contentCenterX + 1000
-                newHead.y = math.random(75,220)
-                newHead.setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ) )
-            end
-                newHead.applyTorque( math.random( -3,3 ) )
-end
-
-
-local function gameLoop()
-    createBaddola()
-    for i = #headsTable, 1, -1 do
-     local thisHead = headsTable[i]
-     
-            if ( thisHead.x < -1000 or
-                    thisHead.x > display.contentWidth + 50 or
-                    thisHead.y < -1000 or
-                    thisHead.y > display.contentHeight + 50 )
-            then
-                display.remove( thisHead )
-                table.remove( headsTable, i )
-            end
-    end
-end
-
-gameLoopTimer = timer.performWithDelay(800, gameLoop, 0 )  
-
     
-    --[[local function createBaddola1()
-        local baddola1 = display.newImageRect( "ui/baddola.png", 70, 70 )
-        baddola1.x = display.contentCenterX +550
-        baddola1.y = display.contentHeight  -100
-        baddola1.speed = math.random(2,8)
-        baddola1.initY = baddola1.y
-        baddola1.amp   = math.random(20,100)
-        baddola1.angle = math.random(20,100)
-        baddola1.name = "baddola"
-        physics.addBody(baddola1, "static", { density = 0, friction = 0, bounce = .02 })
-    end
-
-    local function createGorgoyle()
-        local gorgoyle = display.newImageRect( "ui/gorgoyle.png", 160, 160 )
-        gorgoyle.x = display.contentCenterX +550
-        gorgoyle.y = display.contentHeight  -100
-        gorgoyle.speed = math.random(2,8)
-        gorgoyle.initY = gorgoyle.y
-        gorgoyle.amp   = math.random(20,100)
-        gorgoyle.angle = math.random(20,100)
-        gorgoyle.name = "gorgoyle"
-        physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
-    end]]
-        --Functions 
-    local function onTouch(event)
-        if(event.phase == "began") then
-            jumpLimit = jumpLimit + 1
-            if jumpLimit < 5 then
-              physics.addBody(cow, "dynamic", { density = 0.015, friction = 0, bounce = 0, gravity = 0 })
-              cow:applyLinearImpulse(0, -1.3, cow.x, cow.y)
-            end
-         jumpLimit = 0
-        end
-    end
-    Runtime:addEventListener("touch", onTouch)
-
-    
-    local function onCollision( event )
-	
-        if ( event.phase == "began" ) then
-    
-            local obj1 = event.object1
-            local obj2 = event.object2
-    
-            if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
-		       ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
-			then
-			
-			-- Remove both the municao and headGado
-			display.remove( obj1 )
-			display.remove( obj2 )
-
-			for i = #headsTable, 1, -1 do
-			    if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
-			    	table.remove( headsTable, i )
-			    	break
-			    end
-			end
-            
-            
-			-- Increase pontos
-			money = money - 100
-			moneyText.text = "Money: " .. money
-        
-            end
-        
-        end
-    end 
-    
-   Runtime:addEventListener( "collision", onCollision )
-       
-
-
-
-    local function scrollCity(self, event )
-        if self.x < -1024 then
-           self.x = display.contentCenterX + 1199
-        else
-            self.x = self.x -3  - self.speed
-            
-        end
-
-    end
+  
 
     --[[local function moveEnemies(self, event )
         if self.x < -2300 then
@@ -268,38 +302,6 @@ gameLoopTimer = timer.performWithDelay(800, gameLoop, 0 )
         end
 
     end--]]
-
-    
-    local function moveIncome(self, event )
-        if self.x < -2000 then
-            self.x = display.contentCenterX + 1000
-            self.y = math.random(90,220)
-            self.speed = math.random(2,8)
-            self.amp   = math.random(20,100)
-            self.angle = math.random(20,100)
-        else
-            self.x = self.x - self.speed
-            self.angle = self.angle + .1
-            self.y = self.amp * math.sin(self.angle)+self.initY
-        end
-
-    end
-
-    local function moveCheck(self, event )
-        if self.x < -3000 then
-            self.x = display.contentCenterX + 1000
-            self.y = math.random(90,220)
-            self.speed = math.random(2,8)
-            self.amp   = math.random(20,100)
-            self.angle = math.random(20,100)
-        else
-            self.x = self.x - self.speed
-            self.angle = self.angle + .1
-            self.y = self.amp * math.sin(self.angle)+self.initY
-        end
-        
-
-    end
 
     bg.enterFrame = scrollCity
     Runtime:addEventListener("enterFrame", bg)
@@ -371,8 +373,8 @@ function scene:hide( event )
 		physics.pause()
         composer.removeScene( "game" )
 		composer.hideOverlay()
-		Runtime:removeEventListener( "collision", onCollision)
-		Runtime:removeEventListener("touch", onTouch)
+		--Runtime:removeEventListener( "collision", onCollision)
+		--Runtime:removeEventListener("touch", onTouch)
 	end
 end
 
