@@ -54,7 +54,7 @@ function scene:create( event )
     local ground = display.newImageRect( "ui/ground.png", 2600000, 30)
     ground.x = display.contentCenterX 
     ground.y =  display.contentHeight -10
-    physics.addBody(ground, "static")
+    physics.addBody(ground, "static",{ bounce=0 })
     ground.name = "ground"
 
 -- Score
@@ -113,7 +113,7 @@ function scene:create( event )
     local function createBaddola()
             baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
             table.insert( headsTable, newHead )
-            physics.addBody( newHead, "dynamic", { radius=30, bounce=0.1 } )
+            physics.addBody( "dynamic", { radius=30, bounce=0 } )
             newHead.myName = "baddola"
 
         local whereFrom = math.random( 3 )
@@ -121,17 +121,17 @@ function scene:create( event )
             if ( whereFrom == 1 ) then
                 newHead.x = display.contentCenterX + 1000
                 newHead.y = math.random(90,220)
-                newHead:setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ) )
+                newHead.setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ) )
             elseif ( whereFrom == 2 ) then
                 newHead.x = display.contentCenterX + 1000
                 newHead.y = math.random(80,220)
-                newHead:setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ) )
+                newHead.setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ) )
             elseif ( whereFrom == 3 ) then
                 newHead.x = display.contentCenterX + 1000
                 newHead.y = math.random(75,220)
-                newHead:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ) )
+                newHead.setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ) )
             end
-                newHead:applyTorque( math.random( -3,3 ) )
+                newHead.applyTorque( math.random( -3,3 ) )
 end
 
 
