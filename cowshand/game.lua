@@ -10,7 +10,7 @@ local widget = require "widget"
 physics = require( "physics" )
 physics.start()
 
-local sheetInfo = require("sprites.cow")
+local sheetInfo = require("sprites.cowSprite")
 local sheet = graphics.newImageSheet( "ui/cowSprite.png", sheetInfo:getSheet() )
 
 local musicTrack
@@ -229,10 +229,21 @@ function scene:create( event )
 
 -- Cow
 
-    local cow = display.newImageRect( "ui/cow.png", 120, 130 )
-    cow.x = display.contentCenterX -550
-    cow.y = display.contentHeight -85
-    cow.name = "cow"
+    -- local cow = display.newImageRect( "ui/cow.png", 120, 130 )
+    -- cow.x = display.contentCenterX -550
+    -- cow.y = display.contentHeight -85
+    -- cow.name = "cow"
+
+    cow = display.newSprite( backGroup, sheet, sequenceCow)
+	cow.x = solo.x - 600
+	cow.y = solo.y-195
+	physics.addBody( cow, "dynamic", {box, bounce=0.1, friction=0, isSensor=false},
+	{box={halfWidth=30, halfHeight=10, x=0, y=60}, isSensor=true } )
+	cow: setSequence("paradoRight")
+	cow:play()
+	cow.isFixedRotation = true
+	cow.myName = "cow"
+    
 
 
 -- Colectables
