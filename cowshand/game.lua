@@ -10,6 +10,8 @@ local widget = require "widget"
 physics = require( "physics" )
 physics.start()
 
+local sheetInfo = require("sprites.cow")
+local sheet = graphics.newImageSheet( "ui/cowSprite.png", sheetInfo:getSheet() )
 
 local musicTrack
 
@@ -20,6 +22,7 @@ local jumpLimit = 0
 local dead = false
 local headsTable = {}
 local gameLoopTimer
+
 
 
 
