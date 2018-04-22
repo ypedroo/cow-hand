@@ -42,14 +42,14 @@ function scene:create( event )
 	local gnd1 = display.newImageRect("ui/screens/ground.png", 1100, 90)
 	gnd1.x = display.contentCenterX
 	gnd1.y = display.contentCenterY +400
-    physics.addBody( gnd1, "static" )
+    physics.addBody( gnd1, "static" , {bounce=0})
     gnd1.speed = speedGround
     
 
     local gnd2 = display.newImageRect("ui/screens/ground.png", 1100, 90)
     gnd2.x = display.contentCenterX +500
     gnd2.y = display.contentCenterY +400
-    physics.addBody( gnd2, "static" )
+    physics.addBody( gnd2, "static" , {bounce=0})
 	gnd2.speed = speedGround
 
     -- Cloud
