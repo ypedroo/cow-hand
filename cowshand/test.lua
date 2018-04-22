@@ -86,10 +86,10 @@ function scene:create( event )
 
     -- Function for move all elements on Display
 	local function moveX(self, event )
-		if self.x < -1100 then
-		   self.x = display.contentCenterX + 500
+		if self.x < -1024 then
+		   self.x = display.contentCenterX + 600
 		else
-			--this set the phase speed
+			--this set the game speed use it for phase 2
 			self.x = self.x -3  - self.speed
 			
 		end
