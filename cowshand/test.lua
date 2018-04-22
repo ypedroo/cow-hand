@@ -64,12 +64,12 @@ function scene:create( event )
     -- cloud2.speed = cloudCity
 
     -- City
-    local city1 = display.newImageRect("ui/screens/bg1.png",1000, 190 )
+    local city1 = display.newImageRect("ui/screens/bg1.png",1100, 190 )
     city1.x = cX
     city1.y = h -90
     city1.speed = speedCity
     
-    local city2 = display.newImageRect("ui/screens/bg2.png", 1000, 130 )
+    local city2 = display.newImageRect("ui/screens/bg2.png", 1100, 130 )
     city2.x = cX
     city2.y = h-80
     city2.speed = speedCity
@@ -134,9 +134,9 @@ function scene:create( event )
     -- Runtime:addEventListener("enterFrame", cloud2)
 
     -- Score
-    livesText = display.newText( " Lives ".. lives, 50, 29, "RifficFree-Bold.ttf", 36)
+    livesText = display.newText( " Lives ".. lives, 50, 29, "Starjedi.ttf", 36)
     livesText:setFillColor( 255, 0, 0  ) 
-    moneyText = display.newText( "$ ".. money, 190, 29, "RifficFree-Bold.ttf", 36)
+    moneyText = display.newText( "$ ".. money, 200, 29, "Starjedi.ttf", 36)
     moneyText:setFillColor( 0, 255, 0 )
 
     -- Load the Sprite
