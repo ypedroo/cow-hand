@@ -187,6 +187,15 @@ function scene:create( event )
     local sceneGroup = self.view
     local phase = event.phase
 
+    backGroup = display.newGroup()  -- Display group for the background image
+	sceneGroup:insert(backGroup)  -- Insert into the scene's view group
+		
+	mainGroup = display.newGroup()  -- Display group for the ship, asteroids, lasers, etc.
+	sceneGroup:insert(mainGroup)  -- Insert into the scene's view group
+		
+	uiGroup = display.newGroup()    -- Display group for UI objects like the score
+	sceneGroup:insert(uiGroup)    -- Insert into the scene's view group
+
    
     --Background
 
@@ -234,15 +243,14 @@ function scene:create( event )
     -- cow.y = display.contentHeight -85
     -- cow.name = "cow"
 
-    cow = display.newSprite( backGroup, sheet, sequenceCow)
-	cow.x = solo.x - 600
-	cow.y = solo.y-195
-	physics.addBody( cow, "dynamic", {box, bounce=0.1, friction=0, isSensor=false},
+    cowSprite = display.newSprite( backGroup, sheet, sequenceCow)
+	cowSprite.x = ground.x - 600
+	cowSprite.y = ground.y-195
+	physics.addBody( cowSprite, "dynamic", {box, bounce=0.1, friction=0, isSensor=false},
 	{box={halfWidth=30, halfHeight=10, x=0, y=60}, isSensor=true } )
-	cow: setSequence("paradoRight")
-	cow:play()
-	cow.isFixedRotation = true
-	cow.myName = "cow"
+	cowSprite: setSequence("paradoRight")
+	cowSprite:play()
+	cowSprite.myName = "cow"
     
 
 

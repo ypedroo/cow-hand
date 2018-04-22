@@ -346,78 +346,27 @@ end
 
 -- show()
 function scene:show( event )
-
-	local sceneGroup = self.view
-	local phase = event.phase
-
-	if ( phase == "will" ) then
-		-- Code here runs when the scene is still off screen (but is about to come on screen)
-
-	elseif ( phase == "did" ) then
-		-- Code here runs when the scene is entirely on screen
-		
-		physics.start()
-		Runtime:addEventListener( "collision", onCollision )
+ 
+    local sceneGroup = self.view
+    local phase = event.phase
+ 
+    if ( phase == "will" ) then
+        -- Code here runs when the scene is still off screen (but is about to come on screen)
+ 
+    elseif ( phase == "did" ) then
+        -- Code here runs when the scene is entirely on screen
+        --physics.start()
+        physics.start()
+		--Runtime:addEventListener( "collision", onCollision )
 		gameLoopTimer = timer.performWithDelay( 1300, gameLoop, 0 )
 				
-		-- Initialize widget(Botões)
-		-- widget = require("widget")
-
-
-		-- jump_button = widget.newButton( {
-		-- 	id = "jumpButton",
-		-- 	width = 120,
-		-- 	height = 120,
-		-- 	defaultFile = "assets/buttons/lineLight23.png",
-		-- 	left = 1000,
-		-- 	top = 615,
-		-- 	onEvent = pular
-		-- } )
-
-		-- atack_button = widget.newButton( {
-		-- 	id = "atack_button",
-		-- 	width = 120,
-		-- 	height = 120,
-		-- 	defaultFile = "assets/buttons/lineAtack.png",
-		-- 	left = 790,
-		-- 	top = 615,
-		-- 	onEvent = tiroBala;
-		-- } )
-
-		-- left_button = widget.newButton( {
-		-- 	id = "left_button",
-		-- 	width = 120,
-		-- 	height = 120,
-		-- 	defaultFile = "assets/buttons/lineLight22.png",
-		-- 	left = -100,
-		-- 	top = 615,
-		-- 	onEvent = andandoLeft
-		-- } )
-
-		-- right_button = widget.newButton( {
-		-- 	id = "right_button",
-		-- 	width = 120,
-		-- 	height = 120,
-		-- 	defaultFile = "assets/buttons/lineLight23.png",
-		-- 	left = 110,
-		-- 	top = 615,
-		-- 	onEvent = andandoRight
-		-- } )
-
-		-- right_button.alpha = .2;
-		-- left_button.alpha = .2;
-		-- atack_button.alpha = .2;
-		-- jump_button.alpha = .2;
-		-- jump_button.rotation = -90;
-
-		--uiGroup:insert( atk_button )
-		--uiGroup:insert( jump_button )
-		--uiGroup:insert( right_button )
-		--uiGroup:insert( left_button )
-		-- Load gamepad end
-
-	end
+        audio.play( musicTrack, { channel=1, loops=-1 } )
+       
+ 
+    end
 end
+   
+
 
 
 -- hide()
@@ -427,16 +376,15 @@ function scene:hide( event )
 	local phase = event.phase
 
 	if ( phase == "will" ) then
-        -- Code here runs when the scene is on screen (but is about to go off screen)
-        timer.cancel( gameLoopTimer )
+		-- Code here runs when the scene is on screen (but is about to go off screen)
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
-		Runtime:removeEventListener( "collision", onCollision )
 		physics.pause()
-		composer.removeScene( "game" )
-		
-
+        composer.removeScene( "game" )
+		composer.hideOverlay()
+		--Runtime:removeEventListener( "collision", onCollision)
+		--Runtime:removeEventListener("touch", onTouch)
 	end
 end
 
