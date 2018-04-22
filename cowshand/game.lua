@@ -3,7 +3,7 @@ local composer = require( "composer" )
 
 local scene = composer.newScene()
 
-local widget = require "widget"
+--local widget = require "widget"
 
 --composer.recycleOnSceneChange = true
 
@@ -68,6 +68,14 @@ end
 end
 
 gameLoopTimer = timer.performWithDelay(800, gameLoop, 0 )  
+
+local sequenceCow = {
+    -- { name= "paradoLeft", start = 14, count = 0, time = 800 , loopCount = 0},--loopDirection = "forward"},
+	-- { name= "paradoRight", start = 13, count = 0, time = 800 , loopCount = 0},--loopDirection = "forward"},
+    { name= "andandoRight", start= 1, count = 6, time =700, loopCount = 0}, --loopDirection= "forward" },
+    -- { name= "andandoLeft", start= 7, count = 6, time =700, loopCount = 0},-- loopDirection= "forward" }
+
+}
 
 
 --[[local function createBaddola1()
@@ -243,14 +251,14 @@ function scene:create( event )
     -- cow.y = display.contentHeight -85
     -- cow.name = "cow"
 
-    cowSprite = display.newSprite( backGroup, sheet, sequenceCow)
-	cowSprite.x = ground.x - 600
-	cowSprite.y = ground.y-195
-	physics.addBody( cowSprite, "dynamic", {box, bounce=0.1, friction=0, isSensor=false},
+    cow = display.newSprite( backGroup, sheet, sequenceCow)
+	cow.x = ground.x - 600
+	cow.y = ground.y-195
+	physics.addBody( cow, "dynamic", {box, bounce=0.1, friction=0, isSensor=false},
 	{box={halfWidth=30, halfHeight=10, x=0, y=60}, isSensor=true } )
-	cowSprite: setSequence("paradoRight")
-	cowSprite:play()
-	cowSprite.myName = "cow"
+	cow: setSequence("paradoRight")
+	cow:play()
+	cow.myName = "cow"
     
 
 
