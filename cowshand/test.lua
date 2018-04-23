@@ -46,23 +46,6 @@ function scene:create( event )
     gnd1.speed = speedGround
     
 
-    -- local gnd2 = display.newImageRect("ui/screens/ground.png", 1100, 90)
-    -- gnd2.x = display.contentCenterX +500
-    -- gnd2.y = display.contentCenterY +750
-    -- physics.addBody( gnd2, "static" , {bounce=0})
-	-- gnd2.speed = speedGround
-
-    -- Cloud
-    -- local cloud1 = display.newImageRect("ui/telas/cloud1.png", 554, 50 )
-    -- cloud1.x = 0
-    -- cloud1.y = h/5
-    -- cloud1.speed = cloudCity
-
-    -- local cloud2 = display.newImageRect("ui/telas/cloud2.png", 554, 50 )
-    -- cloud2.x = 544
-    -- cloud2.y = h/5
-    -- cloud2.speed = cloudCity
-
     -- City
     local city1 = display.newImageRect("ui/screens/bg1.png",1100, 750 )
     city1.x = cX
@@ -114,9 +97,9 @@ function scene:create( event )
     -- Runtime:addEventListener("enterFrame", cloud2)
 
     -- Score
-    livesText = display.newText( " Lives ".. lives, 50, 29, "Starjedi.ttf", 36)
+    livesText = display.newText( " Lives ".. lives, 50, 29, "SAMARN__.ttf", 66)
     livesText:setFillColor( 255, 0, 0  ) 
-    moneyText = display.newText( "$ Money ".. money, 300, 29, "Starjedi.ttf", 36)
+    moneyText = display.newText( "   $ Money ".. money, 300, 29, "SAMARN__.ttf", 66)
     moneyText:setFillColor( 0, 0, 255 )
 
 	-- Load the Sprite
