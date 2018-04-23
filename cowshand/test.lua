@@ -119,14 +119,14 @@ function scene:create( event )
     moneyText = display.newText( "$ Money ".. money, 300, 29, "Starjedi.ttf", 36)
     moneyText:setFillColor( 0, 0, 255 )
 
-    -- Load the Sprite
-
+	-- Load the Sprite
+	
 	local sheetData = {
 	    width=120;               --Largura Sprite
 	    height=120;              --Altura Sprite
 	    numFrames=5;            --Número de Frames
-	    sheetContentWidth=600,  --Largura da Folha de Sprites
-	    sheetContentHeight=120   --Altura da Folha de Sprites
+	    sheetContentWidth=120,  --Largura da Folha de Sprites
+	    sheetContentHeight=600   --Altura da Folha de Sprites
 	    -- 1 to 6 corre
 	    -- 7 to 10 pula
 	}
@@ -136,7 +136,7 @@ function scene:create( event )
 	    --{ name = "jump", start=7, count=10, time=1000}
 	}
 
-	local mySheet = graphics.newImageSheet( "ui/sprites/cowSprite.png", sheetData )
+	local mySheet = graphics.newImageSheet( "ui/sprites/VACA1.png", sheetData )
 
 	local cow = display.newSprite(mySheet, sequenceData)
 		  cow.x = cX-500
