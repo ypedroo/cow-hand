@@ -29,7 +29,8 @@ function scene:create( event )
     local jumpLimit = 0 
     local dead = false
     local speedCity = 1
-    local speedGround = 2
+	local speedGround = 2
+	local headsTable = {}
     --local cloudCity = 0.5
     physics.start()  -- Temporarily pause the physics engine
 
@@ -41,7 +42,7 @@ function scene:create( event )
 	-- Ground
 	local gnd1 = display.newImageRect("ui/screens/ground.png", 26000, 90)
 	gnd1.x = display.contentCenterX
-	gnd1.y = display.contentCenterY +420
+	gnd1.y = display.contentCenterY +426
     physics.addBody( gnd1, "static" , {bounce=0})
     gnd1.speed = speedGround
     
@@ -49,22 +50,22 @@ function scene:create( event )
     -- City
     local city1 = display.newImageRect("ui/screens/bg1.png",1100, 750 )
     city1.x = cX
-    city1.y = h-300
+    city1.y = h-230
     city1.speed = speedCity
     
     local city2 = display.newImageRect("ui/screens/bg2.png", 1100, 300 )
     city2.x = cX
-    city2.y = h-100
+    city2.y = h-130
 	city2.speed = speedCity
 	
 	local city3 = display.newImageRect("ui/screens/bg1.png", 1100, 750 )
     city3.x = cX+1100
-    city3.y = h-300
+    city3.y = h-230
 	city3.speed = speedCity
 	
 	local city4 = display.newImageRect("ui/screens/bg2.png", 1100, 300 )
     city4.x = cX+1100
-    city4.y = h-100
+    city4.y = h-130
     city4.speed = speedCity
 
     -- Function for move all elements on Display
@@ -97,10 +98,10 @@ function scene:create( event )
     -- Runtime:addEventListener("enterFrame", cloud2)
 
     -- Score
-    livesText = display.newText( " Lives ".. lives, 50, 29, "SAMARN__.ttf", 66)
+    livesText = display.newText( " Lives ".. lives, 50, 29, "Bubblegum.ttf", 46)
     livesText:setFillColor( 255, 0, 0  ) 
-    moneyText = display.newText( "   $ Money ".. money, 300, 29, "SAMARN__.ttf", 66)
-    moneyText:setFillColor( 0, 0, 255 )
+    moneyText = display.newText( "    Money ".. money, 300, 29, "Bubblegum.ttf", 46)
+    moneyText:setFillColor( 0,255, 0 )
 
 	-- Load the Sprite
 	
@@ -115,19 +116,38 @@ function scene:create( event )
 	}
 
 	local sequenceData = {
-	    { name = "run", start=1, count=5, time=800},
+	    { name = "run", start=1, count=5, time=400},
 	    --{ name = "jump", start=7, count=10, time=1000}
 	}
 
 	local mySheet = graphics.newImageSheet( "ui/sprites/VACA1.png", sheetData )
 
-	local cow = display.newSprite(mySheet, sequenceData)
-		  cow.x = cX-500
-		  cow.y = cY +340
+	-- local cow = display.newSprite(mySheet, sequenceData)
+	-- 	  cow.x = cX-500
+	-- 	  cow.y = cY +340
 
-		  cow.timeScale = 1.2
-		  cow:setSequence( "run" )
-		  cow:play()
+	-- 	  cow.timeScale = 1.2
+	-- 	  cow:setSequence( "run" )
+	-- 	  cow:play()
+
+	local baddola = display.newImageRect("ui/elements/baddola.png", 80, 80)
+    baddola.x = 554
+    baddola.y = 380
+    baddola.myName = "baddola"
+    physics.addBody( baddola, "kinematic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
+    baddola:setLinearVelocity(-150,0)
+
+	
+	local cow = display.newSprite( mySheet, sequenceData)
+	cow.x = cX-500
+	cow.y = cY +200
+    cow.myName = "cow"
+    physics.addBody( cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0,
+										radius=40, isSensor=false } )
+	cow.timeScale = 1.2
+	cow:setSequence( "run" )
+	cow:play( )
+
 
 
 	-- End the Sprite
@@ -137,7 +157,7 @@ function scene:create( event )
 			jumpLimit = jumpLimit + 1
 			if jumpLimit < 3 then
 			  physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
-			  cow:applyLinearImpulse(0, -1.3, cow.x, cow.y)
+			  cow:applyLinearImpulse(0, -0.5, cow.x, cow.y)
 			end
 		jumpLimit = 0
 		end
@@ -146,6 +166,39 @@ function scene:create( event )
 
 end
 
+--collision function
+local function onCollision( event )
+
+	if ( event.phase == "began" ) then
+	
+		local obj1 = event.object1
+		local obj2 = event.object2
+	
+		if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
+		   ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
+		then
+			
+		display.remove( obj1 )
+		display.remove( obj2 )
+	
+		for i = #headsTable, 1, -1 do
+			if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
+				table.remove( headsTable, i )
+				break
+			end
+		end
+		
+		
+		-- Increase pontos
+		money = money - 100
+		moneyText.text = "Money: " .. money
+	
+		end
+	
+	end
+	end 
+
+	musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 function scene:show( event )
  
     local sceneGroup = self.view
@@ -156,8 +209,13 @@ function scene:show( event )
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
+        -- Code here runs when the scene is entirely on screen
         --physics.start()
-         --audio.play( musicTrack, { channel=1, loops=-1 } )
+        physics.start()
+		Runtime:addEventListener( "collision", onCollision )
+		--gameLoopTimer = timer.performWithDelay( 1300, gameLoop, 0 )
+				
+        audio.play( musicTrack, { channel=1, loops=-1 } )
        
  
     end

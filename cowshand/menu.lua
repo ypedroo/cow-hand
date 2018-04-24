@@ -10,7 +10,7 @@ local mu = audio.loadSound( "soundsfile/mu.wav" )
 
 local function gotoGame()
     composer.gotoScene( "test", { time=800, effect="crossFade" } )
-    --audio.play( mu )
+    audio.play( mu )
 end
  
 --local function gotoCredits()
@@ -42,7 +42,7 @@ function scene:create( event )
         quit.y = display.contentCenterY  
 
         start:addEventListener( "tap", gotoGame )
-        --audio.play( mu )
+        audio.play( mu )
     --credits:addEventListener( "tap", gotoCredits )
     --quit:addEventListener( "tap", gotoQuit )
  
