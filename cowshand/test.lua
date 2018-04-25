@@ -130,12 +130,12 @@ function scene:create( event )
 	-- 	  cow:setSequence( "run" )
 	-- 	  cow:play()
 
-	local baddola = display.newImageRect("ui/elements/baddola.png", 80, 80)
-    baddola.x = 554
-    baddola.y = 380
-    baddola.myName = "baddola"
-    physics.addBody( baddola, "kinematic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
-    baddola:setLinearVelocity(-150,0)
+	-- local baddola = display.newImageRect("ui/elements/baddola.png", 80, 80)
+    -- baddola.x = 554
+    -- baddola.y = 380
+    -- baddola.myName = "baddola"
+    -- physics.addBody( baddola, "kinematic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
+    -- baddola:setLinearVelocity(-150,0)
 
 	
 	local cow = display.newSprite( mySheet, sequenceData)
@@ -151,6 +151,49 @@ function scene:create( event )
 
 
 	-- End the Sprite
+
+	
+local function createBaddola()
+    newBill = display.newImageRect( "ui/elements/baddola.png", 70, 70 )
+    table.insert( headsTable, newBill )
+	physics.addBody( newBill, "dynamic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
+    newBill.myName = "baddola"
+
+local whereFrom = math.random( 3 )
+
+    if ( whereFrom == 1 ) then
+        newBill.x = display.contentCenterX + 500
+        newBill.y = math.random(90,220)
+        newBill:setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ), newBill.x, newBill.y )
+    elseif ( whereFrom == 2 ) then
+        newBill.x = display.contentCenterX + 500
+        newBill.y = math.random(80,220)
+        newBill:setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ), newBill.x, newBill.y )
+    elseif ( whereFrom == 3 ) then
+        newBill.x = display.contentCenterX + 500
+        newBill.y = math.random(75,220)
+        newBill:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ), newBill.x, newBill.y)
+    end
+	newBill:applyTorque( math.random( -3,3 ), newBill.x, newBill.y )
+end
+
+	local function gameLoop()
+		createBaddola()
+		for i = #headsTable, 1, -1 do
+		local thisHead = headsTable[i]
+		
+			if ( thisHead.x < -1000 or
+					thisHead.x > display.contentWidth + 50 or
+					thisHead.y < -1000 or
+					thisHead.y > display.contentHeight + 50 )
+			then
+				display.remove( thisHead )
+				table.remove( headsTable, i )
+			end
+		end
+		end
+		
+		gameLoopTimer = timer.performWithDelay(800, gameLoop, 0 )  
 
 	local function onTouch(event)
 		if(event.phase == "began") then
