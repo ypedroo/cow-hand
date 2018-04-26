@@ -50,7 +50,7 @@ local whereFrom = math.random( 3 )
 	newBill:applyTorque( math.random( -3,3 ), newBill.x, newBill.y )
 end
 
-	local function gameLoop()
+local function gameLoop()
 		createBaddola()
 		for i = #headsTable, 1, -1 do
 		local thisHead = headsTable[i]
@@ -79,6 +79,16 @@ end
 		end
 		end
 	Runtime:addEventListener("touch", onTouch)
+
+	local function moveX( self, event )
+    	if (self.x < -1024) then
+    		self.x = 806
+    	else
+    		self.x = self.x - self.speed
+    	end
+    end
+
+
 
 
 
