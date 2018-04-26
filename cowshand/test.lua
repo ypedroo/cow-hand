@@ -27,9 +27,9 @@ local speedGround = 2
 local headsTable = {}
 
 
-	-- Load the Sprite
+-- Load the Sprite
 	
-	local sheetData = {
+local sheetData = {
 	    width=120;               --Largura Sprite
 	    height=120;              --Altura Sprite
 	    numFrames=5;            --Número de Frames
@@ -37,16 +37,16 @@ local headsTable = {}
 	    sheetContentHeight=600   --Altura da Folha de Sprites
 	    -- 1 to 6 corre
 	    -- 7 to 10 pula
-	}
+}
 
-	local sequenceData = {
+local sequenceData = {
 	    { name = "run", start=1, count=5, time=400},
 	    --{ name = "jump", start=7, count=10, time=1000}
-	}
+}
 
 	local mySheet = graphics.newImageSheet( "ui/sprites/VACA1.png", sheetData )
 
-	
+--Create enemies function	
 local function createBaddola()
     newBill = display.newImageRect( "ui/elements/baddola.png", 70, 70 )
     table.insert( headsTable, newBill )
@@ -71,6 +71,7 @@ local whereFrom = math.random( 3 )
 	newBill:applyTorque( math.random( -3,3 ), newBill.x, newBill.y )
 end
 
+--gameLoop Function
 local function gameLoop()
 		createBaddola()
 		for i = #headsTable, 1, -1 do
@@ -89,7 +90,8 @@ local function gameLoop()
 		
 	gameLoopTimer = timer.performWithDelay(500, gameLoop, 0 )  
 
-	local function onTouch(event)
+--Jump Function
+local function onTouch(event)
 		if(event.phase == "began") then
 			jumpLimit = jumpLimit + 1
 			if jumpLimit < 3 then
@@ -101,7 +103,8 @@ local function gameLoop()
 		end
 	Runtime:addEventListener("touch", onTouch)
 
-	local function moveX( self, event )
+--function to move the elements
+local function moveX( self, event )
     	if (self.x < -1024) then
     		self.x =  display.contentCenterX + 600
     	else
@@ -109,11 +112,12 @@ local function gameLoop()
     	end
 	end
 	
-	local function restoreCow()
+--function to restore the cow
+local function restoreCow()
 
 		cow.isBodyActive = false
-		cow.x = display.contentCenterX
-		cow.y = display.contentHeight - 100
+		cow.x = cX-500
+		cow.y = cY +200
 	
 		-- Fade in the ship
 		transition.to( cow, { alpha=1, time=4000,
@@ -173,6 +177,7 @@ function scene:create( event )
     city4.y = h-130
 	city4.speed = speedCity
 	
+	--loading the cow(sprite) 
 	cow = display.newSprite( mySheet, sequenceData)
 	cow.x = cX-500
 	cow.y = cY +200
