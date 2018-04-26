@@ -26,6 +26,27 @@ local speedCity = 1
 local speedGround = 2
 local headsTable = {}
 
+
+	-- Load the Sprite
+	
+	local sheetData = {
+	    width=120;               --Largura Sprite
+	    height=120;              --Altura Sprite
+	    numFrames=5;            --Número de Frames
+	    sheetContentWidth=120,  --Largura da Folha de Sprites
+	    sheetContentHeight=600   --Altura da Folha de Sprites
+	    -- 1 to 6 corre
+	    -- 7 to 10 pula
+	}
+
+	local sequenceData = {
+	    { name = "run", start=1, count=5, time=400},
+	    --{ name = "jump", start=7, count=10, time=1000}
+	}
+
+	local mySheet = graphics.newImageSheet( "ui/sprites/VACA1.png", sheetData )
+
+	
 local function createBaddola()
     newBill = display.newImageRect( "ui/elements/baddola.png", 70, 70 )
     table.insert( headsTable, newBill )
@@ -82,11 +103,26 @@ local function gameLoop()
 
 	local function moveX( self, event )
     	if (self.x < -1024) then
-    		self.x = 806
+    		self.x =  display.contentCenterX + 600
     	else
     		self.x = self.x - self.speed
     	end
-    end
+	end
+	
+	local function restoreCow()
+
+		cow.isBodyActive = false
+		cow.x = display.contentCenterX
+		cow.y = display.contentHeight - 100
+	
+		-- Fade in the ship
+		transition.to( cow, { alpha=1, time=4000,
+			onComplete = function()
+				cow.isBodyActive = true
+				died = false
+			end
+		} )
+	end
 
 
 
@@ -135,7 +171,22 @@ function scene:create( event )
 	local city4 = display.newImageRect("ui/screens/bg2.png", 1100, 300 )
     city4.x = cX+1100
     city4.y = h-130
-    city4.speed = speedCity
+	city4.speed = speedCity
+	
+	cow = display.newSprite( mySheet, sequenceData)
+	cow.x = cX-500
+	cow.y = cY +200
+    cow.myName = "cow"
+    physics.addBody( cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0,
+										radius=40, isSensor=false } )
+	cow.timeScale = 1.2
+	cow:setSequence( "run" )
+	cow:play( )
+
+
+
+	-- End the Sprite
+
 
 
 
@@ -162,25 +213,6 @@ function scene:create( event )
     moneyText = display.newText( "    Money ".. money, 300, 29, "Bubblegum.ttf", 46)
     moneyText:setFillColor( 0,255, 0 )
 
-	-- Load the Sprite
-	
-	local sheetData = {
-	    width=120;               --Largura Sprite
-	    height=120;              --Altura Sprite
-	    numFrames=5;            --Número de Frames
-	    sheetContentWidth=120,  --Largura da Folha de Sprites
-	    sheetContentHeight=600   --Altura da Folha de Sprites
-	    -- 1 to 6 corre
-	    -- 7 to 10 pula
-	}
-
-	local sequenceData = {
-	    { name = "run", start=1, count=5, time=400},
-	    --{ name = "jump", start=7, count=10, time=1000}
-	}
-
-	local mySheet = graphics.newImageSheet( "ui/sprites/VACA1.png", sheetData )
-
 	-- local cow = display.newSprite(mySheet, sequenceData)
 	-- 	  cow.x = cX-500
 	-- 	  cow.y = cY +340
@@ -195,23 +227,6 @@ function scene:create( event )
     -- baddola.myName = "baddola"
     -- physics.addBody( baddola, "kinematic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
     -- baddola:setLinearVelocity(-150,0)
-
-	
-	local cow = display.newSprite( mySheet, sequenceData)
-	cow.x = cX-500
-	cow.y = cY +200
-    cow.myName = "cow"
-    physics.addBody( cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0,
-										radius=40, isSensor=false } )
-	cow.timeScale = 1.2
-	cow:setSequence( "run" )
-	cow:play( )
-
-
-
-	-- End the Sprite
-
-	
 
 
 end
