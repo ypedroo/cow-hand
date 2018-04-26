@@ -17,20 +17,79 @@ local h = display.contentHeight
 local w = display.contentWidth
 
 
--- Set up display groups
-local backGroup = display.newGroup()
+
+local lives = 6
+local money = 0
+local jumpLimit = 0 
+local dead = false
+local speedCity = 1
+local speedGround = 2
+local headsTable = {}
+
+local function createBaddola()
+    newBill = display.newImageRect( "ui/elements/baddola.png", 70, 70 )
+    table.insert( headsTable, newBill )
+	physics.addBody( newBill, "dynamic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
+    newBill.myName = "baddola"
+
+local whereFrom = math.random( 3 )
+
+    if ( whereFrom == 1 ) then
+        newBill.x = display.contentCenterX + 500
+        newBill.y = math.random(90,220)
+        newBill:setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ), newBill.x, newBill.y )
+    elseif ( whereFrom == 2 ) then
+        newBill.x = display.contentCenterX + 500
+        newBill.y = math.random(80,220)
+        newBill:setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ), newBill.x, newBill.y )
+    elseif ( whereFrom == 3 ) then
+        newBill.x = display.contentCenterX + 500
+        newBill.y = math.random(75,220)
+        newBill:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ), newBill.x, newBill.y)
+    end
+	newBill:applyTorque( math.random( -3,3 ), newBill.x, newBill.y )
+end
+
+	local function gameLoop()
+		createBaddola()
+		for i = #headsTable, 1, -1 do
+		local thisHead = headsTable[i]
+		
+			if ( thisHead.x < -1000 or
+					thisHead.x > display.contentWidth + 50 or
+					thisHead.y < -1000 or
+					thisHead.y > display.contentHeight + 50 )
+			then
+				display.remove( thisHead )
+				table.remove( headsTable, i )
+			end
+		end
+	end
+		
+	gameLoopTimer = timer.performWithDelay(500, gameLoop, 0 )  
+
+	local function onTouch(event)
+		if(event.phase == "began") then
+			jumpLimit = jumpLimit + 1
+			if jumpLimit < 3 then
+			  physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
+			  cow:applyLinearImpulse(0, -0.5, cow.x, cow.y)
+			end
+		jumpLimit = 0
+		end
+		end
+	Runtime:addEventListener("touch", onTouch)
+
+
 
 function scene:create( event )
 
 	local sceneGroup = self.view
 
-	local lives = 6
-    local money = 0
-    local jumpLimit = 0 
-    local dead = false
-    local speedCity = 1
-	local speedGround = 2
-	local headsTable = {}
+	-- Set up display groups
+	local backGroup = display.newGroup()
+
+
     --local cloudCity = 0.5
     physics.start()  -- Temporarily pause the physics engine
 
@@ -68,17 +127,7 @@ function scene:create( event )
     city4.y = h-130
     city4.speed = speedCity
 
-    -- Function for move all elements on Display
-	local function moveX(self, event )
-		if self.x < -1024 then
-		   self.x = display.contentCenterX + 600
-		else
-			--this set the game speed use it for phase 2
-			self.x = self.x -3  - self.speed
-			
-		end
-	
-	end
+
 
     gnd1.enterFrame = moveX
     --Runtime:addEventListener("enterFrame", gnd1)
@@ -153,59 +202,7 @@ function scene:create( event )
 	-- End the Sprite
 
 	
-local function createBaddola()
-    newBill = display.newImageRect( "ui/elements/baddola.png", 70, 70 )
-    table.insert( headsTable, newBill )
-	physics.addBody( newBill, "dynamic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
-    newBill.myName = "baddola"
 
-local whereFrom = math.random( 3 )
-
-    if ( whereFrom == 1 ) then
-        newBill.x = display.contentCenterX + 500
-        newBill.y = math.random(90,220)
-        newBill:setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ), newBill.x, newBill.y )
-    elseif ( whereFrom == 2 ) then
-        newBill.x = display.contentCenterX + 500
-        newBill.y = math.random(80,220)
-        newBill:setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ), newBill.x, newBill.y )
-    elseif ( whereFrom == 3 ) then
-        newBill.x = display.contentCenterX + 500
-        newBill.y = math.random(75,220)
-        newBill:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ), newBill.x, newBill.y)
-    end
-	newBill:applyTorque( math.random( -3,3 ), newBill.x, newBill.y )
-end
-
-	local function gameLoop()
-		createBaddola()
-		for i = #headsTable, 1, -1 do
-		local thisHead = headsTable[i]
-		
-			if ( thisHead.x < -1000 or
-					thisHead.x > display.contentWidth + 50 or
-					thisHead.y < -1000 or
-					thisHead.y > display.contentHeight + 50 )
-			then
-				display.remove( thisHead )
-				table.remove( headsTable, i )
-			end
-		end
-		end
-		
-		gameLoopTimer = timer.performWithDelay(800, gameLoop, 0 )  
-
-	local function onTouch(event)
-		if(event.phase == "began") then
-			jumpLimit = jumpLimit + 1
-			if jumpLimit < 3 then
-			  physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
-			  cow:applyLinearImpulse(0, -0.5, cow.x, cow.y)
-			end
-		jumpLimit = 0
-		end
-		end
-		Runtime:addEventListener("touch", onTouch)
 
 end
 
