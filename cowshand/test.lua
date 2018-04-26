@@ -105,10 +105,10 @@ local function onTouch(event)
 
 --function to move the elements
 local function moveX( self, event )
-    	if (self.x < -1024) then
+    	if (self.x < -1080) then
     		self.x =  display.contentCenterX + 600
     	else
-    		self.x = self.x - self.speed
+    		self.x = self.x - self.speed - 4
     	end
 	end
 	
@@ -167,13 +167,13 @@ function scene:create( event )
     city2.y = h-130
 	city2.speed = speedCity
 	
-	local city3 = display.newImageRect("ui/screens/bg1.png", 1100, 750 )
+	local city3 = display.newImageRect("ui/screens/taj.png", 1100, 750 )
     city3.x = cX+1100
-    city3.y = h-230
+    city3.y = h-100
 	city3.speed = speedCity
 	
-	local city4 = display.newImageRect("ui/screens/bg2.png", 1100, 300 )
-    city4.x = cX+1100
+	local city4 = display.newImageRect("ui/screens/flag.png", 150, 300 )
+    city4.x = cX+1500
     city4.y = h-130
 	city4.speed = speedCity
 	
