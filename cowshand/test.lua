@@ -53,20 +53,20 @@ local function createBaddola()
 	physics.addBody( newBill, "dynamic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
     newBill.myName = "baddola"
 
-local whereFrom = math.random( 3 )
+local whereFrom = math.random( 1 )
 
     if ( whereFrom == 1 ) then
         newBill.x = display.contentCenterX + 500
         newBill.y = math.random(90,220)
-        newBill:setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ), newBill.x, newBill.y )
-    elseif ( whereFrom == 2 ) then
-        newBill.x = display.contentCenterX + 500
-        newBill.y = math.random(80,220)
-        newBill:setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ), newBill.x, newBill.y )
-    elseif ( whereFrom == 3 ) then
-        newBill.x = display.contentCenterX + 500
-        newBill.y = math.random(75,220)
-        newBill:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ), newBill.x, newBill.y)
+        newBill:setLinearVelocity( math.random( -20,20 ), math.random( 10,50 ), newBill.x, newBill.y )
+    -- elseif ( whereFrom == 2 ) then
+    --     newBill.x = display.contentCenterX + 500
+    --     newBill.y = math.random(80,220)
+    --     newBill:setLinearVelocity( math.random( 30,90 ), math.random( 30,90 ), newBill.x, newBill.y )
+    -- elseif ( whereFrom == 3 ) then
+    --     newBill.x = display.contentCenterX + 500
+    --     newBill.y = math.random(75,220)
+    --     newBill:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ), newBill.x, newBill.y)
     end
 	newBill:applyTorque( math.random( -3,3 ), newBill.x, newBill.y )
 end
@@ -107,8 +107,9 @@ local function onTouch(event)
 local function moveX( self, event )
     	if (self.x < -1080) then
     		self.x =  display.contentCenterX + 600
-    	else
-    		self.x = self.x - self.speed - 4
+		else
+			--this line sets the game speed
+    		self.x = self.x - self.speed - 3
     	end
 	end
 	
