@@ -46,6 +46,7 @@ local sequenceData = {
 
 	local mySheet = graphics.newImageSheet( "ui/sprites/VACA1.png", sheetData )
 
+
 --Create enemies function	
 local function createBaddola()
     newBill = display.newImageRect( "ui/elements/baddola.png", 70, 70 )
@@ -90,6 +91,29 @@ local function gameLoop()
 		
 	gameLoopTimer = timer.performWithDelay(500, gameLoop, 0 )  
 
+--function to restore the cow
+local function restoreCow()
+
+		cow.isBodyActive = false
+		cow.x = contentCenterX
+		cow.y = contentCenterY
+
+		transition.to( cow, { alpha=1, time=1000,
+			onComplete = function()
+				cow.isBodyActive = true
+				dead = false
+			end
+		} )
+	end
+
+
+
+local function endGame()
+		composer.setVariable( "finalScore", score )
+		composer.gotoScene( "highscores", { time=800, effect="crossFade" } )
+	end
+
+
 --Jump Function
 local function onTouch(event)
 		if(event.phase == "began") then
@@ -113,21 +137,53 @@ local function moveX( self, event )
     	end
 	end
 	
---function to restore the cow
-local function restoreCow()
+	--collision function
+local function onCollision( event )
 
-		cow.isBodyActive = false
-		cow.x = cX-500
-		cow.y = cY +200
+	if ( event.phase == "began" ) then
 	
-		-- Fade in the ship
-		transition.to( cow, { alpha=1, time=4000,
-			onComplete = function()
-				cow.isBodyActive = true
-				died = false
+		local obj1 = event.object1
+		local obj2 = event.object2
+	
+		if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
+		   ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
+		then
+			
+		display.remove( obj1 )
+		display.remove( obj2 )
+	
+		for i = #headsTable, 1, -1 do
+			if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
+				table.remove( headsTable, i )
+				break
+		end
+		if ( dead == false ) then
+			dead = true
+	
+			-- Update lives
+			lives = lives - 1
+			livesText.text = "Lives: " .. lives
+
+			if ( lives == 0 ) then
+				display.remove( cow )
+				timer.performWithDelay( 2000, endGame )
+			else
+				cow.alpha = 0
+				timer.performWithDelay( 1000, restoreCow )
 			end
-		} )
+		end
+end
+		
+		
+		-- Increase pontos
+		money = money - 100
+		moneyText.text = "Money: " .. money
+	
+		end
+	
 	end
+	end 
+
 
 
 
@@ -237,39 +293,9 @@ function scene:create( event )
 
 end
 
---collision function
-local function onCollision( event )
 
-	if ( event.phase == "began" ) then
-	
-		local obj1 = event.object1
-		local obj2 = event.object2
-	
-		if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
-		   ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
-		then
-			
-		display.remove( obj1 )
-		display.remove( obj2 )
-	
-		for i = #headsTable, 1, -1 do
-			if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
-				table.remove( headsTable, i )
-				break
-			end
-		end
-		
-		
-		-- Increase pontos
-		money = money - 100
-		moneyText.text = "Money: " .. money
-	
-		end
-	
-	end
-	end 
 
-	musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
+	--musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 function scene:show( event )
  
     local sceneGroup = self.view
