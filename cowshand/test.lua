@@ -148,41 +148,35 @@ local function onCollision( event )
 		if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
 		   ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
 		then
-			
-		display.remove( obj1 )
-		display.remove( obj2 )
-	
-		for i = #headsTable, 1, -1 do
-			if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
-				table.remove( headsTable, i )
-				break
-		end
-		if ( dead == false ) then
-			dead = true
-	
-			-- Update lives
-			lives = lives - 1
-			livesText.text = "Lives: " .. lives
 
-			if ( lives == 0 ) then
-				display.remove( cow )
-				timer.performWithDelay( 2000, endGame )
-			else
-				cow.alpha = 0
-				timer.performWithDelay( 1000, restoreCow )
+			if ( dead == false ) then
+				dead = true
+	
+				-- Play explosion sound!
+				--audio.play( explosionSound )
+	
+				-- Update lives
+				--lives = lives - 1
+				livesText.text = "Lives: " .. lives
+	
+				if ( lives == 0 ) then
+					display.remove( cow )
+					timer.performWithDelay( 2000, endGame )
+				else
+					cow.alpha = 0
+					timer.performWithDelay( 1000, restoreCow )
+				end
 			end
-		end
-end
-		
-		
-		-- Increase pontos
+	
+		-- Decrease pontos
 		money = money - 100
 		moneyText.text = "Money: " .. money
-	
+		
 		end
+		
 	
 	end
-	end 
+end 
 
 
 
