@@ -54,10 +54,10 @@ local function createBaddola()
 	physics.addBody( newBill, "dynamic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
     newBill.myName = "baddola"
 
--- local whereFrom = math.random( 1 )
+ local whereFrom = math.random( 1 )
 
---     if ( whereFrom == 1 ) then
-        newBill.x = display.contentCenterX + 700
+     if ( whereFrom == 1 ) then
+        newBill.x = display.contentCenterX + 500
         newBill.y = math.random(90,220)
         newBill:setLinearVelocity( math.random( -20,20 ), math.random( 10,50 ), newBill.x, newBill.y )
     -- elseif ( whereFrom == 2 ) then
@@ -67,9 +67,9 @@ local function createBaddola()
     -- elseif ( whereFrom == 3 ) then
     --     newBill.x = display.contentCenterX + 500
     --     newBill.y = math.random(75,220)
-    --     newBill:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ), newBill.x, newBill.y)
-   --end
-	newBill:applyTorque( math.random( -3,3 ), newBill.x, newBill.y )
+    --     newBill:setLinearVelocity( math.random( -30,90 ), math.random( 10,50 ), newBill.x, newBill.y)
+   end
+	newBill:applyTorque( math.random( -1,1 ), newBill.x, newBill.y )
 end
 
 --gameLoop Function
@@ -231,7 +231,7 @@ function scene:create( event )
     city1.y = h-230
     city1.speed = speedCity
     
-    local city2 = display.newImageRect("ui/screens/bg2.png", 1100, 700 )
+    local city2 = display.newImageRect("ui/screens/bg2.png", 1100, 500 )
     city2.x = cX
     city2.y = h-130
 	city2.speed = speedCity
@@ -241,7 +241,7 @@ function scene:create( event )
     city3.y = h-100
 	city3.speed = speedCity
 	
-	local city4 = display.newImageRect("ui/screens/bg2.png", 1100, 700 )
+	local city4 = display.newImageRect("ui/screens/bg2.png", 1100, 500 )
     city4.x = cX+1500
     city4.y = h-130
 	city4.speed = speedCity
