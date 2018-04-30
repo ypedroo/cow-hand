@@ -95,8 +95,8 @@ local function gameLoop()
 local function restoreCow()
 
 		cow.isBodyActive = false
-		cow.x = contentCenterX
-		cow.y = contentCenterY
+		cow.x = cX -300
+		cow.y = cY +300
 
 		transition.to( cow, { alpha=1, time=1000,
 			onComplete = function()
@@ -173,6 +173,17 @@ local function onCollision( event )
 		moneyText.text = "Money: " .. money
 		
 		end
+
+		-- the code under here is used to remove both objects, thats the case to use wehn te cows dies
+		--[[display.remove( obj1 )
+		display.remove( obj2 )
+	
+		for i = #headsTable, 1, -1 do
+			if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
+				table.remove( headsTable, i )
+				break
+			end
+		end		]]
 		
 	
 	end
@@ -230,7 +241,7 @@ function scene:create( event )
 	
 	--loading the cow(sprite) 
 	cow = display.newSprite( mySheet, sequenceData)
-	cow.x = cX-500
+	cow.x = cX -500
 	cow.y = cY +200
     cow.myName = "cow"
     physics.addBody( cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0,
