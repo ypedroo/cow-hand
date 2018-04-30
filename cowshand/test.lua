@@ -54,10 +54,10 @@ local function createBaddola()
 	physics.addBody( newBill, "dynamic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
     newBill.myName = "baddola"
 
-local whereFrom = math.random( 1 )
+-- local whereFrom = math.random( 1 )
 
-    if ( whereFrom == 1 ) then
-        newBill.x = display.contentCenterX + 500
+--     if ( whereFrom == 1 ) then
+        newBill.x = display.contentCenterX + 700
         newBill.y = math.random(90,220)
         newBill:setLinearVelocity( math.random( -20,20 ), math.random( 10,50 ), newBill.x, newBill.y )
     -- elseif ( whereFrom == 2 ) then
@@ -68,7 +68,7 @@ local whereFrom = math.random( 1 )
     --     newBill.x = display.contentCenterX + 500
     --     newBill.y = math.random(75,220)
     --     newBill:setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ), newBill.x, newBill.y)
-    end
+   --end
 	newBill:applyTorque( math.random( -3,3 ), newBill.x, newBill.y )
 end
 
@@ -95,10 +95,10 @@ local function gameLoop()
 local function restoreCow()
 
 		cow.isBodyActive = false
-		cow.x = cX -300
+		cow.x = cX -400
 		cow.y = cY +300
 
-		transition.to( cow, { alpha=1, time=1000,
+		transition.to( cow, { alpha=2, time=2000,
 			onComplete = function()
 				cow.isBodyActive = true
 				dead = false
@@ -215,26 +215,33 @@ function scene:create( event )
 	gnd1.x = display.contentCenterX
 	gnd1.y = display.contentCenterY +426
     physics.addBody( gnd1, "static" , {bounce=0})
-    gnd1.speed = speedGround
+	gnd1.speed = speedGround
+	
+	-- Wall
+	-- local wall = display.newImageRect("ui/screens/ground.png", 90, 26000)
+	-- wall.x = display.contentCenterX -700
+	-- wall.y = display.contentCenterY +426
+	-- physics.addBody( wall, "static" , {bounce=0})
+
     
 
     -- City
-    local city1 = display.newImageRect("ui/screens/bg1.png",1100, 750 )
+    local city1 = display.newImageRect("ui/screens/bg1.png",1100, 900 )
     city1.x = cX
     city1.y = h-230
     city1.speed = speedCity
     
-    local city2 = display.newImageRect("ui/screens/bg2.png", 1100, 300 )
+    local city2 = display.newImageRect("ui/screens/bg2.png", 1100, 700 )
     city2.x = cX
     city2.y = h-130
 	city2.speed = speedCity
 	
-	local city3 = display.newImageRect("ui/screens/taj.png", 1100, 750 )
+	local city3 = display.newImageRect("ui/screens/bg1.png", 1100, 900 )
     city3.x = cX+1100
     city3.y = h-100
 	city3.speed = speedCity
 	
-	local city4 = display.newImageRect("ui/screens/flag.png", 150, 300 )
+	local city4 = display.newImageRect("ui/screens/bg2.png", 1100, 700 )
     city4.x = cX+1500
     city4.y = h-130
 	city4.speed = speedCity
