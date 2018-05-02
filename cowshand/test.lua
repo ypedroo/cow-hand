@@ -149,7 +149,6 @@ local function onCollision( event )
 		if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
 		   ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
 		then
-
 			if ( dead == false ) then
 				dead = true
 	
