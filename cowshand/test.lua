@@ -72,6 +72,7 @@ local function createBaddola()
 	newBill:applyTorque( math.random( -1,1 ), newBill.x, newBill.y )
 end
 
+--going to need one loop for each element, the gamelooptimer changes the spawn of the obejcts
 --gameLoop Function
 local function gameLoop()
 		createBaddola()
@@ -89,7 +90,7 @@ local function gameLoop()
 		end
 	end
 		
-	gameLoopTimer = timer.performWithDelay(500, gameLoop, 0 )  
+	gameLoopTimer = timer.performWithDelay(1500, gameLoop, 0 )  
 
 --function to restore the cow
 local function restoreCow()
