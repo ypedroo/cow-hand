@@ -57,9 +57,9 @@ local function createBaddola()
  local whereFrom = math.random( 1 )
 
      if ( whereFrom == 1 ) then
-        newBill.x = display.contentCenterX + 500
+        newBill.x = display.contentCenterX + 550
         newBill.y = math.random(90,220)
-        newBill:setLinearVelocity( math.random( -20,20 ), math.random( 10,50 ), newBill.x, newBill.y )
+        newBill:setLinearVelocity( -200, 0)
     -- elseif ( whereFrom == 2 ) then
     --     newBill.x = display.contentCenterX + 500
     --     newBill.y = math.random(80,220)
@@ -69,7 +69,7 @@ local function createBaddola()
     --     newBill.y = math.random(75,220)
     --     newBill:setLinearVelocity( math.random( -30,90 ), math.random( 10,50 ), newBill.x, newBill.y)
    end
-	newBill:applyTorque( math.random( -1,1 ), newBill.x, newBill.y )
+	newBill:applyTorque(10,10, newBill.x, newBill.y )
 end
 
 --going to need one loop for each element, the gamelooptimer changes the spawn of the obejcts
@@ -90,16 +90,17 @@ local function gameLoop()
 		end
 	end
 		
-	gameLoopTimer = timer.performWithDelay(1500, gameLoop, 0 )  
+	gameLoopTimer = timer.performWithDelay(2500, gameLoop, 0 )  
 
 --function to restore the cow
 local function restoreCow()
 
 		cow.isBodyActive = false
-		cow.x = cX -400
-		cow.y = cY +300
+		cow.x = cX -360
+		cow.y = cY +330
+		
 
-		transition.to( cow, { alpha=2, time=2000,
+		transition.to( cow, { alpha=1, time=2000,
 			onComplete = function()
 				cow.isBodyActive = true
 				dead = false
@@ -111,7 +112,7 @@ local function restoreCow()
 
 local function endGame()
 		composer.setVariable( "finalScore", score )
-		composer.gotoScene( "highscores", { time=800, effect="crossFade" } )
+		composer.gotoScene( "restart", { time=800, effect="crossFade" } )
 	end
 
 
@@ -215,15 +216,7 @@ function scene:create( event )
 	gnd1.x = display.contentCenterX
 	gnd1.y = display.contentCenterY +426
     physics.addBody( gnd1, "static" , {bounce=0})
-	gnd1.speed = speedGround
-	
-	-- Wall
-	-- local wall = display.newImageRect("ui/screens/ground.png", 90, 26000)
-	-- wall.x = display.contentCenterX -700
-	-- wall.y = display.contentCenterY +426
-	-- physics.addBody( wall, "static" , {bounce=0})
-
-    
+	gnd1.speed = speedGround    
 
     -- City
     local city1 = display.newImageRect("ui/screens/bg1.png",1100, 900 )
@@ -251,9 +244,9 @@ function scene:create( event )
 	cow.x = cX -500
 	cow.y = cY +200
     cow.myName = "cow"
-    physics.addBody( cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0,
-										radius=40, isSensor=false } )
-	cow.timeScale = 1.2
+    physics.addBody( cow, { density = 0, friction = 0, bounce = 0, gravity = 0,
+										radius=30, isSensor=false } )
+	--cow.timeScale = 1.2
 	cow:setSequence( "run" )
 	cow:play( )
 
@@ -295,11 +288,11 @@ function scene:create( event )
 	-- 	  cow:setSequence( "run" )
 	-- 	  cow:play()
 
-	-- local baddola = display.newImageRect("ui/elements/baddola.png", 80, 80)
+	--  baddola = display.newImageRect("ui/elements/baddola.png", 80, 80)
     -- baddola.x = 554
     -- baddola.y = 380
     -- baddola.myName = "baddola"
-    -- physics.addBody( baddola, "kinematic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
+    -- physics.addBody( baddola, "dynamic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
     -- baddola:setLinearVelocity(-150,0)
 
 
