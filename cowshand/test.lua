@@ -122,7 +122,7 @@ local function onTouch(event)
 			jumpLimit = jumpLimit + 1
 			if jumpLimit < 3 then
 			  physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
-			  cow:applyLinearImpulse(0, -0.5, cow.x, cow.y)
+			  cow:applyLinearImpulse(0, -0.3, cow.x, cow.y)
 			end
 		jumpLimit = 0
 		end
@@ -132,10 +132,10 @@ local function onTouch(event)
 --function to move the elements
 local function moveX( self, event )
     	if (self.x < -1080) then
-    		self.x =  display.contentCenterX + 600
+    		self.x =  display.contentCenterX + 300
 		else
 			--this line sets the game speed
-    		self.x = self.x - self.speed - 3
+    		self.x = self.x - self.speed - 3.5
     	end
 	end
 	
@@ -167,7 +167,8 @@ local function onCollision( event )
 					cow.alpha = 0
 					timer.performWithDelay( 1000, restoreCow )
 				end
-			end
+
+end
 	
 		-- Decrease pontos
 		money = money - 100
