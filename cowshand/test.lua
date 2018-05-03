@@ -20,7 +20,7 @@ local w = display.contentWidth
 
 local lives = 6
 local money = 0
-local jumpLimit = 0 
+local jumpLimit = 0
 local dead = false
 local speedCity = 1
 local speedGround = 2
@@ -28,7 +28,7 @@ local headsTable = {}
 
 
 -- Load the Sprite
-	
+
 local sheetData = {
 	    width=120;               --Largura Sprite
 	    height=120;              --Altura Sprite
@@ -47,7 +47,7 @@ local sequenceData = {
 	local mySheet = graphics.newImageSheet( "ui/sprites/VACA1.png", sheetData )
 
 
---Create enemies function	
+--Create enemies function
 local function createBaddola()
     newBill = display.newImageRect( "ui/elements/baddola.png", 70, 70 )
     table.insert( headsTable, newBill )
@@ -78,7 +78,7 @@ local function gameLoop()
 		createBaddola()
 		for i = #headsTable, 1, -1 do
 		local thisHead = headsTable[i]
-		
+
 			if ( thisHead.x < -1000 or
 					thisHead.x > display.contentWidth + 50 or
 					thisHead.y < -1000 or
@@ -89,8 +89,8 @@ local function gameLoop()
 			end
 		end
 	end
-		
-	gameLoopTimer = timer.performWithDelay(2500, gameLoop, 0 )  
+
+	gameLoopTimer = timer.performWithDelay(2500, gameLoop, 0 )
 
 --function to restore the cow
 local function restoreCow()
@@ -98,7 +98,7 @@ local function restoreCow()
 		cow.isBodyActive = false
 		cow.x = cX -360
 		cow.y = cY +330
-		
+
 
 		transition.to( cow, { alpha=1, time=2000,
 			onComplete = function()
@@ -138,28 +138,28 @@ local function moveX( self, event )
     		self.x = self.x - self.speed - 3.5
     	end
 	end
-	
+
 	--collision function
 local function onCollision( event )
 
 	if ( event.phase == "began" ) then
-	
+
 		local obj1 = event.object1
 		local obj2 = event.object2
-	
+
 		if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
 		   ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
 		then
 			if ( dead == false ) then
 				dead = true
-	
+
 				-- Play explosion sound!
 				--audio.play( explosionSound )
-	
+
 				-- Update lives
 				--lives = lives - 1
 				livesText.text = "Lives: " .. lives
-	
+
 				if ( lives == 0 ) then
 					display.remove( cow )
 					timer.performWithDelay( 2000, endGame )
@@ -169,27 +169,27 @@ local function onCollision( event )
 				end
 
 end
-	
+
 		-- Decrease pontos
 		money = money - 100
 		moneyText.text = "Money: " .. money
-		
+
 		end
 
 		-- the code under here is used to remove both objects, thats the case to use wehn te cows dies
 		--[[display.remove( obj1 )
 		display.remove( obj2 )
-	
+
 		for i = #headsTable, 1, -1 do
 			if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
 				table.remove( headsTable, i )
 				break
 			end
 		end		]]
-		
-	
+
+
 	end
-end 
+end
 
 
 
@@ -210,37 +210,43 @@ function scene:create( event )
     --Background
 	local background = display.newImageRect("ui/background/sky.png", display.actualContentWidth, display.actualContentHeight )
     background.x = display.contentCenterX
-    background.y = display.contentCenterY 
+    background.y = display.contentCenterY
 
 	-- Ground
-	local gnd1 = display.newImageRect("ui/screens/ground.png", 26000, 90)
+	local gnd1 = display.newImageRect("ui/screens/ground.png", 1100, 90)
 	gnd1.x = display.contentCenterX
 	gnd1.y = display.contentCenterY +426
     physics.addBody( gnd1, "static" , {bounce=0})
-	gnd1.speed = speedGround    
+	gnd1.speed = speedGround
+
+	local gnd2 = display.newImageRect("ui/screens/ground.png", 1100, 90)
+	gnd2.x = display.contentCenterX +1100
+	gnd2.y = display.contentCenterY +426
+    physics.addBody( gnd2, "static" , {bounce=0})
+	gnd2.speed = speedGround
 
     -- City
     local city1 = display.newImageRect("ui/screens/bg1.png",1100, 900 )
     city1.x = cX
     city1.y = h-230
     city1.speed = speedCity
-    
+
     local city2 = display.newImageRect("ui/screens/bg2.png", 1100, 500 )
     city2.x = cX
     city2.y = h-130
 	city2.speed = speedCity
-	
+
 	local city3 = display.newImageRect("ui/screens/bg1.png", 1100, 900 )
     city3.x = cX+1100
     city3.y = h-100
 	city3.speed = speedCity
-	
+
 	local city4 = display.newImageRect("ui/screens/bg2.png", 1100, 500 )
     city4.x = cX+1500
     city4.y = h-130
 	city4.speed = speedCity
-	
-	--loading the cow(sprite) 
+
+	--loading the cow(sprite)
 	cow = display.newSprite( mySheet, sequenceData)
 	cow.x = cX -500
 	cow.y = cY +200
@@ -259,9 +265,9 @@ function scene:create( event )
 
 
     gnd1.enterFrame = moveX
-    --Runtime:addEventListener("enterFrame", gnd1)
-    -- gnd2.enterFrame = moveX
-    -- Runtime:addEventListener("enterFrame", gnd2)
+    Runtime:addEventListener("enterFrame", gnd1)
+    gnd2.enterFrame = moveX
+    Runtime:addEventListener("enterFrame", gnd2)
     city1.enterFrame = moveX
     Runtime:addEventListener("enterFrame", city1)
     city2.enterFrame = moveX
@@ -277,7 +283,7 @@ function scene:create( event )
 
     -- Score
     livesText = display.newText( " Lives ".. lives, 50, 29, "Bubblegum.ttf", 46)
-    livesText:setFillColor( 255, 0, 0  ) 
+    livesText:setFillColor( 255, 0, 0  )
     moneyText = display.newText( "    Money ".. money, 300, 29, "Bubblegum.ttf", 46)
     moneyText:setFillColor( 0,255, 0 )
 
@@ -303,13 +309,13 @@ end
 
 	--musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 function scene:show( event )
- 
+
     local sceneGroup = self.view
     local phase = event.phase
- 
+
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
- 
+
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
         -- Code here runs when the scene is entirely on screen
@@ -317,13 +323,13 @@ function scene:show( event )
         physics.start()
 		Runtime:addEventListener( "collision", onCollision )
 		--gameLoopTimer = timer.performWithDelay( 1300, gameLoop, 0 )
-				
+
         audio.play( musicTrack, { channel=1, loops=-1 } )
-       
- 
+
+
     end
 end
-   
+
 -- hide()
 function scene:hide( event )
 
