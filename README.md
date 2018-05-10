@@ -53,4 +53,5 @@ Money is problem and solution for everything. Each income gives you 100 royals, 
 ## Considerations
 Game developed using Corona® and Lua.
 Special thanks to Giuliana Nogueira and Joel Silva.
-
+Icon made by Smashicons from flaticon.com/free-icon/notes_138255
+Icon made by Smashicons from flaticon.com/free-icon/receipt_138360
