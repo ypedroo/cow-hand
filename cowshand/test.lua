@@ -216,7 +216,8 @@ function scene:create( event )
 	local gnd1 = display.newImageRect("ui/screens/ground.png", 1100, 90)
 	gnd1.x = display.contentCenterX
 	gnd1.y = display.contentCenterY +426
-    physics.addBody( gnd1, "static" , {bounce=0})
+	physics.addBody( gnd1, "static" , {bounce=0})
+	gnd1.friction =10
 	gnd1.speed = speedGround
 
 	local gnd2 = display.newImageRect("ui/screens/ground.png", 1100, 90)
@@ -224,6 +225,7 @@ function scene:create( event )
 	gnd2.y = display.contentCenterY +426
     physics.addBody( gnd2, "static" , {bounce=0})
 	gnd2.speed = speedGround
+	gnd1.friction =10
 
     -- City
     local city1 = display.newImageRect("ui/screens/bg1.png",1100, 900 )
@@ -254,6 +256,7 @@ function scene:create( event )
     physics.addBody( cow, { density = 0, friction = 0, bounce = 0, gravity = 0,
 										radius=30, isSensor=false } )
 	--cow.timeScale = 1.2
+	cow.friction = 10
 	cow:setSequence( "run" )
 	cow:play( )
 
