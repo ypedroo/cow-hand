@@ -1,393 +1,311 @@
---Testa criar um name pra cada object e usar self como na doc para testar collision
+-----------------------------------------------------------------------------------------
+--
+-- game.lua
+--
+-----------------------------------------------------------------------------------------
+
 local composer = require( "composer" )
-
 local scene = composer.newScene()
+local physics = require( "physics" )
 
---local widget = require "widget"
+-- Coordenadas e Anchor Points
+local cX = display.contentCenterX -- Coordenada X
+local cY = display.contentCenterY -- Coordenada Y
+local oX = display.screenOriginX -- Centro X
+local oY = display.screenOriginY -- Origem Y
+local h = display.contentHeight
+local w = display.contentWidth
 
---composer.recycleOnSceneChange = true
-
-physics = require( "physics" )
-physics.start()
-
-local sheetInfo = require("sprites.cowSprite")
-local sheet = graphics.newImageSheet( "ui/cowSprite.png", sheetInfo:getSheet() )
-
-local musicTrack
 
 
 local lives = 6
 local money = 0
-local jumpLimit = 0 
+local jumpLimit = 0
 local dead = false
+local speedCity = 1
+local speedGround = 2
 local headsTable = {}
-local gameLoopTimer
 
 
+-- Load the Sprite
 
-
-local function createBaddola()
-    baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
-    table.insert( headsTable, newHead )
-    physics.addBody( "dynamic", { radius=30, bounce=0 } )
-    newHead.myName = "baddola"
-
-local whereFrom = math.random( 3 )
-
-    if ( whereFrom == 1 ) then
-        newHead.x = display.contentCenterX + 1000
-        newHead.y = math.random(90,220)
-        newHead.setLinearVelocity( math.random( 30,90 ), math.random( 10,50 ) )
-    elseif ( whereFrom == 2 ) then
-        newHead.x = display.contentCenterX + 1000
-        newHead.y = math.random(80,220)
-        newHead.setLinearVelocity( math.random( -20,20 ), math.random( 30,90 ) )
-    elseif ( whereFrom == 3 ) then
-        newHead.x = display.contentCenterX + 1000
-        newHead.y = math.random(75,220)
-        newHead.setLinearVelocity( math.random( -90,-30 ), math.random( 10,50 ) )
-    end
-        newHead.applyTorque( math.random( -3,3 ) )
-end
-
-
-local function gameLoop()
-createBaddola()
-for i = #headsTable, 1, -1 do
-local thisHead = headsTable[i]
-
-    if ( thisHead.x < -1000 or
-            thisHead.x > display.contentWidth + 50 or
-            thisHead.y < -1000 or
-            thisHead.y > display.contentHeight + 50 )
-    then
-        display.remove( thisHead )
-        table.remove( headsTable, i )
-    end
-end
-end
-
-gameLoopTimer = timer.performWithDelay(800, gameLoop, 0 )  
-
-local sequenceCow = {
-    -- { name= "paradoLeft", start = 14, count = 0, time = 800 , loopCount = 0},--loopDirection = "forward"},
-	-- { name= "paradoRight", start = 13, count = 0, time = 800 , loopCount = 0},--loopDirection = "forward"},
-    { name= "andandoRight", start= 1, count = 6, time =700, loopCount = 0}, --loopDirection= "forward" },
-    -- { name= "andandoLeft", start= 7, count = 6, time =700, loopCount = 0},-- loopDirection= "forward" }
-
+local sheetData = {
+	    width=120;               --Largura Sprite
+	    height=120;              --Altura Sprite
+	    numFrames=5;            --Número de Frames
+	    sheetContentWidth=120,  --Largura da Folha de Sprites
+	    sheetContentHeight=600   --Altura da Folha de Sprites
+	    -- 1 to 6 corre
+	    -- 7 to 10 pula
 }
 
+local sequenceData = {
+	    { name = "run", start=1, count=5, time=400},
+	    --{ name = "jump", start=7, count=10, time=1000}
+}
 
---[[local function createBaddola1()
-local baddola1 = display.newImageRect( "ui/baddola.png", 70, 70 )
-baddola1.x = display.contentCenterX +550
-baddola1.y = display.contentHeight  -100
-baddola1.speed = math.random(2,8)
-baddola1.initY = baddola1.y
-baddola1.amp   = math.random(20,100)
-baddola1.angle = math.random(20,100)
-baddola1.name = "baddola"
-physics.addBody(baddola1, "static", { density = 0, friction = 0, bounce = .02 })
+	local mySheet = graphics.newImageSheet( "ui/sprites/VACA1.png", sheetData )
+
+
+--Create enemies function
+local function createBaddola()
+    newBill = display.newImageRect( "ui/elements/receipt.png", 70, 70 )
+    table.insert( headsTable, newBill )
+	physics.addBody( newBill, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=false, radius=30 } )
+    newBill.myName = "baddola"
+
+ local whereFrom = math.random( 1 )
+
+     if ( whereFrom == 1 ) then
+        newBill.x = display.contentCenterX + 550
+        newBill.y = math.random(90,220)
+        newBill:setLinearVelocity( -200, 0)
+    -- elseif ( whereFrom == 2 ) then
+    --     newBill.x = display.contentCenterX + 500
+    --     newBill.y = math.random(80,220)
+    --     newBill:setLinearVelocity( math.random( 30,90 ), math.random( 30,90 ), newBill.x, newBill.y )
+    -- elseif ( whereFrom == 3 ) then
+    --     newBill.x = display.contentCenterX + 500
+    --     newBill.y = math.random(75,220)
+    --     newBill:setLinearVelocity( math.random( -30,90 ), math.random( 10,50 ), newBill.x, newBill.y)
+   end
+	newBill:applyTorque(10,10, newBill.x, newBill.y )
 end
 
-local function createGorgoyle()
-local gorgoyle = display.newImageRect( "ui/gorgoyle.png", 160, 160 )
-gorgoyle.x = display.contentCenterX +550
-gorgoyle.y = display.contentHeight  -100
-gorgoyle.speed = math.random(2,8)
-gorgoyle.initY = gorgoyle.y
-gorgoyle.amp   = math.random(20,100)
-gorgoyle.angle = math.random(20,100)
-gorgoyle.name = "gorgoyle"
-physics.addBody(gorgoyle, "static", { density = 0, friction = 0, bounce = .02 })
-end]]
---Functions 
+--going to need one loop for each element, the gamelooptimer changes the spawn of the obejcts
+--gameLoop Function
+local function gameLoop()
+		createBaddola()
+		for i = #headsTable, 1, -1 do
+		local thisHead = headsTable[i]
+
+			if ( thisHead.x < -1000 or
+					thisHead.x > display.contentWidth + 50 or
+					thisHead.y < -1000 or
+					thisHead.y > display.contentHeight + 50 )
+			then
+				display.remove( thisHead )
+				table.remove( headsTable, i )
+			end
+		end
+	end
+
+	gameLoopTimer = timer.performWithDelay(4000, gameLoop, 0 )
+
+--function to restore the cow
+local function restoreCow()
+
+		cow.isBodyActive = false
+		cow.x =cX -500
+		cow.y =cY +200
+
+		transition.to( cow, { alpha=1, time=1000,
+			onComplete = function()
+				cow.isBodyActive = true
+				dead = false
+				
+			end
+		} )
+	end
+
+
+
+local function endGame()
+		composer.setVariable( "finalScore", score )
+		composer.gotoScene( "restart", { time=800, effect="crossFade" } )
+	end
+
+
+--Jump Function
 local function onTouch(event)
-if(event.phase == "began") then
-    jumpLimit = jumpLimit + 1
-    if jumpLimit < 5 then
-      physics.addBody(cow, "dynamic", { density = 0.015, friction = 0, bounce = 0, gravity = 0 })
-      cow:applyLinearImpulse(0, -1.3, cow.x, cow.y)
-    end
- jumpLimit = 0
-end
-end
-Runtime:addEventListener("touch", onTouch)
+		if(event.phase == "began") then
+			jumpLimit = jumpLimit + 1
+			if jumpLimit < 3 then
+			  physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
+			  cow:applyLinearImpulse(0, -0.3, cow.x, cow.y)
+			end
+		jumpLimit = 0
+		end
+		end
+	Runtime:addEventListener("touch", onTouch)
 
+--function to move the elements
+local function moveX( self, event )
+    	if (self.x < -1080) then
+    		self.x =  display.contentCenterX + 300
+		else
+			--this line sets the game speed
+    		self.x = self.x - self.speed - 3.5
+    	end
+end
 
+	--collision function
 local function onCollision( event )
 
-if ( event.phase == "began" ) then
+	if ( event.phase == "began" ) then
 
-    local obj1 = event.object1
-    local obj2 = event.object2
+		local obj1 = event.object1
+		local obj2 = event.object2
 
-    if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
-       ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
-    then
-        
-    display.remove( obj1 )
-    display.remove( obj2 )
+		if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
+		   ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
+		then
+			if ( dead == false ) then
+				dead = true
 
-    for i = #headsTable, 1, -1 do
-        if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
-            table.remove( headsTable, i )
-            break
-        end
-    end
-    
-    
-    -- Increase pontos
-    money = money - 100
-    moneyText.text = "Money: " .. money
+				for i = #headsTable, 1, -1 do
+					if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
+						-- table.remove( headsTable, i )
+						-- display.remove (obj1)
+						-- display.remove (obj2)
+						headsTable[i].alpha = 0
+						cow.alpha = 0
+						timer.performWithDelay(0, restoreCow )
+						-- cow:setLinearVelocity( 0, nil )
+						-- Decrease pontos
+						money = money - 100
+						moneyText.text = "Money: " .. money
+						break
+					end
+				end	
 
-    end
 
-end
-end 
+				if ( lives == 0 ) then
+					display.remove( cow )
+					timer.performWithDelay( 2000, endGame )
+				else
+					
+				end
 
-Runtime:addEventListener( "collision", onCollision )
+			end
 
-local function scrollCity(self, event )
-    if self.x < -1024 then
-       self.x = display.contentCenterX + 1199
-    else
-        self.x = self.x -3  - self.speed
-        
-    end
-
-end
-
-    
-local function moveIncome(self, event )
-    if self.x < -2000 then
-        self.x = display.contentCenterX + 1000
-        self.y = math.random(90,220)
-        self.speed = math.random(2,8)
-        self.amp   = math.random(20,100)
-        self.angle = math.random(20,100)
-    else
-        self.x = self.x - self.speed
-        self.angle = self.angle + .1
-        self.y = self.amp * math.sin(self.angle)+self.initY
-    end
-
+		end 
+	end
 end
 
-local function moveCheck(self, event )
-    if self.x < -3000 then
-        self.x = display.contentCenterX + 1000
-        self.y = math.random(90,220)
-        self.speed = math.random(2,8)
-        self.amp   = math.random(20,100)
-        self.angle = math.random(20,100)
-    else
-        self.x = self.x - self.speed
-        self.angle = self.angle + .1
-        self.y = self.amp * math.sin(self.angle)+self.initY
-    end
-    
 
-end
+
+
+
 
 function scene:create( event )
- 
-    local sceneGroup = self.view
-    local phase = event.phase
 
-    backGroup = display.newGroup()  -- Display group for the background image
-	sceneGroup:insert(backGroup)  -- Insert into the scene's view group
-		
-	mainGroup = display.newGroup()  -- Display group for the ship, asteroids, lasers, etc.
-	sceneGroup:insert(mainGroup)  -- Insert into the scene's view group
-		
-	uiGroup = display.newGroup()    -- Display group for UI objects like the score
-	sceneGroup:insert(uiGroup)    -- Insert into the scene's view group
+	local sceneGroup = self.view
 
-   
+	-- Set up display groups
+	local backGroup = display.newGroup()
+
+
+    --local cloudCity = 0.5
+    physics.start()  -- Temporarily pause the physics engine
+
     --Background
+	local background = display.newImageRect("ui/background/sky.png", display.actualContentWidth, display.actualContentHeight )
+    background.x = display.contentCenterX
+    background.y = display.contentCenterY
 
-    local sky = display.newImageRect("ui/sky.png", 1400, 750)
-    sky.x = display.contentCenterX
-    sky.y = display.contentCenterY 
-
-    local bg = display.newImageRect("ui/bg1.png", 1400, 750)
-    bg.x = display.contentCenterX
-    bg.y = display.contentCenterY
-    bg.speed = 1
-
-    local bg1 = display.newImageRect("ui/bg1.png",1400, 750)
-    bg1.x = 2000
-    bg1.y = 400
-    bg1.speed = 1
-
-    local bg2 = display.newImageRect("ui/bg2.png", 1400, 200)
-    bg2.x = display.contentCenterX 
-    bg2.y = display.contentCenterY +250
-    bg2.speed = 2
-    
-    local bg3 = display.newImageRect("ui/bg2.png", 1600, 200)
-    bg3.x =  1800
-    bg3.y =  640
-    bg3.speed = 2
+	-- Ground
+	local gnd1 = display.newImageRect("ui/screens/ground.png", 2117, 142)
+	gnd1.x = 0
+	gnd1.y = display.contentCenterY +426
+	gnd1.cY = 0.7
+	physics.addBody( gnd1, "static" , {bounce=0})
 
 
-    local ground = display.newImageRect( "ui/ground.png", 2600000, 30)
-    ground.x = display.contentCenterX 
-    ground.y =  display.contentHeight -10
-    physics.addBody(ground, "static",{ bounce=0 })
-    ground.name = "ground"
-
--- Score
-    livesText = display.newText( "Lives: ".. lives, 0, 100, native.systemFont, 40)
-    livesText:setFillColor( 0, 0, 0 )
-    moneyText = display.newText( "Money: ".. money, 300, 100, native.systemFont, 40)
-    moneyText:setFillColor( 0, 0, 0  )
-
--- Cow
-
-    -- local cow = display.newImageRect( "ui/cow.png", 120, 130 )
-    -- cow.x = display.contentCenterX -550
-    -- cow.y = display.contentHeight -85
-    -- cow.name = "cow"
-
-    cow = display.newSprite( backGroup, sheet, sequenceCow)
-	cow.x = ground.x - 600
-	cow.y = ground.y-195
-	physics.addBody( cow, "dynamic", {box, bounce=0.1, friction=0, isSensor=false},
-	{box={halfWidth=30, halfHeight=10, x=0, y=60}, isSensor=true } )
-	cow: setSequence("paradoRight")
-	cow:play()
-	cow.myName = "cow"
-    
+	local gnd2 = display.newImageRect("ui/screens/ground.png", 2117, 142)
+	gnd2.x = 0
+	gnd2.y = display.contentCenterY +426
+	gnd2.cY = 0.7
+    physics.addBody( gnd2, "static" , {bounce=0})
 
 
--- Colectables
-  --[[  local function createMoney()
-        local dola = display.newImageRect( "ui/dola.png", 70, 70 )
-        dola.x = display.contentCenterX +550
-        dola.y = display.contentHeight  -100
-        dola.speed = math.random(2,8)
-        dola.initY = dola.y
-        dola.amp   = math.random(20,100)
-        dola.angle = math.random(20,100)
-        dola.name = "dola"
-        physics.addBody(dola, "static", { density = 0, friction = 0, bounce = .02 })
-    end
+    -- City
+    local city1 = display.newImageRect("ui/screens/bg1.png",1100, 900 )
+    city1.x = cX
+    city1.y = h-230
+    city1.speed = speedCity
 
-    local function createCheck()
-        local check = display.newImageRect( "ui/check.png", 70, 70 )
-        check.x = display.contentCenterX +550
-        check.y = display.contentHeight  -100
-        check.speed = math.random(2,8)
-        check.initY = check.y
-        check.amp   = math.random(20,100)
-        check.angle = math.random(20,100)
-        check.name = "check"
-        physics.addBody(check, "static", { density = 0, friction = 0, bounce = .02 })
-    end
+    local city2 = display.newImageRect("ui/screens/bg2.png", 1100, 500 )
+    city2.x = cX
+    city2.y = h-130
+	city2.speed = speedCity
 
---enemies
-    local function createBaddola()
-        local baddola = display.newImageRect( "ui/baddola.png", 70, 70 )
-        baddola.x = display.contentCenterX +550
-        baddola.y = display.contentHeight  -100
-        baddola.speed = math.random(2,8)
-        baddola.initY = baddola.y
-        baddola.amp   = math.random(20,100)
-        baddola.angle = math.random(20,100)
-        baddola.name = "baddola"
-        physics.addBody(baddola, "static", { density = 0, friction = 0, bounce = .02 })
-    end]]--
-    
+	local city3 = display.newImageRect("ui/screens/bg1.png", 1100, 900 )
+    city3.x = cX+1100
+    city3.y = h-100
+	city3.speed = speedCity
+
+	local city4 = display.newImageRect("ui/screens/bg2.png", 1100, 500 )
+    city4.x = cX+1500
+    city4.y = h-130
+	city4.speed = speedCity
+
+	--loading the cow(sprite)
+	cow = display.newSprite( mySheet, sequenceData)
+	cow.x = cX -500
+	cow.y = cY +200
+    cow.myName = "cow"
+    physics.addBody( cow, { density = 0, friction = 10, bounce = 0, gravity = 0,
+										radius=20, isSensor=false } )
+	cow.timeScale = 1.2
+	cow:setSequence( "run" )
+	cow:play( )
+
+
+
+	-- End the Sprite
+
+-- 	local xOffset = ( 0.3 * cY )
+-- 		gnd1.x = gnd1.x - xOffset
+-- 		gnd2.x = gnd2.x - xOffset
   
+-- 	if (gnd1.x + gnd1.contentWidth) < 0 then
+-- 		gnd1:translate( 2119 * 2, 0)
+-- 	end
+-- 	if (gnd2.x + gnd2.contentWidth) < 0 then
+-- 		gnd2:translate( 2119 * 2, 0)
+	
+-- end
 
-    --[[local function moveEnemies(self, event )
-        if self.x < -2300 then
-            self.x = display.contentCenterX + 1000
-            self.y = math.random(90,220)
-            self.speed = math.random(2,8)
-            self.amp   = math.random(20,100)
-            self.angle = math.random(20,100)
-        else
-            self.x = self.x - self.speed
-            self.angle = self.angle + .1
-            self.y = self.amp * math.sin(self.angle)+self.initY
-            --gorgoyle:removeSelf()
-        end
+    city1.enterFrame = moveX
+    Runtime:addEventListener("enterFrame", city1)
+    city2.enterFrame = moveX
+	Runtime:addEventListener("enterFrame", city2)
+	city3.enterFrame = moveX
+	Runtime:addEventListener("enterFrame", city3)
+	city4.enterFrame = moveX
+    Runtime:addEventListener("enterFrame", city4)
 
-    end
+    -- Score
+    livesText = display.newText( " Lives ".. lives, 50, 29, "Bubblegum.ttf", 46)
+    livesText:setFillColor( 255, 0, 0  )
+    moneyText = display.newText( "    Money ".. money, 300, 29, "Bubblegum.ttf", 46)
+    moneyText:setFillColor( 0,255, 0 )
 
-    local function moveBaddola(self, event )
-        if self.x < -1500 then
-            self.x = display.contentCenterX + 1000
-            self.y = math.random(90,220)
-            self.speed = math.random(2,8)
-            self.amp   = math.random(20,100)
-            self.angle = math.random(20,100)
-        else
-            self.x = self.x - self.speed
-            self.angle = self.angle + .1
-            self.y = self.amp * math.sin(self.angle)+self.initY
-        end
-
-    end--]]
-
-    bg.enterFrame = scrollCity
-    Runtime:addEventListener("enterFrame", bg)
-
-    bg1.enterFrame = scrollCity
-    Runtime:addEventListener("enterFrame", bg1)
-
-    bg2.enterFrame = scrollCity
-    Runtime:addEventListener("enterFrame", bg2)
-
-    bg3.enterFrame = scrollCity
-    Runtime:addEventListener("enterFrame", bg3)
-
-   --[[ baddola.enterFrame = movmoveEnemies
-    Runtime:addEventListener("enterFrame", baddola)
-
-    baddola1.enterFrame = moveBaddola
-    Runtime:addEventListener("enterFrame", baddola1)
-
-    gorgoyle.enterFrame = moveEnemies
-    Runtime:addEventListener("enterFrame", gorgoyle)
-
-    dola.enterFrame = moveIncome
-    Runtime:addEventListener("enterFrame", dola)
-    
-    check.enterFrame = moveCheck
-    Runtime:addEventListener("enterFrame", check)]]
-    
-    
-    
-    --musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 end
 
+
+
+	--musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
 function scene:show( event )
- 
+
     local sceneGroup = self.view
     local phase = event.phase
- 
+
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
- 
+
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
-        --physics.start()
-        physics.start()
-		--Runtime:addEventListener( "collision", onCollision )
-		gameLoopTimer = timer.performWithDelay( 1300, gameLoop, 0 )
-				
+        -- -- physics.start()
+		Runtime:addEventListener( "collision", onCollision )
+		-- gameLoopTimer = timer.performWithDelay( 1300, gameLoop, 0 )
+
         audio.play( musicTrack, { channel=1, loops=-1 } )
-       
- 
+
+
     end
 end
-   
-
-
 
 -- hide()
 function scene:hide( event )

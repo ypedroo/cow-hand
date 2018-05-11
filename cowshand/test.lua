@@ -49,7 +49,7 @@ local sequenceData = {
 
 --Create enemies function
 local function createBaddola()
-    newBill = display.newImageRect( "ui/elements/baddola.png", 70, 70 )
+    newBill = display.newImageRect( "ui/elements/receipt.png", 70, 70 )
     table.insert( headsTable, newBill )
 	physics.addBody( newBill, "dynamic", {density=1.0, friction=0.5, bounce=0.3, isSensor=false, radius=50 } )
     newBill.myName = "baddola"
@@ -90,20 +90,20 @@ local function gameLoop()
 		end
 	end
 
-	gameLoopTimer = timer.performWithDelay(2500, gameLoop, 0 )
+	gameLoopTimer = timer.performWithDelay(3000, gameLoop, 0 )
 
 --function to restore the cow
 local function restoreCow()
 
 		cow.isBodyActive = false
 		cow.x = cX -360
-		cow.y = cY +330
+		cow.y = cY +333
 
-
-		transition.to( cow, { alpha=1, time=2000,
+		transition.to( cow, { alpha=1, time=1000,
 			onComplete = function()
 				cow.isBodyActive = true
 				dead = false
+				
 			end
 		} )
 	end
@@ -137,7 +137,7 @@ local function moveX( self, event )
 			--this line sets the game speed
     		self.x = self.x - self.speed - 3.5
     	end
-	end
+end
 
 	--collision function
 local function onCollision( event )
@@ -213,19 +213,19 @@ function scene:create( event )
     background.y = display.contentCenterY
 
 	-- Ground
-	local gnd1 = display.newImageRect("ui/screens/ground.png", 1100, 90)
-	gnd1.x = display.contentCenterX
+	local gnd1 = display.newImageRect("ui/screens/ground.png", 2117, 142)
+	gnd1.x = 0
 	gnd1.y = display.contentCenterY +426
+	gnd1.cY = 0.7
 	physics.addBody( gnd1, "static" , {bounce=0})
-	gnd1.friction =10
-	gnd1.speed = speedGround
 
-	local gnd2 = display.newImageRect("ui/screens/ground.png", 1100, 90)
-	gnd2.x = display.contentCenterX +1100
+
+	local gnd2 = display.newImageRect("ui/screens/ground.png", 2117, 142)
+	gnd2.x = 0
 	gnd2.y = display.contentCenterY +426
+	gnd2.cY = 0.7
     physics.addBody( gnd2, "static" , {bounce=0})
-	gnd2.speed = speedGround
-	gnd1.friction =10
+
 
     -- City
     local city1 = display.newImageRect("ui/screens/bg1.png",1100, 900 )
@@ -254,7 +254,7 @@ function scene:create( event )
 	cow.y = cY +200
     cow.myName = "cow"
     physics.addBody( cow, { density = 0, friction = 0, bounce = 0, gravity = 0,
-										radius=30, isSensor=false } )
+										radius=20, isSensor=false } )
 	--cow.timeScale = 1.2
 	cow.friction = 10
 	cow:setSequence( "run" )
@@ -264,13 +264,42 @@ function scene:create( event )
 
 	-- End the Sprite
 
+	local xOffset = ( 0.3 * cY )
+		gnd1.x = gnd1.x - xOffset
+		gnd2.x = gnd2.x - xOffset
+  
+	if (gnd1.x + gnd1.contentWidth) < 0 then
+		gnd1:translate( 2119 * 2, 0)
+	end
+	if (gnd2.x + gnd2.contentWidth) < 0 then
+		gnd2:translate( 2119 * 2, 0)
+	
+end
+
+-- local function start(event)
+-- 	waiting.isVisible = false;
+-- 	cow.isVisible = true;
+-- 	cow:setSequence("normalRun")
+-- 	cow:play()
+-- end	
+		
+-- 	cow:addEventListener("tap", start);
+
+
+-- 	-- Função para parar
+-- 	local function stop(event)
+-- 	waiting.isVisible = true;
+-- 	cow.isVisible = false;
+-- 	cow:pause()
+-- 	end
 
 
 
-    gnd1.enterFrame = moveX
-    Runtime:addEventListener("enterFrame", gnd1)
-    gnd2.enterFrame = moveX
-    Runtime:addEventListener("enterFrame", gnd2)
+
+    -- gnd1.enterFrame = moveX
+    -- Runtime:addEventListener("enterFrame", gnd1)
+    -- -- gnd2.enterFrame = moveX
+    -- Runtime:addEventListener("enterFrame", gnd2)
     city1.enterFrame = moveX
     Runtime:addEventListener("enterFrame", city1)
     city2.enterFrame = moveX

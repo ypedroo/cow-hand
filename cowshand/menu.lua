@@ -9,7 +9,7 @@ local scene = composer.newScene()
 local mu = audio.loadSound( "soundsfile/mu.wav" )
 
 local function gotoGame()
-    composer.gotoScene( "test", { time=800, effect="crossFade" } )
+    composer.gotoScene( "game", { time=800, effect="crossFade" } )
     audio.play( mu )
 end
  
