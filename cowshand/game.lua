@@ -29,7 +29,7 @@ local collectiblesDisappear = 0
 
 
 
-local lives = 6
+local lives = 3
 local money = 0
 local jumpLimit = 0
 local dead = false
@@ -198,7 +198,7 @@ local function gargoyleLoop()
 
 	gameLoopTimer = timer.performWithDelay(3500, gargoyleLoop, 0 )
 	
-local function endGame()
+function endGame()
 		composer.setVariable( "finalScore", score )
 		composer.gotoScene( "restart", { time=800, effect="crossFade" } )
 	end
@@ -286,22 +286,25 @@ local function onCollision( event )
    		( obj1.myName == "gargoyle" and obj2.myName == "cow" ) )
 		then
 			if ( dead == false ) then
-		    dead = true
+			dead = true
 			for i = #obstacles, 1, -1 do
 				if ( obstacles[i] == obj1 or obstacles[i] == obj2 ) then
 					obstacles[i].alpha = 0
 					cow.alpha = 0
 					timer.performWithDelay(0, restoreCow )
-						-- Decrease pontos
 					lives = lives - 1
 					livesText.text = "Lives: " .. lives
+
+						if ( lives == 0 ) then
+							display.remove( cow )
+							timer.performWithDelay( 1000, endGame )				
+						end
+					
 					break
 				end
+
 			end	
-			if ( lives == 0 ) then
-				display.remove( cow )
-				timer.performWithDelay( 2000, endGame )				
-		end
+
 	end
 end 
 		
