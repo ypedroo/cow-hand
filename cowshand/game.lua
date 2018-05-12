@@ -57,7 +57,7 @@ local function createBaddola()
  local whereFrom = math.random( 1 )
 
      if ( whereFrom == 1 ) then
-        newBill.x = display.contentCenterX + 550
+        newBill.x = display.contentCenterX + 560
         newBill.y = math.random(90,220)
         newBill:setLinearVelocity( -200, 0)
     -- elseif ( whereFrom == 2 ) then
@@ -75,23 +75,14 @@ end
 local function createGoodDola()
     goodBill = display.newImageRect( "ui/elements/notes.png", 70, 70 )
     table.insert( headsTable, goodBill )
-	physics.addBody( goodBill, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=false, radius=30 } )
+	physics.addBody( goodBill, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=true, radius=30 } )
     goodBill.myName = "goodBill"
 
- local whereFrom = math.random( 1 )
-
-     if ( whereFrom == 1 ) then
-        goodBill.x = display.contentCenterX + 550
-        goodBill.y = math.random(90,220)
-        goodBill:setLinearVelocity( -200, 0)
-    -- elseif ( whereFrom == 2 ) then
-    --     newBill.x = display.contentCenterX + 500
-    --     newBill.y = math.random(80,220)
-    --     newBill:setLinearVelocity( math.random( 30,90 ), math.random( 30,90 ), newBill.x, newBill.y )
-    -- elseif ( whereFrom == 3 ) then
-    --     newBill.x = display.contentCenterX + 500
-    --     newBill.y = math.random(75,220)
-    --     newBill:setLinearVelocity( math.random( -30,90 ), math.random( 10,50 ), newBill.x, newBill.y)
+local whereFrom = math.random( 1 )
+    if ( whereFrom == 1 ) then
+       goodBill.x = display.contentCenterX + 560
+       goodBill.y = math.random(90,220)
+       goodBill:setLinearVelocity( -200, 0)
    end
    goodBill:applyTorque(0,0, goodBill.x, goodBill.y )
 end
@@ -215,6 +206,14 @@ local function onCollision( event )
 				end
 			end
 		end 
+
+		if ( ( obj1.myName == "cow" and obj2.myName == "goodBill" ) or
+		     ( obj1.myName == "goodBill" and obj2.myName == "cow" ) )
+		 then
+			money = money - 100
+			moneyText.text = "Money: " .. money
+		end
+	     
 	end
 end
 
