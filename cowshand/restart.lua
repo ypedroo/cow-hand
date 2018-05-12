@@ -1,8 +1,6 @@
-
+local mainGroup --= display.newGroup()  -- Display group for the Lampiao etc.
 local composer = require( "composer")
-local widget = require( "widget" )
-local sounds = require( "soundsfile" )
-
+local scene = composer.newScene()
 
 local mu = audio.loadSound( "soundsfile/mu.wav" )
 

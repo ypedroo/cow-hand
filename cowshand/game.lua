@@ -1,9 +1,3 @@
------------------------------------------------------------------------------------------
---
--- game.lua
---
------------------------------------------------------------------------------------------
-
 local composer = require( "composer" )
 local scene = composer.newScene()
 local physics = require( "physics" )
@@ -200,7 +194,7 @@ local function gargoyleLoop()
 	
 function endGame()
 		composer.setVariable( "finalScore", score )
-		composer.gotoScene( "restart", { time=800, effect="crossFade" } )
+		composer.gotoScene( "restart", { time=400, effect="crossFade" } )
 	end
 
 
@@ -299,7 +293,7 @@ local function onCollision( event )
 							display.remove( cow )
 							timer.performWithDelay( 1000, endGame )				
 						end
-					
+
 					break
 				end
 
@@ -430,13 +424,14 @@ function scene:hide( event )
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
+		timer.cancel( gameLoopTimer )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
 		physics.pause()
-        composer.removeScene( "game" )
+		composer.removeScene( "game" )
 		composer.hideOverlay()
-		--Runtime:removeEventListener( "collision", onCollision)
+		Runtime:removeEventListener( "collision", onCollision)
 		--Runtime:removeEventListener("touch", onTouch)
 	end
 end
