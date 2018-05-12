@@ -105,7 +105,7 @@ local function onTouch(event)
 			jumpLimit = jumpLimit + 1
 			if jumpLimit < 3 then
 			  physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
-			  cow:applyLinearImpulse(0, -0.3, cow.x, cow.y)
+			  cow:applyLinearImpulse(0, -0.12, cow.x, cow.y)
 			end
 		jumpLimit = 0
 		end
@@ -114,8 +114,8 @@ local function onTouch(event)
 
 --function to move the elements
 local function moveX( self, event )
-    	if (self.x < -1080) then
-    		self.x =  display.contentCenterX + 300
+    	if (self.x < -1000) then
+    		self.x =  display.contentCenterX+200
 		else
 			--this line sets the game speed
     		self.x = self.x - self.speed - 3.5
@@ -214,24 +214,24 @@ function scene:create( event )
 
 
     -- City
-    local city1 = display.newImageRect("ui/screens/bg1.png",1100, 900 )
+    local city1 = display.newImageRect("ui/screens/bg1.png",1000, 700 )
     city1.x = cX
     city1.y = h-230
     city1.speed = speedCity
 
-    local city2 = display.newImageRect("ui/screens/bg2.png", 1100, 500 )
+    local city2 = display.newImageRect("ui/screens/bg2.png", 1000, 500 )
     city2.x = cX
-    city2.y = h-130
+    city2.y = h-120
 	city2.speed = speedCity
 
-	local city3 = display.newImageRect("ui/screens/bg1.png", 1100, 900 )
-    city3.x = cX+1100
-    city3.y = h-100
+	local city3 = display.newImageRect("ui/screens/bg1.png", 1000, 700 )
+	city3.x = cX+1000
+	city3.y = h-230
 	city3.speed = speedCity
 
-	local city4 = display.newImageRect("ui/screens/bg2.png", 1100, 500 )
-    city4.x = cX+1500
-    city4.y = h-130
+	local city4 = display.newImageRect("ui/screens/bg2.png", 1000, 500 )
+    city4.x = cX+800
+    city4.y = h-120
 	city4.speed = speedCity
 
 	--loading the cow(sprite)
@@ -245,21 +245,6 @@ function scene:create( event )
 	cow:setSequence( "run" )
 	cow:play( )
 
-
-
-	-- End the Sprite
-
--- 	local xOffset = ( 0.3 * cY )
--- 		gnd1.x = gnd1.x - xOffset
--- 		gnd2.x = gnd2.x - xOffset
-  
--- 	if (gnd1.x + gnd1.contentWidth) < 0 then
--- 		gnd1:translate( 2119 * 2, 0)
--- 	end
--- 	if (gnd2.x + gnd2.contentWidth) < 0 then
--- 		gnd2:translate( 2119 * 2, 0)
-	
--- end
 
     city1.enterFrame = moveX
     Runtime:addEventListener("enterFrame", city1)
@@ -280,7 +265,7 @@ end
 
 
 
-	--musicTrack  = audio.loadSound( "soundsfile/So_Long.mp3" )
+	-- musicTrack  = audio.loadSound( "soundsfile/Mr_Tea.mp3" )
 function scene:show( event )
 
     local sceneGroup = self.view
