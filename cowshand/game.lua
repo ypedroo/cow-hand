@@ -166,15 +166,11 @@ local function onCollision( event )
 						break
 					end
 				end	
-
-
 				if ( lives == 0 ) then
 					display.remove( cow )
 					timer.performWithDelay( 2000, endGame )				
 				end
-
 			end
-
 		end 
 	end
 end
