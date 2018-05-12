@@ -110,6 +110,33 @@ local whereFrom = math.random( 3 )
    goodBill:applyTorque(0,0, goodBill.x, goodBill.y )
 end
 
+local function createGargoyle()
+    gargoyle = display.newImageRect( "ui/elements/gargoyle.png", 200, 200 )
+    table.insert( obstacles, gargoyle )
+	physics.addBody( gargoyle, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=false, radius=30 } )
+    gargoyle.myName = "gargoyle"
+local whereFrom = math.random( 3 )
+    if ( whereFrom == 1 ) then
+		gargoyle.x = display.contentCenterX + 560
+		gargoyle.y = (600)
+
+		gargoyle:setLinearVelocity( -200, 0)
+   end
+   if ( whereFrom == 2 ) then
+	 	gargoyle.x = display.contentCenterX + 560
+		gargoyle.y = (750)
+
+		gargoyle:setLinearVelocity( -200, 0)
+  end
+  if ( whereFrom == 3 ) then
+		gargoyle.x = display.contentCenterX + 560
+		gargoyle.y = (570)
+
+		gargoyle:setLinearVelocity( -200, 0)
+  end
+  gargoyle:applyTorque(0,0, gargoyle.x, gargoyle.y )
+end
+
 
 --gameLoop Functions
 local function reciptLoop()
@@ -152,6 +179,25 @@ local function notesLoop()
 
 	gameLoopTimer = timer.performWithDelay(4500, notesLoop, 0 )
 
+local function gargoyleLoop()
+	createGargoyle()
+		for i = #obstacles, 1, -1 do
+			local thisObstacle = obstacles[i]
+
+				if ( thisObstacle.x < -1000 or
+				thisObstacle.x > display.contentWidth + 50 or
+				thisObstacle.y < -1000 or
+						thisObstacle.y > display.contentHeight + 50 )
+				then
+					display.remove( thisObstacle )
+					table.remove( obstacles, i )
+				end
+		end
+	end
+
+
+	gameLoopTimer = timer.performWithDelay(3500, gargoyleLoop, 0 )
+	
 local function endGame()
 		composer.setVariable( "finalScore", score )
 		composer.gotoScene( "restart", { time=800, effect="crossFade" } )
@@ -213,9 +259,6 @@ local function onCollision( event )
 
 				for i = #headsTable, 1, -1 do
 					if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
-						-- table.remove( headsTable, i )
-						-- display.remove (obj1)
-						-- display.remove (obj2)
 						headsTable[i].alpha = 0
 						cow.alpha = 0
 						timer.performWithDelay(0, restoreCow )
@@ -266,14 +309,14 @@ function scene:create( event )
     background.y = display.contentCenterY
 
 	-- Ground
-	local gnd1 = display.newImageRect("ui/screens/ground.png", 2117, 142)
+	local gnd1 = display.newImageRect("ui/screens/ground.png", 2200, 142)
 	gnd1.x = 0
 	gnd1.y = display.contentCenterY +426
 	gnd1.cY = 0.7
 	physics.addBody( gnd1, "static" , {bounce=0})
 
 
-	local gnd2 = display.newImageRect("ui/screens/ground.png", 2117, 142)
+	local gnd2 = display.newImageRect("ui/screens/ground.png", 2200, 142)
 	gnd2.x = 0
 	gnd2.y = display.contentCenterY +426
 	gnd2.cY = 0.7
@@ -332,7 +375,7 @@ end
 
 
 
-	-- musicTrack  = audio.loadSound( "soundsfile/Mr_Tea.mp3" )
+	musicTrack  = audio.loadSound( "soundsfile/AI_2.mp3" )
 function scene:show( event )
 
     local sceneGroup = self.view
