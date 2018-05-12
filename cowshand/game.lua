@@ -92,23 +92,6 @@ local function gameLoop()
 
 	gameLoopTimer = timer.performWithDelay(4000, gameLoop, 0 )
 
---function to restore the cow
-local function restoreCow()
-
-		cow.isBodyActive = false
-		cow.x =cX -500
-		cow.y =cY +200
-
-		transition.to( cow, { alpha=1, time=1000,
-			onComplete = function()
-				cow.isBodyActive = true
-				dead = false
-				
-			end
-		} )
-	end
-
-
 
 local function endGame()
 		composer.setVariable( "finalScore", score )
@@ -139,6 +122,22 @@ local function moveX( self, event )
     	end
 end
 
+--function to restore the cow
+	local function restoreCow()
+
+		cow.isBodyActive = false
+		cow.x =cX -500
+		cow.y =cY +200
+
+		transition.to( cow, { alpha=1, time=1000,
+			onComplete = function()
+				cow.isBodyActive = true
+				cow:setLinearVelocity( 0, nil )
+				dead = false
+				
+			end
+		} )
+	end
 	--collision function
 local function onCollision( event )
 
@@ -161,7 +160,6 @@ local function onCollision( event )
 						headsTable[i].alpha = 0
 						cow.alpha = 0
 						timer.performWithDelay(0, restoreCow )
-						-- cow:setLinearVelocity( 0, nil )
 						-- Decrease pontos
 						money = money - 100
 						moneyText.text = "Money: " .. money
@@ -182,6 +180,8 @@ local function onCollision( event )
 		end 
 	end
 end
+
+
 
 
 
