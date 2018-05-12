@@ -17,6 +17,17 @@ local h = display.contentHeight
 local w = display.contentWidth
 
 
+local obstacles = {}				--Cria vetor de despesas
+local obstaclesCounter = 0				--Qtd de elementos de despesas
+local obstaclesDisappear = 0		--Despesas desaparecidas
+
+local qtdBonusIncomes = 10 		-- Tiro
+
+local collectibles = {}
+local collectiblesCounter = 0
+local collectiblesDisappear = 0
+
+
 
 local lives = 6
 local money = 0
@@ -75,15 +86,29 @@ end
 local function createGoodDola()
     goodBill = display.newImageRect( "ui/elements/notes.png", 70, 70 )
     table.insert( headsTable, goodBill )
-	physics.addBody( goodBill, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=true, radius=30 } )
+	physics.addBody( goodBill, "kinematic", {density=0, friction=0, bounce=0.3, isSensor=true, radius=30 } )
     goodBill.myName = "goodBill"
 
-local whereFrom = math.random( 1 )
+local whereFrom = math.random( 3 )
     if ( whereFrom == 1 ) then
        goodBill.x = display.contentCenterX + 560
-       goodBill.y = math.random(90,220)
+	   goodBill.y = (600)
+
        goodBill:setLinearVelocity( -200, 0)
    end
+   if ( whereFrom == 2 ) then
+	goodBill.x = display.contentCenterX + 560
+	goodBill.y = (750)
+
+	goodBill:setLinearVelocity( -200, 0)
+  end
+  if ( whereFrom == 3 ) then
+	goodBill.x = display.contentCenterX + 560
+	goodBill.y = (570)
+
+	goodBill:setLinearVelocity( -200, 0)
+  end
+end
    goodBill:applyTorque(0,0, goodBill.x, goodBill.y )
 end
 
@@ -107,6 +132,8 @@ local function reciptLoop()
 
 
 	gameLoopTimer = timer.performWithDelay(3500, reciptLoop, 0 )
+
+
 
 local function notesLoop()
 	createGoodDola()
@@ -210,7 +237,7 @@ local function onCollision( event )
 		if ( ( obj1.myName == "cow" and obj2.myName == "goodBill" ) or
 		     ( obj1.myName == "goodBill" and obj2.myName == "cow" ) )
 		 then
-			money = money - 100
+			money = money + 100
 			moneyText.text = "Money: " .. money
 		end
 	     
