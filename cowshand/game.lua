@@ -69,29 +69,72 @@ local function createBaddola()
     --     newBill.y = math.random(75,220)
     --     newBill:setLinearVelocity( math.random( -30,90 ), math.random( 10,50 ), newBill.x, newBill.y)
    end
-	newBill:applyTorque(10,10, newBill.x, newBill.y )
+	newBill:applyTorque(0,0, newBill.x, newBill.y )
 end
 
---going to need one loop for each element, the gamelooptimer changes the spawn of the obejcts
---gameLoop Function
-local function gameLoop()
-		createBaddola()
-		for i = #headsTable, 1, -1 do
-		local thisHead = headsTable[i]
+local function createGoodDola()
+    goodBill = display.newImageRect( "ui/elements/notes.png", 70, 70 )
+    table.insert( headsTable, goodBill )
+	physics.addBody( goodBill, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=false, radius=30 } )
+    goodBill.myName = "goodBill"
 
-			if ( thisHead.x < -1000 or
-					thisHead.x > display.contentWidth + 50 or
-					thisHead.y < -1000 or
-					thisHead.y > display.contentHeight + 50 )
-			then
-				display.remove( thisHead )
-				table.remove( headsTable, i )
-			end
+ local whereFrom = math.random( 1 )
+
+     if ( whereFrom == 1 ) then
+        goodBill.x = display.contentCenterX + 550
+        goodBill.y = math.random(90,220)
+        goodBill:setLinearVelocity( -200, 0)
+    -- elseif ( whereFrom == 2 ) then
+    --     newBill.x = display.contentCenterX + 500
+    --     newBill.y = math.random(80,220)
+    --     newBill:setLinearVelocity( math.random( 30,90 ), math.random( 30,90 ), newBill.x, newBill.y )
+    -- elseif ( whereFrom == 3 ) then
+    --     newBill.x = display.contentCenterX + 500
+    --     newBill.y = math.random(75,220)
+    --     newBill:setLinearVelocity( math.random( -30,90 ), math.random( 10,50 ), newBill.x, newBill.y)
+   end
+   goodBill:applyTorque(0,0, goodBill.x, goodBill.y )
+end
+
+
+--gameLoop Functions
+local function reciptLoop()
+	createBaddola()
+		for i = #headsTable, 1, -1 do
+			local thisHead = headsTable[i]
+
+				if ( thisHead.x < -1000 or
+						thisHead.x > display.contentWidth + 50 or
+						thisHead.y < -1000 or
+						thisHead.y > display.contentHeight + 50 )
+				then
+					display.remove( thisHead )
+					table.remove( headsTable, i )
+				end
 		end
 	end
 
-	gameLoopTimer = timer.performWithDelay(4000, gameLoop, 0 )
 
+	gameLoopTimer = timer.performWithDelay(3500, reciptLoop, 0 )
+
+local function notesLoop()
+	createGoodDola()
+		for i = #headsTable, 1, -1 do
+			local thisHead = headsTable[i]
+
+				if ( thisHead.x < -1000 or
+						thisHead.x > display.contentWidth + 50 or
+						thisHead.y < -1000 or
+						thisHead.y > display.contentHeight + 50 )
+				then
+					display.remove( thisHead )
+					table.remove( headsTable, i )
+				end
+		end
+	end
+
+
+	gameLoopTimer = timer.performWithDelay(4500, notesLoop, 0 )
 
 local function endGame()
 		composer.setVariable( "finalScore", score )
