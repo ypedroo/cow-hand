@@ -65,20 +65,20 @@ local function createBaddola()
 	physics.addBody( newBill, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=false, radius=30 } )
     newBill.myName = "baddola"
 
- local whereFrom = math.random( 1 )
+ local whereFrom = math.random( 3 )
 
      if ( whereFrom == 1 ) then
         newBill.x = display.contentCenterX + 560
-        newBill.y = math.random(90,220)
+        newBill.y = math.random(500,550)
         newBill:setLinearVelocity( -200, 0)
-    -- elseif ( whereFrom == 2 ) then
-    --     newBill.x = display.contentCenterX + 500
-    --     newBill.y = math.random(80,220)
-    --     newBill:setLinearVelocity( math.random( 30,90 ), math.random( 30,90 ), newBill.x, newBill.y )
-    -- elseif ( whereFrom == 3 ) then
-    --     newBill.x = display.contentCenterX + 500
-    --     newBill.y = math.random(75,220)
-    --     newBill:setLinearVelocity( math.random( -30,90 ), math.random( 10,50 ), newBill.x, newBill.y)
+    elseif ( whereFrom == 2 ) then
+        newBill.x = display.contentCenterX + 500
+        newBill.y = math.random(600,800)
+        newBill:setLinearVelocity( -200, 0)
+    elseif ( whereFrom == 3 ) then
+        newBill.x = display.contentCenterX + 500
+        newBill.y = math.random(700,750)
+        newBill:setLinearVelocity( -200, 0)
    end
 	newBill:applyTorque(0,0, newBill.x, newBill.y )
 end
@@ -88,7 +88,6 @@ local function createGoodDola()
     table.insert( headsTable, goodBill )
 	physics.addBody( goodBill, "kinematic", {density=0, friction=0, bounce=0.3, isSensor=true, radius=30 } )
     goodBill.myName = "goodBill"
-
 local whereFrom = math.random( 3 )
     if ( whereFrom == 1 ) then
        goodBill.x = display.contentCenterX + 560
@@ -108,7 +107,6 @@ local whereFrom = math.random( 3 )
 
 	goodBill:setLinearVelocity( -200, 0)
   end
-end
    goodBill:applyTorque(0,0, goodBill.x, goodBill.y )
 end
 
