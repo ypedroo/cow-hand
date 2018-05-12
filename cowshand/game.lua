@@ -255,7 +255,7 @@ local function onCollision( event )
 		   ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
 		then
 			if ( dead == false ) then
-				dead = true
+			    dead = true
 
 				for i = #headsTable, 1, -1 do
 					if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
@@ -281,7 +281,30 @@ local function onCollision( event )
 			money = money + 100
 			moneyText.text = "Money: " .. money
 		end
-	     
+		
+		if ( ( obj1.myName == "cow" and obj2.myName == "gargoyle" ) or
+   		( obj1.myName == "gargoyle" and obj2.myName == "cow" ) )
+		then
+			if ( dead == false ) then
+		    dead = true
+			for i = #obstacles, 1, -1 do
+				if ( obstacles[i] == obj1 or obstacles[i] == obj2 ) then
+					obstacles[i].alpha = 0
+					cow.alpha = 0
+					timer.performWithDelay(0, restoreCow )
+						-- Decrease pontos
+					lives = lives - 1
+					livesText.text = "Lives: " .. lives
+					break
+				end
+			end	
+			if ( lives == 0 ) then
+				display.remove( cow )
+				timer.performWithDelay( 2000, endGame )				
+		end
+	end
+end 
+		
 	end
 end
 
