@@ -133,6 +133,33 @@ local whereFrom = math.random( 3 )
   gargoyle:applyTorque(0,0, gargoyle.x, gargoyle.y )
 end
 
+local function createMedkit()
+    medkit = display.newImageRect( "ui/elements/medkit.png", 70, 70 )
+    table.insert( collectibles, medkit )
+	physics.addBody( medkit, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=false, radius=30 } )
+    medkit.myName = "medkit"
+local whereFrom = math.random( 3 )
+    if ( whereFrom == 1 ) then
+		medkit.x = display.contentCenterX + 560
+		medkit.y = (600)
+
+		medkit:setLinearVelocity( -200, 0)
+   end
+   if ( whereFrom == 2 ) then
+		medkit.x = display.contentCenterX + 560
+		medkit.y = (750)
+
+		medkit:setLinearVelocity( -200, 0)
+  end
+  if ( whereFrom == 3 ) then
+		medkit.x = display.contentCenterX + 560
+		medkit.y = (570)
+
+		medkit:setLinearVelocity( -200, 0)
+  end
+  medkit:applyTorque(0,0, medkit.x, medkit.y )
+end
+
 
 --gameLoop Functions
 local function reciptLoop()
@@ -194,6 +221,25 @@ local function gargoyleLoop()
 
 
 	gameLoopTimer = timer.performWithDelay(5000, gargoyleLoop, 0 )
+
+local function medkitLoop()
+	createMedkit()
+	    for i = #collectibles, 1, -1 do
+			local thisCollectible = collectibles[i]
+
+			if ( thisCollectible.x < -1000 or
+			thisCollectible.x > display.contentWidth + 50 or
+ 			thisCollectible.y < -1000 or
+	     	thisCollectible.y > display.contentHeight + 50 )
+	 		then
+						display.remove( thisCollectible )
+	 					table.remove( collectibles, i )
+	 		end
+		 end
+end
+	
+	
+	gameLoopTimer = timer.performWithDelay(9000, medkitLoop, 0 )
 	
 function endGame()
 		composer.setVariable( "finalScore", score )
