@@ -189,6 +189,7 @@ local whereFrom = math.random( 3 )
   gargoyle:applyTorque(0,0, gargoyle.x, gargoyle.y )
 end
 
+--function to create medkits
 local function createMedkit()
     medkit = display.newImageRect( "ui/elements/medkit.png", 70, 70 )
     table.insert( collectibles, medkit )
@@ -278,6 +279,8 @@ local function gargoyleLoop()
 
 	gameLoopTimer = timer.performWithDelay(5000, gargoyleLoop, 0 )
 
+
+--loop for the medkit
 local function medkitLoop()
 	createMedkit()
 	    for i = #collectibles, 1, -1 do
@@ -296,6 +299,25 @@ end
 	
 	
 	gameLoopTimer = timer.performWithDelay(9000, medkitLoop, 0 )
+
+--loop for the jackpots
+local function jackpotLoop()
+	createJackpot()
+		for i = #headsTable, 1, -1 do
+			local thisHead = headsTable[i]
+
+				if ( thisHead.x < -1000 or
+						thisHead.x > display.contentWidth + 50 or
+						thisHead.y < -1000 or
+						thisHead.y > display.contentHeight + 50 )
+				then
+					display.remove( thisHead )
+					table.remove( headsTable, i )
+				end
+	    end
+end
+
+gameLoopTimer = timer.performWithDelay(19000, jackpotLoop, 0 )
 	
 function endGame()
 		composer.setVariable( "finalScore", score )
@@ -350,6 +372,7 @@ local function onCollision( event )
 		local obj1 = event.object1
 		local obj2 = event.object2
 
+		--recepit collision
 		if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
 		   ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
 		then
@@ -370,13 +393,25 @@ local function onCollision( event )
 			end
 		end 
 
+		--notes collsion
 		if ( ( obj1.myName == "cow" and obj2.myName == "goodBill" ) or
 		     ( obj1.myName == "goodBill" and obj2.myName == "cow" ) )
 		 then
 			money = money + 100
 			moneyText.text = "Money: " .. money
 		end
-		
+
+        --jackpot collision
+		if ( ( obj1.myName == "cow" and obj2.myName == "jackpot" ) or
+		( obj1.myName == "jackpot" and obj2.myName == "cow" ) )
+		then
+	 	   money = money +500
+		   moneyText.text = "Money: " .. money
+  		 end
+
+
+
+		--gargoyle collission
 		if ( ( obj1.myName == "cow" and obj2.myName == "gargoyle" ) or
    		( obj1.myName == "gargoyle" and obj2.myName == "cow" ) )
 		then
@@ -400,7 +435,7 @@ local function onCollision( event )
 		end	
 
 
-
+        --medkit collision
 		if ( ( obj1.myName == "cow" and obj2.myName == "medkit" ) or
 		( obj1.myName == "medkit" and obj2.myName == "cow" ) )
 		then
@@ -408,7 +443,7 @@ local function onCollision( event )
 	  		livesText.text = "Lives: " .. lives
   		 end
 		
-
+        --golpe collision
 		-- if ( ( obj1.myName == "cow" and obj2.myName == "golpe" ) or
 		-- 	( obj1.myName == "golpe" and obj2.myName == "cow" ) )
 		-- then
