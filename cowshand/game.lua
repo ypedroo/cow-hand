@@ -77,6 +77,7 @@ local function createBaddola()
 	newBill:applyTorque(0,0, newBill.x, newBill.y )
 end
 
+--function to create notes
 local function createGoodDola()
     goodBill = display.newImageRect( "ui/elements/notes.png", 70, 70 )
     table.insert( headsTable, goodBill )
@@ -104,6 +105,7 @@ local whereFrom = math.random( 3 )
    goodBill:applyTorque(0,0, goodBill.x, goodBill.y )
 end
 
+--function to create gargoyle
 local function createGargoyle()
     gargoyle = display.newImageRect( "ui/elements/gargoyle.png", 200, 200 )
     table.insert( obstacles, gargoyle )
@@ -153,7 +155,7 @@ local function reciptLoop()
 	gameLoopTimer = timer.performWithDelay(3500, reciptLoop, 0 )
 
 
-
+--loop for the notes
 local function notesLoop()
 	createGoodDola()
 		for i = #headsTable, 1, -1 do
@@ -173,6 +175,7 @@ local function notesLoop()
 
 	gameLoopTimer = timer.performWithDelay(4500, notesLoop, 0 )
 
+--loop for the gargoyle 	
 local function gargoyleLoop()
 	createGargoyle()
 		for i = #obstacles, 1, -1 do
@@ -190,7 +193,7 @@ local function gargoyleLoop()
 	end
 
 
-	gameLoopTimer = timer.performWithDelay(3500, gargoyleLoop, 0 )
+	gameLoopTimer = timer.performWithDelay(5000, gargoyleLoop, 0 )
 	
 function endGame()
 		composer.setVariable( "finalScore", score )
@@ -297,7 +300,7 @@ local function onCollision( event )
 					break
 				end
 
-			end	
+		end	
 
 	end
 end 
