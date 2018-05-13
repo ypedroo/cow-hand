@@ -189,6 +189,35 @@ local whereFrom = math.random( 3 )
   gargoyle:applyTorque(0,0, gargoyle.x, gargoyle.y )
 end
 
+
+--function to create golpe
+	local function createGolpe()
+		golpe = display.newImageRect( "ui/elements/golpe.png", 200, 200 )
+		table.insert( obstacles, golpe )
+		physics.addBody( golpe, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=false, radius=30 } )
+		golpe.myName = "golpe"
+	local whereFrom = math.random( 3 )
+		if ( whereFrom == 1 ) then
+			golpe.x = display.contentCenterX + 560
+			golpe.y = (600)
+	
+			golpe:setLinearVelocity( -200, 0)
+	   end
+	   if ( whereFrom == 2 ) then
+			golpe.x = display.contentCenterX + 560
+			golpe.y = (750)
+	
+			golpe:setLinearVelocity( -200, 0)
+	  end
+	  if ( whereFrom == 3 ) then
+			golpe.x = display.contentCenterX + 560
+			golpe.y = (570)
+	
+			golpe:setLinearVelocity( -200, 0)
+	  end
+	  golpe:applyTorque(0,0, golpe.x, golpe.y )
+	end
+
 --function to create medkits
 local function createMedkit()
     medkit = display.newImageRect( "ui/elements/medkit.png", 70, 70 )
@@ -318,6 +347,28 @@ local function jackpotLoop()
 end
 
 gameLoopTimer = timer.performWithDelay(19000, jackpotLoop, 0 )
+
+
+--loop for the golpes
+	
+local function golpeLoop()
+	createGolpe()
+		for i = #obstacles, 1, -1 do
+			local thisObstacle = obstacles[i]
+
+				if ( thisObstacle.x < -1000 or
+				thisObstacle.x > display.contentWidth + 50 or
+				thisObstacle.y < -1000 or
+						thisObstacle.y > display.contentHeight + 50 )
+				then
+					display.remove( thisObstacle )
+					table.remove( obstacles, i )
+				end
+		end
+end
+
+
+	gameLoopTimer = timer.performWithDelay(55000, golpeLoop, 0 )
 	
 function endGame()
 		composer.setVariable( "finalScore", score )
@@ -444,21 +495,18 @@ local function onCollision( event )
   		 end
 		
         --golpe collision
-		-- if ( ( obj1.myName == "cow" and obj2.myName == "golpe" ) or
-		-- 	( obj1.myName == "golpe" and obj2.myName == "cow" ) )
-		-- then
-		-- 	for i = #obstacles, 1, -1 do
-		-- 		if ( obstacles[i] == obj1 or obstacles[i] == obj2 ) then
-		-- 			obstacles[i].alpha = 0
-		-- 			 cow.alpha = 0
-		-- 			 timer.performWithDelay( 300, endGame )
-		-- 			 -- Increase life
-		-- 			 lives = 0
-		-- 			 livesText.text = "Lives: " .. lives
-		--         break
-		-- 		end
-		--     end	
-		-- end 
+		if ( ( obj1.myName == "cow" and obj2.myName == "golpe" ) or
+			( obj1.myName == "golpe" and obj2.myName == "cow" ) )
+		then
+			for i = #obstacles, 1, -1 do
+				if ( obstacles[i] == obj1 or obstacles[i] == obj2 ) then
+					obstacles[i].alpha = 0
+					 cow.alpha = 0
+					 timer.performWithDelay( 300, endGame )
+		        break
+				end
+		    end	
+		end 
 
 
 
