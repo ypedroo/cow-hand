@@ -105,6 +105,62 @@ local whereFrom = math.random( 3 )
    goodBill:applyTorque(0,0, goodBill.x, goodBill.y )
 end
 
+--function to create notes
+local function createGoodDola()
+    goodBill = display.newImageRect( "ui/elements/notes.png", 70, 70 )
+    table.insert( headsTable, goodBill )
+	physics.addBody( goodBill, "kinematic", {density=0, friction=0, bounce=0.3, isSensor=true, radius=30 } )
+    goodBill.myName = "goodBill"
+local whereFrom = math.random( 3 )
+    if ( whereFrom == 1 ) then
+       goodBill.x = display.contentCenterX + 560
+	   goodBill.y = (600)
+
+       goodBill:setLinearVelocity( -200, 0)
+   end
+   if ( whereFrom == 2 ) then
+	goodBill.x = display.contentCenterX + 560
+	goodBill.y = (750)
+
+	goodBill:setLinearVelocity( -200, 0)
+  end
+  if ( whereFrom == 3 ) then
+	goodBill.x = display.contentCenterX + 560
+	goodBill.y = (570)
+
+	goodBill:setLinearVelocity( -200, 0)
+  end
+   goodBill:applyTorque(0,0, goodBill.x, goodBill.y )
+end
+
+--function to create jackpot
+local function createJackpot()
+	jackpot = display.newImageRect( "ui/elements/jackpot.png", 70, 70 )
+	table.insert( headsTable, jackpot )
+	physics.addBody( jackpot, "kinematic", {density=0, friction=0, bounce=0.3, isSensor=true, radius=30 } )
+	jackpot.myName = "jackpot"
+local whereFrom = math.random( 3 )
+	if ( whereFrom == 1 ) then
+	jackpot.x = display.contentCenterX + 560
+	jackpot.y = (600)
+
+		jackpot:setLinearVelocity( -200, 0)
+   end
+   if ( whereFrom == 2 ) then
+	jackpot.x = display.contentCenterX + 560
+	jackpot.y = (750)
+
+	jackpot:setLinearVelocity( -200, 0)
+  end
+  if ( whereFrom == 3 ) then
+	jackpot.x = display.contentCenterX + 560
+	jackpot.y = (570)
+
+	jackpot:setLinearVelocity( -200, 0)
+  end
+  jackpot:applyTorque(0,0, jackpot.x, jackpot.y )
+end
+
 --function to create gargoyle
 local function createGargoyle()
     gargoyle = display.newImageRect( "ui/elements/gargoyle.png", 200, 200 )
@@ -136,7 +192,7 @@ end
 local function createMedkit()
     medkit = display.newImageRect( "ui/elements/medkit.png", 70, 70 )
     table.insert( collectibles, medkit )
-	physics.addBody( medkit, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=false, radius=30 } )
+	physics.addBody( medkit, "kinematic", {density=0, friction=0, bounce=0.3, isSensor=true, radius=30 } )
     medkit.myName = "medkit"
 local whereFrom = math.random( 3 )
     if ( whereFrom == 1 ) then
@@ -311,10 +367,6 @@ local function onCollision( event )
 						break
 					end
 				end	
-				if ( lives == 0 ) then
-					display.remove( cow )
-					timer.performWithDelay( 2000, endGame )				
-				end
 			end
 		end 
 
@@ -330,6 +382,7 @@ local function onCollision( event )
 		then
 			if ( dead == false ) then
 			dead = true
+			end
 			for i = #obstacles, 1, -1 do
 				if ( obstacles[i] == obj1 or obstacles[i] == obj2 ) then
 					obstacles[i].alpha = 0
@@ -337,22 +390,49 @@ local function onCollision( event )
 					timer.performWithDelay(0, restoreCow )
 					lives = lives - 1
 					livesText.text = "Lives: " .. lives
-
-						if ( lives == 0 ) then
-							display.remove( cow )
-							timer.performWithDelay( 1000, endGame )				
-						end
-
 					break
 				end
-
+			 end	
+			 if ( lives == 0 ) then
+				display.remove( cow )
+				timer.performWithDelay( 300, endGame )				
+			end
 		end	
 
-	end
-end 
+
+
+		if ( ( obj1.myName == "cow" and obj2.myName == "medkit" ) or
+		( obj1.myName == "medkit" and obj2.myName == "cow" ) )
+		then
+	 		lives = lives + 1
+	  		livesText.text = "Lives: " .. lives
+  		 end
 		
-	end
+
+		-- if ( ( obj1.myName == "cow" and obj2.myName == "golpe" ) or
+		-- 	( obj1.myName == "golpe" and obj2.myName == "cow" ) )
+		-- then
+		-- 	for i = #obstacles, 1, -1 do
+		-- 		if ( obstacles[i] == obj1 or obstacles[i] == obj2 ) then
+		-- 			obstacles[i].alpha = 0
+		-- 			 cow.alpha = 0
+		-- 			 timer.performWithDelay( 300, endGame )
+		-- 			 -- Increase life
+		-- 			 lives = 0
+		-- 			 livesText.text = "Lives: " .. lives
+		--         break
+		-- 		end
+		--     end	
+		-- end 
+
+
+
+
+
+	
+	end 		
 end
+
 
 
 
@@ -490,6 +570,7 @@ end
 function scene:destroy( event )
 
 	local sceneGroup = self.view
+	composer.removeScene( "game" )
 	-- Code here runs prior to the removal of scene's view
 
 end
