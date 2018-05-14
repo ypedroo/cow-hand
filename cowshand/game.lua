@@ -36,6 +36,7 @@ audio.setVolume( 0.30, { channel=1 } )
 mu = audio.loadSound( "soundsfile/mu.wav" )
 jackpot = audio.loadSound("soundsfile/jackpot.wav")
 coin = audio.loadSound("soundsfile/Change_Drop_on_Wood.mp3")
+baddolaSound = audio.loadSound("soundsfile/Cartoon_Cowbell")
 musicTrack  = audio.loadSound( "soundsfile/AI_2.mp3" )
 
 
@@ -441,6 +442,7 @@ local function onCollision( event )
 				for i = #headsTable, 1, -1 do
 					if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
 						headsTable[i].alpha = 0
+						audio.play(baddolaSound)
 						cow.alpha = 0
 						timer.performWithDelay(0, restoreCow )
 						-- Decrease pontos
@@ -465,7 +467,7 @@ local function onCollision( event )
 		if ( ( obj1.myName == "cow" and obj2.myName == "jackpot" ) or
 		( obj1.myName == "jackpot" and obj2.myName == "cow" ) )
 		then
-		   audio.play(jackpot)
+		   audio.play(coin)
 	 	   money = money +500
 		   moneyText.text = "Money: " .. money
   		 end
