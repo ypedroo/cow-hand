@@ -400,8 +400,8 @@ local function onTouch(event)
 
 --function to move the elements
 local function moveX( self, event )
-    	if (self.x < -1000) then
-    		self.x =  display.contentCenterX+200
+    	if (self.x < -1024) then
+    		self.x =  1000
 		else
 			--this line sets the game speed
     		self.x = self.x - self.speed - 3.5
@@ -569,23 +569,23 @@ function scene:create( event )
 
 
     -- City
-    local city1 = display.newImageRect("ui/screens/bg1.png",1000, 700 )
-    city1.x = cX
+    local city1 = display.newImageRect("ui/screens/bg1.png",1024, 768 )
+    city1.x = 0
     city1.y = h-230
     city1.speed = speedCity
 
-    local city2 = display.newImageRect("ui/screens/bg2.png", 1000, 500 )
+    local city2 = display.newImageRect("ui/screens/bg2.png", 1024, 500 )
     city2.x = cX
     city2.y = h-120
 	city2.speed = speedCity
 
-	local city3 = display.newImageRect("ui/screens/bg1.png", 1000, 700 )
-	city3.x = cX+1000
+	local city3 = display.newImageRect("ui/screens/bg1.png", 1024, 768 )
+	city3.x = cX+1024
 	city3.y = h-230
 	city3.speed = speedCity
 
-	local city4 = display.newImageRect("ui/screens/bg2.png", 1000, 500 )
-    city4.x = cX+800
+	local city4 = display.newImageRect("ui/screens/bg2.png", 1024, 500 )
+    city4.x = cX+1024
     city4.y = h-120
 	city4.speed = speedCity
 
