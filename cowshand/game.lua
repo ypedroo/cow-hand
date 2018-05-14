@@ -1,6 +1,7 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local physics = require( "physics" )
+-- local sounds = require( "soundsfile" )
 
 -- Coordenadas e Anchor Points
 local cX = display.contentCenterX -- Coordenada X
@@ -30,6 +31,13 @@ local dead = false
 local speedCity = 1
 local speedGround = 2
 local headsTable = {}
+audio.setVolume( 0.30, { channel=1 } ) 
+-- playGameMusic(soundsfile/AI_2.mp3)
+mu = audio.loadSound( "soundsfile/mu.wav" )
+jackpot = audio.loadSound("soundsfile/jackpot.wav")
+coin = audio.loadSound("soundsfile/Change_Drop_on_Wood.mp3")
+musicTrack  = audio.loadSound( "soundsfile/AI_2.mp3" )
+
 
 
 -- Load the Sprite
@@ -323,11 +331,11 @@ local function medkitLoop()
 						display.remove( thisCollectible )
 	 					table.remove( collectibles, i )
 	 		end
-		 end
+		end
 end
 	
 	
-	gameLoopTimer = timer.performWithDelay(9000, medkitLoop, 0 )
+	gameLoopTimer = timer.performWithDelay(25000, medkitLoop, 0 )
 
 --loop for the jackpots
 local function jackpotLoop()
@@ -448,6 +456,7 @@ local function onCollision( event )
 		if ( ( obj1.myName == "cow" and obj2.myName == "goodBill" ) or
 		     ( obj1.myName == "goodBill" and obj2.myName == "cow" ) )
 		 then
+			audio.play(jackpot)
 			money = money + 100
 			moneyText.text = "Money: " .. money
 		end
@@ -456,6 +465,7 @@ local function onCollision( event )
 		if ( ( obj1.myName == "cow" and obj2.myName == "jackpot" ) or
 		( obj1.myName == "jackpot" and obj2.myName == "cow" ) )
 		then
+		   audio.play(jackpot)
 	 	   money = money +500
 		   moneyText.text = "Money: " .. money
   		 end
@@ -473,6 +483,7 @@ local function onCollision( event )
 				if ( obstacles[i] == obj1 or obstacles[i] == obj2 ) then
 					obstacles[i].alpha = 0
 					cow.alpha = 0
+					audio.play( mu )
 					timer.performWithDelay(0, restoreCow )
 					lives = lives - 1
 					livesText.text = "Lives: " .. lives
@@ -598,16 +609,16 @@ function scene:create( event )
     Runtime:addEventListener("enterFrame", city4)
 
     -- Score
-    livesText = display.newText( " Lives ".. lives, 50, 29, "Bubblegum.ttf", 46)
+    livesText = display.newText( " Lives ".. lives, 50, 29, "Skranji-Regular.ttf", 40)
     livesText:setFillColor( 255, 0, 0  )
-    moneyText = display.newText( "    Money ".. money, 300, 29, "Bubblegum.ttf", 46)
-    moneyText:setFillColor( 0,255, 0 )
+    moneyText = display.newText( "    Money ".. money, 300, 29, "Skranji-Regular.ttf", 40)
+    moneyText:setFillColor( 0,0, 255 )
 
 end
 
 
 
-	musicTrack  = audio.loadSound( "soundsfile/AI_2.mp3" )
+
 function scene:show( event )
 
     local sceneGroup = self.view
