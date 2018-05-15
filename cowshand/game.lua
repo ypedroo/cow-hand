@@ -60,6 +60,15 @@ local sequenceData = {
 
 	local mySheet = graphics.newImageSheet( "ui/sprites/VACA1.png", sheetData )
 
+--destroy collectibles
+-- function destroy()
+-- 	display.remove(collectGroup)
+-- 	obstacles = {}
+-- 	collectibles = {}
+-- 	collectiblesCounter = 0
+-- 	obstaclesCounter = 0
+-- 	score = 0
+-- end
 
 --Create enemies function
 local function createBaddola()
@@ -391,7 +400,7 @@ local function onTouch(event)
 			jumpLimit = jumpLimit + 1
 			if jumpLimit < 3 then
 			  physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
-			  cow:applyLinearImpulse(0, -0.12, cow.x, cow.y)
+			  cow:applyLinearImpulse(0, -0.1, cow.x, cow.y)
 			end
 		jumpLimit = 0
 		end
@@ -409,7 +418,7 @@ local function moveX( self, event )
 end
 
 --function to restore the cow
-	local function restoreCow()
+local function restoreCow()
 
 		cow.isBodyActive = false
 		cow.x =cX -500
@@ -423,7 +432,7 @@ end
 				
 			end
 		} )
-	end
+end
 	--collision function
 local function onCollision( event )
 
@@ -640,6 +649,9 @@ function scene:show( event )
     end
 end
 
+
+
+
 -- hide()
 function scene:hide( event )
 
@@ -649,6 +661,15 @@ function scene:hide( event )
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
 		timer.cancel( gameLoopTimer )
+		-- timer.cancel(notesLoop)
+		-- timer.cancel(reciptLoop)
+		-- timer.cancel(medkitLoop)
+		-- timer.cancel(jackpotLoop)
+		-- timer.cancel(golpeLoop)
+		-- level:destroy()		
+		display.remove(mainGroup)
+		display.remove(uiGroup)
+		display.remove(backGroup)	
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
@@ -656,16 +677,16 @@ function scene:hide( event )
 		composer.removeScene( "game" )
 		composer.hideOverlay()
 		Runtime:removeEventListener( "collision", onCollision)
-		--Runtime:removeEventListener("touch", onTouch)
+		Runtime:removeEventListener("touch", onTouch)
+		-- destroy()
 	end
 end
 
-
--- destroy()
+-- 
 function scene:destroy( event )
 
 	local sceneGroup = self.view
-	composer.removeScene( "game" )
+	-- composer.removeScene( "game" )
 	-- Code here runs prior to the removal of scene's view
 
 end
