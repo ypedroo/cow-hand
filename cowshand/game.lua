@@ -409,8 +409,8 @@ end
 
 --function to move the elements
 function moveX( self, event )
-    	if (self.x < -1024) then
-    		self.x =  1000
+    	if (self.x < -1022) then
+    		self.x =  1010
 		else
 			--this line sets the game speed
     		self.x = self.x - self.speed - 3.5
@@ -577,25 +577,25 @@ function scene:create( event )
 
 
     -- City
-    local city1 = display.newImageRect("ui/screens/bg1.png",1024, 768 )
+    local city1 = display.newImageRect("ui/screens/bg1.png",1024, 600 )
     city1.x = 0
-    city1.y = h-200
-    city1.speed = speedCity
+    city1.y = h-250
+    city1.speed = 1
 
-    local city2 = display.newImageRect("ui/screens/bg1.png", 1024, 500 )
-    city2.x = cX+1024
-    city2.y = h-200
-	city2.speed = speedCity
+    local city2 = display.newImageRect("ui/screens/bg1.png", 1024, 600 )
+    city2.x = 1024
+    city2.y = h-250
+	city2.speed = 1
 
-	local city3 = display.newImageRect("ui/screens/bg2.png", 1024, 768 )
-	city3.x = cX
-	city3.y = h-150
-	city3.speed = speedCity
+	local city3 = display.newImageRect("ui/screens/bg2.png", 1024, 400 )
+	city3.x = 0
+	city3.y = h-50
+	city3.speed = 2
 
-	local city4 = display.newImageRect("ui/screens/bg2.png", 1024, 500 )
-    city4.x = cX+1024
-    city4.y = h-120
-	city4.speed = speedCity
+	local city4 = display.newImageRect("ui/screens/bg2.png", 1024, 400)
+    city4.x = 1024
+    city4.y = h-50
+	city4.speed = 2
 
 	--loading the cow(sprite)
 	cow = display.newSprite( mySheet, sequenceData)
@@ -661,8 +661,8 @@ function scene:hide( event )
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
 		timer.cancel( gameLoopTimer )
-		timer.cancel(headsTable)
-		timer.cancel(obstacles)
+		-- timer.cancel(headsTable)
+		-- timer.cancel(obstacles)
 		-- level:destroy()		
 		display.remove(mainGroup)
 		display.remove(uiGroup)
