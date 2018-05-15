@@ -36,7 +36,7 @@ audio.setVolume( 0.30, { channel=1 } )
 mu = audio.loadSound( "soundsfile/mu.wav" )
 jackpot = audio.loadSound("soundsfile/jackpot.wav")
 coin = audio.loadSound("soundsfile/Change_Drop_on_Wood.mp3")
-baddolaSound = audio.loadSound("soundsfile/Cartoon_Cowbell")
+-- baddolaSound = audio.loadSound("soundsfile/Cartoon_Cowbell")
 musicTrack  = audio.loadSound( "soundsfile/AI_2.mp3" )
 
 
@@ -442,7 +442,6 @@ local function onCollision( event )
 				for i = #headsTable, 1, -1 do
 					if ( headsTable[i] == obj1 or headsTable[i] == obj2 ) then
 						headsTable[i].alpha = 0
-						audio.play(baddolaSound)
 						cow.alpha = 0
 						timer.performWithDelay(0, restoreCow )
 						-- Decrease pontos
@@ -571,7 +570,7 @@ function scene:create( event )
     -- City
     local city1 = display.newImageRect("ui/screens/bg1.png",1024, 768 )
     city1.x = 0
-    city1.y = h-230
+    city1.y = h-150
     city1.speed = speedCity
 
     local city2 = display.newImageRect("ui/screens/bg2.png", 1024, 500 )
@@ -581,7 +580,7 @@ function scene:create( event )
 
 	local city3 = display.newImageRect("ui/screens/bg1.png", 1024, 768 )
 	city3.x = cX+1024
-	city3.y = h-230
+	city3.y = h-150
 	city3.speed = speedCity
 
 	local city4 = display.newImageRect("ui/screens/bg2.png", 1024, 500 )
@@ -612,9 +611,9 @@ function scene:create( event )
 
     -- Score
     livesText = display.newText( " Lives ".. lives, 50, 29, "Skranji-Regular.ttf", 40)
-    livesText:setFillColor( 255, 0, 0  )
+    livesText:setFillColor( 255,255,255 )
     moneyText = display.newText( "    Money ".. money, 300, 29, "Skranji-Regular.ttf", 40)
-    moneyText:setFillColor( 0,0, 255 )
+    moneyText:setFillColor( 255,255,255 )
 
 end
 

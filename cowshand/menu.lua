@@ -12,7 +12,21 @@ local function gotoGame()
     composer.gotoScene( "game", { time=800, effect="crossFade" } )
     audio.play( mu )
 end
- 
+
+function gotoQuit()
+    if  system.getInfo("platformName")=="Android" then
+        native.requestExit()
+    else
+        os.exit() 
+   end
+
+end
+-- function quit:tap( event )
+
+
+--     timer.performWithDelay(1000,closeapp)
+--   end    
+
 --local function gotoCredits()
   --  composer.gotoScene( "credits", { time=800, effect="crossFade" } )
 --end
@@ -42,9 +56,10 @@ function scene:create( event )
         quit.y = display.contentCenterY  
 
         start:addEventListener( "tap", gotoGame )
-        audio.play( mu )
+        audio.play( mu )   
+        quit:addEventListener( "tap", gotoQuit )
     --credits:addEventListener( "tap", gotoCredits )
-    --quit:addEventListener( "tap", gotoQuit )
+    -- quit:addEventListener( "tap", gotoQuit )
  
 end
 
