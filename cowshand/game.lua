@@ -24,7 +24,7 @@ local collectiblesDisappear = 0
 
 
 
-local lives = 3
+local lives = 1
 local money = 0
 local jumpLimit = 0
 local dead = false
@@ -395,7 +395,7 @@ function endGame()
 
 
 --Jump Function
-local function onTouch(event)
+function onTouch(event)
 		if(event.phase == "began") then
 			jumpLimit = jumpLimit + 1
 			if jumpLimit < 3 then
@@ -404,11 +404,11 @@ local function onTouch(event)
 			end
 		jumpLimit = 0
 		end
-		end
+end
 	Runtime:addEventListener("touch", onTouch)
 
 --function to move the elements
-local function moveX( self, event )
+function moveX( self, event )
     	if (self.x < -1024) then
     		self.x =  1000
 		else
@@ -422,7 +422,7 @@ local function restoreCow()
 
 		cow.isBodyActive = false
 		cow.x =cX -500
-		cow.y =cY +200
+		cow.y =cY +300
 
 		transition.to( cow, { alpha=1, time=1000,
 			onComplete = function()
@@ -434,7 +434,7 @@ local function restoreCow()
 		} )
 end
 	--collision function
-local function onCollision( event )
+function onCollision( event )
 
 	if ( event.phase == "began" ) then
 
