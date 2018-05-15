@@ -388,7 +388,7 @@ end
 
 	gameLoopTimer = timer.performWithDelay(55000, golpeLoop, 0 )
 	
-function endGame()
+function endGame(event)
 		composer.setVariable( "finalScore", score )
 		composer.gotoScene( "restart", { time=400, effect="crossFade" } )
 	end
@@ -502,7 +502,7 @@ function onCollision( event )
 			 end	
 			 if ( lives == 0 ) then
 				display.remove( cow )
-				timer.performWithDelay( 300, endGame )				
+				timer:performWithDelay( 300, endGame )				
 			end
 		end	
 
@@ -523,7 +523,7 @@ function onCollision( event )
 				if ( obstacles[i] == obj1 or obstacles[i] == obj2 ) then
 					obstacles[i].alpha = 0
 					 cow.alpha = 0
-					 timer.performWithDelay( 300, endGame )
+					 timer:performWithDelay( 300, endGame )
 		        break
 				end
 		    end	
@@ -579,16 +579,16 @@ function scene:create( event )
     -- City
     local city1 = display.newImageRect("ui/screens/bg1.png",1024, 768 )
     city1.x = 0
-    city1.y = h-150
+    city1.y = h-200
     city1.speed = speedCity
 
-    local city2 = display.newImageRect("ui/screens/bg2.png", 1024, 500 )
-    city2.x = cX
-    city2.y = h-120
+    local city2 = display.newImageRect("ui/screens/bg1.png", 1024, 500 )
+    city2.x = cX+1024
+    city2.y = h-200
 	city2.speed = speedCity
 
-	local city3 = display.newImageRect("ui/screens/bg1.png", 1024, 768 )
-	city3.x = cX+1024
+	local city3 = display.newImageRect("ui/screens/bg2.png", 1024, 768 )
+	city3.x = cX
 	city3.y = h-150
 	city3.speed = speedCity
 
@@ -661,11 +661,8 @@ function scene:hide( event )
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
 		timer.cancel( gameLoopTimer )
-		-- timer.cancel(notesLoop)
-		-- timer.cancel(reciptLoop)
-		-- timer.cancel(medkitLoop)
-		-- timer.cancel(jackpotLoop)
-		-- timer.cancel(golpeLoop)
+		timer.cancel(headsTable)
+		timer.cancel(obstacles)
 		-- level:destroy()		
 		display.remove(mainGroup)
 		display.remove(uiGroup)
@@ -674,10 +671,10 @@ function scene:hide( event )
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
 		physics.pause()
-		composer.removeScene( "game" )
 		composer.hideOverlay()
 		Runtime:removeEventListener( "collision", onCollision)
-		Runtime:removeEventListener("touch", onTouch)
+		composer.removeScene( "game" )
+		-- Runtime:removeEventListener("touch", onTouch)
 		-- destroy()
 	end
 end
