@@ -74,7 +74,7 @@ local sequenceData = {
 local function createBaddola()
     newBill = display.newImageRect( "ui/elements/receipt.png", 70, 70 )
     table.insert( headsTable, newBill )
-	physics.addBody( newBill, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=false, radius=30 } )
+	physics.addBody( newBill, "kinematic", {density=0, friction=0, bounce=0.3, isSensor=true, radius=30 } )
     newBill.myName = "baddola"
 
  local whereFrom = math.random( 3 )
@@ -183,7 +183,7 @@ end
 local function createGargoyle()
     gargoyle = display.newImageRect( "ui/elements/gargoyle.png", 200, 200 )
     table.insert( obstacles, gargoyle )
-	physics.addBody( gargoyle, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=false, radius=30 } )
+	physics.addBody( gargoyle, "kinematic", {density=0, friction=0, bounce=0.3, isSensor=true, radius=30 } )
     gargoyle.myName = "gargoyle"
 local whereFrom = math.random( 3 )
     if ( whereFrom == 1 ) then
@@ -212,7 +212,7 @@ end
 	local function createGolpe()
 		golpe = display.newImageRect( "ui/elements/golpe.png", 200, 200 )
 		table.insert( obstacles, golpe )
-		physics.addBody( golpe, "dynamic", {density=0, friction=0, bounce=0.3, isSensor=false, radius=30 } )
+		physics.addBody( golpe, "kinematic", {density=0, friction=0, bounce=0.3, isSensor=true, radius=30 } )
 		golpe.myName = "golpe"
 	local whereFrom = math.random( 3 )
 		if ( whereFrom == 1 ) then
@@ -388,9 +388,9 @@ end
 
 	gameLoopTimer = timer.performWithDelay(55000, golpeLoop, 0 )
 	
-function endGame(event)
+local function endGame(event)
 		composer.setVariable( "finalScore", score )
-		composer.gotoScene( "restart", { time=400, effect="crossFade" } )
+		composer.gotoScene( "restart")
 	end
 
 
@@ -427,7 +427,7 @@ local function restoreCow()
 		transition.to( cow, { alpha=1, time=1000,
 			onComplete = function()
 				cow.isBodyActive = true
-				cow:setLinearVelocity( 0, nil )
+				-- cow:setLinearVelocity( 0, nil )
 				dead = false
 				
 			end
@@ -488,7 +488,7 @@ function onCollision( event )
 		then
 			if ( dead == false ) then
 			dead = true
-			end
+			
 			for i = #obstacles, 1, -1 do
 				if ( obstacles[i] == obj1 or obstacles[i] == obj2 ) then
 					obstacles[i].alpha = 0
@@ -499,10 +499,12 @@ function onCollision( event )
 					livesText.text = "Lives: " .. lives
 					break
 				end
-			 end	
-			 if ( lives == 0 ) then
-				display.remove( cow )
-				timer:performWithDelay( 300, endGame )				
+			 end
+				 if ( lives == 0 ) then
+					cow.alpha = 0
+					display.remove( cow )
+					timer:performWithDelay( 300, endGame )				
+				end	
 			end
 		end	
 
@@ -660,13 +662,13 @@ function scene:hide( event )
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
-		timer.cancel( gameLoopTimer )
-		-- timer.cancel(headsTable)
-		-- timer.cancel(obstacles)
+		-- timer.cancel( gameLoopTimer )
+		-- -- timer.cancel(headsTable)
+		-- -- timer.cancel(obstacles)
 		-- level:destroy()		
-		display.remove(mainGroup)
-		display.remove(uiGroup)
-		display.remove(backGroup)	
+		-- display.remove(mainGroup)
+		-- display.remove(uiGroup)
+		-- display.remove(backGroup)	
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
@@ -674,7 +676,7 @@ function scene:hide( event )
 		composer.hideOverlay()
 		Runtime:removeEventListener( "collision", onCollision)
 		composer.removeScene( "game" )
-		-- Runtime:removeEventListener("touch", onTouch)
+		Runtime:removeEventListener("touch", onTouch)
 		-- destroy()
 	end
 end
