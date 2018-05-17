@@ -21,6 +21,7 @@ local qtdBonusIncomes = 10 		-- Tiro
 local collectibles = {}
 local collectiblesCounter = 0
 local collectiblesDisappear = 0
+local gameLoopTimer 
 
 
 
@@ -266,7 +267,7 @@ end
 
 
 --gameLoop Functions
-local function reciptLoop()
+function reciptLoop()
 	createBaddola()
 		for i = #headsTable, 1, -1 do
 			local thisHead = headsTable[i]
@@ -280,14 +281,14 @@ local function reciptLoop()
 					table.remove( headsTable, i )
 				end
 		end
-	end
+end
 
 
 	gameLoopTimer = timer.performWithDelay(3500, reciptLoop, 0 )
 
 
 --loop for the notes
-local function notesLoop()
+function notesLoop()
 	createGoodDola()
 		for i = #headsTable, 1, -1 do
 			local thisHead = headsTable[i]
@@ -301,13 +302,13 @@ local function notesLoop()
 					table.remove( headsTable, i )
 				end
 		end
-	end
+end
 
 
 	gameLoopTimer = timer.performWithDelay(4500, notesLoop, 0 )
 
 --loop for the gargoyle 	
-local function gargoyleLoop()
+function gargoyleLoop()
 	createGargoyle()
 		for i = #obstacles, 1, -1 do
 			local thisObstacle = obstacles[i]
@@ -321,14 +322,14 @@ local function gargoyleLoop()
 					table.remove( obstacles, i )
 				end
 		end
-	end
+end
 
 
 	gameLoopTimer = timer.performWithDelay(5000, gargoyleLoop, 0 )
 
 
 --loop for the medkit
-local function medkitLoop()
+function medkitLoop()
 	createMedkit()
 	    for i = #collectibles, 1, -1 do
 			local thisCollectible = collectibles[i]
@@ -348,7 +349,7 @@ end
 	gameLoopTimer = timer.performWithDelay(25000, medkitLoop, 0 )
 
 --loop for the jackpots
-local function jackpotLoop()
+function jackpotLoop()
 	createJackpot()
 		for i = #headsTable, 1, -1 do
 			local thisHead = headsTable[i]
@@ -369,7 +370,7 @@ gameLoopTimer = timer.performWithDelay(19000, jackpotLoop, 0 )
 
 --loop for the golpes
 	
-local function golpeLoop()
+function golpeLoop()
 	createGolpe()
 		for i = #obstacles, 1, -1 do
 			local thisObstacle = obstacles[i]
@@ -386,12 +387,13 @@ local function golpeLoop()
 end
 
 
-	gameLoopTimer = timer.performWithDelay(55000, golpeLoop, 0 )
+	gameLoopTimer = timer.performWithDelay(5000, golpeLoop, 0 )
 	
-local function endGame(event)
+function endGame()
 		composer.setVariable( "finalScore", score )
-		composer.gotoScene( "restart")
-	end
+		composer.gotoScene( "restart", { time=800, effect="crossFade" } )
+		
+end
 
 
 --Jump Function
@@ -399,7 +401,7 @@ function onTouch(event)
 		if(event.phase == "began") then
 			jumpLimit = jumpLimit + 1
 			if jumpLimit < 3 then
-			  physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
+			  physics.addBody(cow, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = -2 })
 			  cow:applyLinearImpulse(0, -0.1, cow.x, cow.y)
 			end
 		jumpLimit = 0
@@ -418,7 +420,7 @@ function moveX( self, event )
 end
 
 --function to restore the cow
-local function restoreCow()
+function restoreCow()
 
 		cow.isBodyActive = false
 		cow.x =cX -500
@@ -442,6 +444,7 @@ function onCollision( event )
 		local obj2 = event.object2
 
 		--recepit collision
+		--erro de endgame aqui é na collision
 		if ( ( obj1.myName == "cow" and obj2.myName == "baddola" ) or
 		   ( obj1.myName == "baddola" and obj2.myName == "cow" ) )
 		then
@@ -525,7 +528,7 @@ function onCollision( event )
 				if ( obstacles[i] == obj1 or obstacles[i] == obj2 ) then
 					obstacles[i].alpha = 0
 					 cow.alpha = 0
-					 timer:performWithDelay( 300, endGame )
+					 timer.performWithDelay( 300, endGame )
 		        break
 				end
 		    end	
@@ -641,9 +644,9 @@ function scene:show( event )
 
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
-        -- -- physics.start()
+        -- physics.start()
 		Runtime:addEventListener( "collision", onCollision )
-		-- gameLoopTimer = timer.performWithDelay( 1300, gameLoop, 0 )
+		gameLoopTimer = timer.performWithDelay( 500, gameLoop, 0 )
 
         audio.play( musicTrack, { channel=1, loops=-1 } )
 
@@ -662,22 +665,21 @@ function scene:hide( event )
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
-		-- timer.cancel( gameLoopTimer )
-		-- -- timer.cancel(headsTable)
-		-- -- timer.cancel(obstacles)
-		-- level:destroy()		
-		-- display.remove(mainGroup)
-		-- display.remove(uiGroup)
-		-- display.remove(backGroup)	
+		--verificar se é necessario adicionar os grupos
+		timer.cancel( gameLoopTimer )
+		timer.cancel(obstacles)
+		timer.cancel(collectibles)
+		display.remove(mainGroup)
+		display.remove(uiGroup)
+		display.remove(backGroup)		
 
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
-		physics.pause()
-		composer.hideOverlay()
 		Runtime:removeEventListener( "collision", onCollision)
+		physics.pause()
 		composer.removeScene( "game" )
-		Runtime:removeEventListener("touch", onTouch)
-		-- destroy()
+		composer.hideOverlay()
+		-- Runtime:removeEventListener("touch", onTouch)
 	end
 end
 
