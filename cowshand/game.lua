@@ -21,7 +21,9 @@ local qtdBonusIncomes = 10 		-- Tiro
 local collectibles = {}
 local collectiblesCounter = 0
 local collectiblesDisappear = 0
-local gameLoopTimer 
+local gameLoopTimer
+
+
 
 
 
@@ -411,8 +413,8 @@ end
 
 --function to move the elements
 function moveX( self, event )
-    	if (self.x < -1022) then
-    		self.x =  1010
+    	if (self.x < -900) then
+    		self.x =  900
 		else
 			--this line sets the game speed
     		self.x = self.x - self.speed - 3.5
@@ -555,11 +557,15 @@ function scene:create( event )
 	local sceneGroup = self.view
 
 	-- Set up display groups
-	local backGroup = display.newGroup()
+	local backGroup = display.newGroup()  -- Grupo para as imgens de fundo (parede, nuvem, postes e chão)
+	local mainGroup = display.newGroup()  -- Guarda o personagem e os objetos flutuantes.
+	local uiGroup = display.newGroup()    -- Exibir pontuação
+	
 
 
     --local cloudCity = 0.5
-    physics.start()  -- Temporarily pause the physics engine
+	physics.start()  -- Temporarily pause the physics engine
+	physics.setGravity(0, 9.6)
 
     --Background
 	local background = display.newImageRect("ui/background/sky.png", display.actualContentWidth, display.actualContentHeight )
@@ -572,35 +578,35 @@ function scene:create( event )
 	gnd1.y = display.contentCenterY +426
 	gnd1.cY = 0.7
 	physics.addBody( gnd1, "static" , {bounce=0})
-
+    gnd1.speed = 2
 
 	local gnd2 = display.newImageRect("ui/screens/ground.png", 2200, 142)
-	gnd2.x = 0
+	gnd2.x = 2200
 	gnd2.y = display.contentCenterY +426
 	gnd2.cY = 0.7
     physics.addBody( gnd2, "static" , {bounce=0})
-
+	gnd2.speed = 2
 
     -- City
-    local city1 = display.newImageRect("ui/screens/bg1.png",1024, 600 )
-    city1.x = 0
+    local city1 = display.newImageRect("ui/screens/bg1.png", 1000, 800 )
+    city1.x = cX
     city1.y = h-250
-    city1.speed = 1
+    -- city1.speed = 1
 
-    local city2 = display.newImageRect("ui/screens/bg1.png", 1024, 600 )
-    city2.x = 1024
-    city2.y = h-250
-	city2.speed = 1
+    -- local city2 = display.newImageRect("ui/screens/bg1.png", 1000, 800 )
+    -- city2.x = cX +512
+    -- city2.y = h-250
+	-- city2.speed = 1
 
-	local city3 = display.newImageRect("ui/screens/bg2.png", 1024, 400 )
-	city3.x = 0
-	city3.y = h-50
-	city3.speed = 2
+	-- local city3 = display.newImageRect("ui/screens/bg2.png", 1000, 400 )
+	-- city3.x = cX 
+	-- city3.y = h-50
+	-- city3.speed = 2
 
-	local city4 = display.newImageRect("ui/screens/bg2.png", 1024, 400)
-    city4.x = 1024
-    city4.y = h-50
-	city4.speed = 2
+	-- local city4 = display.newImageRect("ui/screens/bg2.png", 1000, 400)
+    -- city4.x = cX + 512
+    -- city4.y = h-50
+	-- city4.speed = 2
 
 	--loading the cow(sprite)
 	cow = display.newSprite( mySheet, sequenceData)
@@ -614,14 +620,14 @@ function scene:create( event )
 	cow:play( )
 
 
-    city1.enterFrame = moveX
-    Runtime:addEventListener("enterFrame", city1)
-    city2.enterFrame = moveX
-	Runtime:addEventListener("enterFrame", city2)
-	city3.enterFrame = moveX
-	Runtime:addEventListener("enterFrame", city3)
-	city4.enterFrame = moveX
-    Runtime:addEventListener("enterFrame", city4)
+    gnd1.enterFrame = moveX
+    Runtime:addEventListener("enterFrame", gnd1)
+    gnd2.enterFrame = moveX
+	Runtime:addEventListener("enterFrame", gnd2)
+	-- city3.enterFrame = moveX
+	-- Runtime:addEventListener("enterFrame", city3)
+	-- city4.enterFrame = moveX
+    -- Runtime:addEventListener("enterFrame", city4)
 
     -- Score
     livesText = display.newText( " Lives ".. lives, 50, 29, "Skranji-Regular.ttf", 40)
@@ -667,8 +673,6 @@ function scene:hide( event )
 		-- Code here runs when the scene is on screen (but is about to go off screen)
 		--verificar se é necessario adicionar os grupos
 		timer.cancel( gameLoopTimer )
-		timer.cancel(obstacles)
-		timer.cancel(collectibles)
 		display.remove(mainGroup)
 		display.remove(uiGroup)
 		display.remove(backGroup)		
