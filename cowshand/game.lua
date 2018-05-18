@@ -566,11 +566,25 @@ function scene:create( event )
     --local cloudCity = 0.5
 	physics.start()  -- Temporarily pause the physics engine
 	physics.setGravity(0, 9.6)
+	
+	--loading the cow(sprite)
+	cow = display.newSprite( mySheet, sequenceData)
+	cow.x = cX -500
+	cow.y = cY +200
+    cow.myName = "cow"
+    physics.addBody( cow, { density = 0, friction = 10, bounce = 0, gravity = 0,
+										radius=20, isSensor=false } )
+	cow.timeScale = 1.2
+	cow:setSequence( "run" )
+	cow:play( )
+	mainGroup:insert(cow)
+
 
     --Background
 	local background = display.newImageRect("ui/background/sky.png", display.actualContentWidth, display.actualContentHeight )
     background.x = display.contentCenterX
-    background.y = display.contentCenterY
+	background.y = display.contentCenterY
+	backGroup:insert(background)
 
 	-- Ground
 	local gnd1 = display.newImageRect("ui/screens/ground.png", 2200, 142)
@@ -578,7 +592,8 @@ function scene:create( event )
 	gnd1.y = display.contentCenterY +426
 	gnd1.cY = 0.7
 	physics.addBody( gnd1, "static" , {bounce=0})
-    gnd1.speed = 2
+	gnd1.speed = 2
+	backGroup:insert(background)
 
 	local gnd2 = display.newImageRect("ui/screens/ground.png", 2200, 142)
 	gnd2.x = 2200
@@ -586,17 +601,38 @@ function scene:create( event )
 	gnd2.cY = 0.7
     physics.addBody( gnd2, "static" , {bounce=0})
 	gnd2.speed = 2
+	backGroup:insert(background)
+
+	local nuvem =display.newImageRect("ui/screens/cloud.png", 70,70)
+	nuvem.x = display.contentCenterX
+	nuvem.y = display.contentCenterY 
+	nuvem.cY = 0.7
+    physics.addBody( nuvem, "static" , {bounce=0})
+	nuvem.speed = 2
+	backGroup:insert(nuvem)
+
+	local nuvem2 =display.newImageRect("ui/screens/cloud.png", 70,70)
+	nuvem2.x = display.contentCenterX
+	nuvem2.y = display.contentCenterY 
+	nuvem2.cY = 0.7
+    physics.addBody( nuvem2, "static" , {bounce=0})
+	nuvem2.speed = 2
+	backGroup:insert(nuvem2)
+
+	
 
     -- City
-    local city1 = display.newImageRect("ui/screens/bg1.png", 1000, 800 )
+    local city1 = display.newImageRect("ui/screens/bg1.png", 1300, 800 )
     city1.x = cX
-    city1.y = h-250
+	city1.y = h-250
+	backGroup:insert(background)
     -- city1.speed = 1
 
-    -- local city2 = display.newImageRect("ui/screens/bg1.png", 1000, 800 )
-    -- city2.x = cX +512
-    -- city2.y = h-250
-	-- city2.speed = 1
+    local city2 = display.newImageRect("ui/screens/bg2.png", 1300, 300 )
+    city2.x = cX
+    city2.y = h-50
+	city2.speed = 1
+	backGroup:insert(background)
 
 	-- local city3 = display.newImageRect("ui/screens/bg2.png", 1000, 400 )
 	-- city3.x = cX 
@@ -608,26 +644,16 @@ function scene:create( event )
     -- city4.y = h-50
 	-- city4.speed = 2
 
-	--loading the cow(sprite)
-	cow = display.newSprite( mySheet, sequenceData)
-	cow.x = cX -500
-	cow.y = cY +200
-    cow.myName = "cow"
-    physics.addBody( cow, { density = 0, friction = 10, bounce = 0, gravity = 0,
-										radius=20, isSensor=false } )
-	cow.timeScale = 1.2
-	cow:setSequence( "run" )
-	cow:play( )
-
+	
 
     gnd1.enterFrame = moveX
     Runtime:addEventListener("enterFrame", gnd1)
     gnd2.enterFrame = moveX
 	Runtime:addEventListener("enterFrame", gnd2)
-	-- city3.enterFrame = moveX
-	-- Runtime:addEventListener("enterFrame", city3)
-	-- city4.enterFrame = moveX
-    -- Runtime:addEventListener("enterFrame", city4)
+	nuvem.enterFrame = moveX
+	Runtime:addEventListener("enterFrame", nuvem)
+	nuvem2.enterFrame = moveX
+    Runtime:addEventListener("enterFrame", nuvem2)
 
     -- Score
     livesText = display.newText( " Lives ".. lives, 50, 29, "Skranji-Regular.ttf", 40)
