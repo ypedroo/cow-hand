@@ -23,6 +23,13 @@ local collectiblesCounter = 0
 local collectiblesDisappear = 0
 local gameLoopTimer
 
+-- Set up display groups
+
+local backGroup = display.newGroup()   
+
+local mainGroup = display.newGroup()
+
+local uiGroup = display.newGroup()
 
 
 
@@ -413,8 +420,8 @@ end
 
 --function to move the elements
 function moveX( self, event )
-    	if (self.x < -900) then
-    		self.x =  900
+    	if (self.x < -1000) then
+    		self.x =  1024
 		else
 			--this line sets the game speed
     		self.x = self.x - self.speed - 3.5
@@ -556,14 +563,7 @@ function scene:create( event )
 
 	local sceneGroup = self.view
 
-	-- Set up display groups
-	local backGroup = display.newGroup()  -- Grupo para as imgens de fundo (parede, nuvem, postes e chão)
-	local mainGroup = display.newGroup()  -- Guarda o personagem e os objetos flutuantes.
-	local uiGroup = display.newGroup()    -- Exibir pontuação
-	
 
-
-    --local cloudCity = 0.5
 	physics.start()  -- Temporarily pause the physics engine
 	physics.setGravity(0, 9.6)
 	
@@ -586,54 +586,52 @@ function scene:create( event )
 	background.y = display.contentCenterY
 	backGroup:insert(background)
 
-	-- Ground
+		-- Ground
 	local gnd1 = display.newImageRect("ui/screens/ground.png", 2200, 142)
 	gnd1.x = 0
 	gnd1.y = display.contentCenterY +426
 	gnd1.cY = 0.7
 	physics.addBody( gnd1, "static" , {bounce=0})
 	gnd1.speed = 2
-	backGroup:insert(background)
-
-	local gnd2 = display.newImageRect("ui/screens/ground.png", 2200, 142)
+	backGroup:insert(gnd1)
+		local gnd2 = display.newImageRect("ui/screens/ground.png", 2200, 142)
 	gnd2.x = 2200
-	gnd2.y = display.contentCenterY +426
+	gnd2.y = display.contentCenterY +450
 	gnd2.cY = 0.7
-    physics.addBody( gnd2, "static" , {bounce=0})
+	physics.addBody( gnd2, "static" , {bounce=0})
 	gnd2.speed = 2
-	backGroup:insert(background)
-
-	local nuvem =display.newImageRect("ui/screens/cloud.png", 70,70)
-	nuvem.x = display.contentCenterX
-	nuvem.y = display.contentCenterY 
-	nuvem.cY = 0.7
-    physics.addBody( nuvem, "static" , {bounce=0})
-	nuvem.speed = 2
-	backGroup:insert(nuvem)
-
-	local nuvem2 =display.newImageRect("ui/screens/cloud.png", 70,70)
-	nuvem2.x = display.contentCenterX
-	nuvem2.y = display.contentCenterY 
-	nuvem2.cY = 0.7
-    physics.addBody( nuvem2, "static" , {bounce=0})
-	nuvem2.speed = 2
-	backGroup:insert(nuvem2)
-
-	
+	backGroup:insert(gnd1)
 
     -- City
     local city1 = display.newImageRect("ui/screens/bg1.png", 1300, 800 )
     city1.x = cX
 	city1.y = h-250
-	backGroup:insert(background)
+	backGroup:insert(city1)
     -- city1.speed = 1
 
     local city2 = display.newImageRect("ui/screens/bg2.png", 1300, 300 )
     city2.x = cX
     city2.y = h-50
 	city2.speed = 1
-	backGroup:insert(background)
+	backGroup:insert(city2)
 
+	local nuvem =display.newImageRect("ui/screens/cloud.png", 70,70)
+	nuvem.x = display.contentCenterX
+	nuvem.y = display.contentCenterY 
+	nuvem.cY = 0.7
+    physics.addBody( nuvem, "static" , {bounce=0})
+	nuvem.speed = 1
+	backGroup:insert(nuvem)
+
+	local nuvem2 =display.newImageRect("ui/screens/cloud.png", 70,70)
+	nuvem2.x = display.contentCenterX +300
+	nuvem2.y = display.contentCenterY +30
+	nuvem2.cY = 0.7
+    physics.addBody( nuvem2, "static" , {bounce=0})
+	nuvem2.speed = 1
+	backGroup:insert(nuvem2)
+
+	
 	-- local city3 = display.newImageRect("ui/screens/bg2.png", 1000, 400 )
 	-- city3.x = cX 
 	-- city3.y = h-50
