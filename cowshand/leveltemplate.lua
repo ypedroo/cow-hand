@@ -63,11 +63,23 @@ function pauseGame()
 		pauseGroup:insert(resumebox)
 
 	resumebtn = display.newImageRect("ui/button/play.png", 60, 60)
-		resumebtn.x = 100
-		resumebtn.y = 100
+		resumebtn.x = display.contentCenterX
+		resumebtn.y = display.contentCenterY
 		resumebtn:addEventListener("tap", resumeGame)
 		pauseGroup:insert(resumebtn)
 
+	menubtn = display.newImageRect("ui/background/menu.png", 60, 60)
+		menubtn.x = display.contentCenterX
+		menubtn.y = display.contentCenterY + 80
+		-- menubtn:addEventListener("tap", menu)
+		pauseGroup:insert(menubtn)
+
+
+	quitbtn = display.newImageRect("ui/menu/quit.png", 60, 60)
+		quitbtn.x = display.contentCenterX 
+		quitbtn.y = display.contentCenterY + 300
+		-- quitbtn:addEventListener("tap", menu)
+		pauseGroup:insert(quitbtn)
 end
 
 function lvl:createPlayer(playerSheet, sequence)

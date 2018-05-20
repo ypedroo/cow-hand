@@ -50,9 +50,9 @@ function scene:create( event )
 	    play.x = cX
 	    play.y = cY
 
-	    local credits = display.newImageRect(mainGroup, "ui/menu/credits.png", 150, 100)
+	    local credits = display.newImageRect(mainGroup, "ui/menu/score.png", 150, 100)
 	    credits.x = cX 
-	    credits.y = cY+30
+	    credits.y = cY+50
 
 	    local quit = display.newImageRect(mainGroup, "ui/menu/quit.png", 150, 80)
 	    quit.x = cX
