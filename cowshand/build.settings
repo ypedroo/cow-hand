@@ -10,7 +10,7 @@ settings =
 		-- Supported values for orientation:
 		-- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
 		default = "landscapeLeft",
-		supported = { "landscapeLeft", },
+		supported = {  "landscapeLeft", "landscapeRight", },
 	},
 
 	--
@@ -21,19 +21,6 @@ settings =
 		usesPermissions =
 		{
 			"android.permission.INTERNET",
-		},
-	},
-
-	--
-	-- iOS section
-	--
-	iphone =
-	{
-		xcassets = "Images.xcassets",
-		plist =
-		{
-			UIStatusBarHidden = false,
-			UILaunchStoryboardName = "LaunchScreen",
 		},
 	},
 
@@ -51,7 +38,7 @@ settings =
 	excludeFiles =
 	{
 		-- Exclude unnecessary files for each platform
-		all = { "Icon.png", "Icon-*dpi.png", "Images.xcassets", },
-		android = { "LaunchScreen.storyboardc", },
+		ios = { "Icon.png", "Icon-*dpi.png", },
+		android = { "icons/Icon.png", "icons/Icon-??.png", "icons/Icon-???.png", "LaunchScreen.storyboardc", },
 	},
 }
