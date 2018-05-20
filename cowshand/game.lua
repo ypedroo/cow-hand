@@ -419,13 +419,14 @@ end
 	Runtime:addEventListener("touch", onTouch)
 
 --function to move the elements
+
 function moveX( self, event )
-    	if (self.x < -1000) then
-    		self.x =  1024
-		else
-			--this line sets the game speed
-    		self.x = self.x - self.speed - 3.5
-    	end
+	if (self.x < -768) then
+		self.x =  cX
+	else
+		--this line sets the game speed
+		self.x = self.x - self.speed - 3.5
+	end
 end
 
 --function to restore the cow
@@ -604,17 +605,31 @@ function scene:create( event )
 
     -- City
     local city1 = display.newImageRect("ui/screens/bg1.png", 1300, 800 )
-    city1.x = cX
+    city1.x = cX/2
 	city1.y = h-250
+	city1.speed = 1
 	backGroup:insert(city1)
-    -- city1.speed = 1
 
-    local city2 = display.newImageRect("ui/screens/bg2.png", 1300, 300 )
-    city2.x = cX
-    city2.y = h-50
+    local city2 = display.newImageRect("ui/screens/bg1.png", 1300, 800 )
+    city2.x = cX *2
+    city2.y = h-250
 	city2.speed = 1
 	backGroup:insert(city2)
 
+	local city3 = display.newImageRect("ui/screens/bg2.png", 1000, 400 )
+	city3.x = cX/2  
+	city3.y = h-50
+	city3.speed = 2
+	backGroup:insert(city3)
+
+	local city4 = display.newImageRect("ui/screens/bg2.png", 1000, 400)
+    city4.x = cX *2
+    city4.y = h-50
+	city4.speed = 2
+	backGroup:insert(city4)
+
+
+	--nuvens
 	local nuvem =display.newImageRect("ui/screens/cloud.png", 70,70)
 	nuvem.x = display.contentCenterX
 	nuvem.y = display.contentCenterY 
@@ -631,25 +646,28 @@ function scene:create( event )
 	nuvem2.speed = 1
 	backGroup:insert(nuvem2)
 
-	
-	-- local city3 = display.newImageRect("ui/screens/bg2.png", 1000, 400 )
-	-- city3.x = cX 
-	-- city3.y = h-50
-	-- city3.speed = 2
-
-	-- local city4 = display.newImageRect("ui/screens/bg2.png", 1000, 400)
-    -- city4.x = cX + 512
-    -- city4.y = h-50
-	-- city4.speed = 2
 
 	
 
-    gnd1.enterFrame = moveX
-    Runtime:addEventListener("enterFrame", gnd1)
-    gnd2.enterFrame = moveX
-	Runtime:addEventListener("enterFrame", gnd2)
+    -- gnd1.enterFrame = moveX
+    -- Runtime:addEventListener("enterFrame", gnd1)
+    -- gnd2.enterFrame = moveX
+	-- Runtime:addEventListener("enterFrame", gnd2)
+	city1.enterFrame = moveX
+	Runtime:addEventListener("enterFrame", city1)
+	
+    city2.enterFrame = moveX
+	Runtime:addEventListener("enterFrame", city2)
+
+	city3.enterFrame = moveX
+	Runtime:addEventListener("enterFrame", city3)
+	
+    city4.enterFrame = moveX
+	Runtime:addEventListener("enterFrame", city4)
+
 	nuvem.enterFrame = moveX
 	Runtime:addEventListener("enterFrame", nuvem)
+
 	nuvem2.enterFrame = moveX
     Runtime:addEventListener("enterFrame", nuvem2)
 
