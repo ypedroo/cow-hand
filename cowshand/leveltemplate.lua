@@ -85,11 +85,11 @@ end
 function lvl:createPlayer(playerSheet, sequence)
 
     local sheetData = {
-        width=50;               --Largura Sprite
-        height=50;              --Altura Sprite
+        width=60;               --Largura Sprite
+        height=60;              --Altura Sprite
         numFrames=5;            --Número de Frames
-        sheetContentWidth=120,  --Largura da Folha de Sprites
-        sheetContentHeight=600  --Altura da Folha de Sprites
+        sheetContentWidth=60,  --Largura da Folha de Sprites
+        sheetContentHeight=300  --Altura da Folha de Sprites
     }
 
 	local sheet_player
@@ -120,8 +120,8 @@ function lvl:createPlayer(playerSheet, sequence)
         -- player = display.newSprite(sheet_player, sequencesPlayer)           
     end
 	player.name = 'JOGADOR'
-	player.x = 130
-	player.y = 250
+	player.x = 60
+	player.y = 60
 	player:setSequence("running")
 	player:play()	
 
@@ -150,14 +150,14 @@ function lvl:buildHeader(debitBoolean, lifeBoolean, creditBoolean) --Faixa la em
 	-- end
 
 	if(creditBoolean == true) then
-		creditText = display.newText("Money: $ ".. credit, 0, 0, "RifficFree-Bold.ttf", 20)
+		creditText = display.newText("Money: ".. credit, 0, 0, "Skranji-Regular.ttf", 20)
 		creditText.x = 200
 		creditText.y = 25
 		headerGroup:insert(creditText)
 	end
 
 	if(lifeBoolean == true) then
-		lifeText = display.newText("Life: ".. life, 0, 0, "RifficFree-Bold.ttf", 20)
+		lifeText = display.newText("Life: ".. life, 0, 0, "Skranji-Regular.ttf", 20)
 		lifeText.x = 350
 		lifeText.y = 25
 		headerGroup:insert(lifeText)
