@@ -85,11 +85,11 @@ end
 function lvl:createPlayer(playerSheet, sequence)
 
     local sheetData = {
-        width=60;               --Largura Sprite
-        height=60;              --Altura Sprite
+        width=45;               --Largura Sprite
+        height=45;              --Altura Sprite
         numFrames=5;            --Número de Frames
-        sheetContentWidth=60,  --Largura da Folha de Sprites
-        sheetContentHeight=300  --Altura da Folha de Sprites
+        sheetContentWidth=225,  --Largura da Folha de Sprites
+        sheetContentHeight=45  --Altura da Folha de Sprites
     }
 
 	local sheet_player
