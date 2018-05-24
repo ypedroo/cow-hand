@@ -14,7 +14,11 @@ local uiGroup = display.newGroup()			-- Cria um grupo para o .....
 
 local jumpLimit = 0							-- Variável para Limite de pulo
 
+musicTrack  = audio.loadSound( "soundsfile/Splashing_Around.mp3" )
+
 function scene:create( event )
+
+	
 	
 	local sceneGroup = self.view
 	level:setCurrentLevel(1)				--Seta o nível atual
@@ -164,6 +168,8 @@ function scene:show( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
+		audio.play( musicTrack, { channel=1, loops=-1 } )
+
 	end
 end
 
