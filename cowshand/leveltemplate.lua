@@ -11,7 +11,7 @@ local backgroundnear1
 local backgroundnear2
 
 local credit = 0	--Credit
-local life = 0		--Vidas
+local life = 3		--Vidas
 local score = 0
 
 local creditText
@@ -64,16 +64,9 @@ function pauseGame()
 
 	resumebtn = display.newImageRect("ui/button/play.png", 60, 60)
 		resumebtn.x = display.contentCenterX
-		resumebtn.y = display.contentCenterY
+		resumebtn.y = display.contentCenterY -10
 		resumebtn:addEventListener("tap", resumeGame)
 		pauseGroup:insert(resumebtn)
-
-	menubtn = display.newImageRect("ui/background/menu.png", 60, 60)
-		menubtn.x = display.contentCenterX
-		menubtn.y = display.contentCenterY + 80
-		-- menubtn:addEventListener("tap", menu)
-		pauseGroup:insert(menubtn)
-
 
 	quitbtn = display.newImageRect("ui/menu/quit.png", 60, 60)
 		quitbtn.x = display.contentCenterX 
@@ -107,17 +100,7 @@ function lvl:createPlayer(playerSheet, sequence)
 
         sheet_player = graphics.newImageSheet(playerSheet, sheetData) 
         player = display.newSprite(sheet_player, sequencesPlayer)       
-    -- else
-    --     local sequencesPlayer = {{
-    --         name = "jumping",
-    --         start = 7,
-    --         count = 10,
-    --         time = 1000,
-    --         --loopCount = 0,
-    --         --loopDirection = "forward"
-    --     }}
-        -- sheet_player = graphics.newImageSheet(playerSheet, sheetData)
-        -- player = display.newSprite(sheet_player, sequencesPlayer)           
+       
     end
 	player.name = 'JOGADOR'
 	player.x = 60
@@ -173,17 +156,17 @@ end
 
 function lvl:addCredit(score)
 	credit = credit + score
-	creditText.text = "Credit: $ ".. credit
+	creditText.text = "Money: $ ".. credit
 end
 
 function lvl:reduceCredit(score)
 	credit = credit - score
-	creditText.text = "Credit: $ ".. credit
+	creditText.text = "Money: $ ".. credit
 end
 
-function lvl:addlife(score)
+function lvl:addLife(score)
 	life = life + score
-	life.text = "Life:  ".. life
+	lifeText.text = "Life:  ".. life
 end
 
 function lvl:reducelife(score)
@@ -306,7 +289,7 @@ function lvl:createInvoices(currentLevel)
 	local height = math.random(100, display.contentHeight-80)
 	local numBills = math.random(1, base.qtdBill)
 	
-	invoices[invCount] = display.newImageRect(base.bills[numBills].path, 55, 55)
+	invoices[invCount] = display.newImageRect(base.bills[numBills].path, 40, 40)
 	invoices[invCount].x = display.contentWidth + 50
 	invoices[invCount].y = height
 	invoices[invCount].name = base.bills[numBills].name

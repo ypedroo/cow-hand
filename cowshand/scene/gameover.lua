@@ -27,13 +27,13 @@ function scene:create( event )
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
 
-	local backButton = display.newImageRect( sceneGroup, "ui/background/backBtn.png", 200, 100 )
-	backButton.x = display.contentCenterX
+	local backButton = display.newImageRect( sceneGroup, "ui/background/backBtn.png", 100, 50 )
+	backButton.x = display.contentCenterX + 200
 	backButton.y = display.contentCenterY + 120
 
 	local backButton = display.newImageRect( sceneGroup, "ui/background/menu.png", 200, 100 )
-	backButton.x = display.contentCenterX
-	backButton.y = display.contentCenterY + 60
+	backButton.x = display.contentCenterX + 198
+	backButton.y = display.contentCenterY + 70
 
 	--[[local age = level:createScoreAge()
 	sceneGroup:insert(age)

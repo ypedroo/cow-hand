@@ -65,9 +65,9 @@ local base = {}
                 
                 base.levels[1].backgroundNear[2] = {}
                 base.levels[1].backgroundNear[2].path = "ui/background/city1.png"
-                base.levels[1].backgroundNear[2].y = 150
+                base.levels[1].backgroundNear[2].y = 200
 
                 base.levels[1].backgroundNear[3] = {}
                 base.levels[1].backgroundNear[3].path = "ui/background/city1.png"
-                base.levels[1].backgroundNear[3].y = 150
+                base.levels[1].backgroundNear[3].y = 200
 return base

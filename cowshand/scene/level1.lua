@@ -78,15 +78,10 @@ function scene:create( event )
 			if event.other.name == "jackpot" then
 				level:addCredit(event.other.value)
 			end
-			-- if event.other.name == "medkit" then
-			-- 	level:addlife(event.other.value)
-			-- end
-			-- if event.other.name == "100" then
-			-- 	level:addCredit(event.other.value)
-			-- end
-			-- if event.other.name == "bonus" then
-			-- 	level:addCredit(event.other.value)
-			-- end
+			if event.other.name == "medkit" then
+				level:addLife(event.other.value)
+			end
+
 			
 			level:collideIncomes()
 			timer.performWithDelay(1, function()
