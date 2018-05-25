@@ -1,6 +1,6 @@
 -- Include modules/libraries
 local composer = require( "composer")
---local loadsave = require( "loadsave")
+-- local loadsave = require( "loadsave")
 
 composer.recycleOnSceneChange = true
 
@@ -17,7 +17,7 @@ local cY = display.contentCenterY -- Coordenada Y
 local scene = composer.newScene()
 
 local function gotoGame()
-	--playSFX(menupicksound)
+	playSFX(losesound)
 	composer.gotoScene( "scene.level1" )
 end
 
@@ -31,10 +31,20 @@ local function openSettings()
 	--composer.gotoScene( "scene.levels" )
 end
 
+function gotoQuit()
+    if  system.getInfo("platformName")=="Android" then
+        native.requestExit()
+    else
+        os.exit() 
+   end
+
+end
+
 local backGroup = display.newGroup()
 local mainGroup = display.newGroup()
 
 function scene:create( event )
+	playGameMusic(menubgmusic)
 	
 	local sceneGroup = self.view
 
@@ -61,7 +71,7 @@ function scene:create( event )
 	    play:addEventListener( "tap", gotoGame )
 	    audio.play( mu )
 		--levels:addEventListener( "tap", gotoLevels )
-		--settings:addEventListener( "tap", gotosettings )
+		quit:addEventListener( "tap", gotoQuit )
 end
 
 -- show()

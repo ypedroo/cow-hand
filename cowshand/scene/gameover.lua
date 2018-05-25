@@ -1,8 +1,7 @@
-
 -- Include modules/libraries
 local composer = require( "composer")
 local widget = require( "widget" )
---local sounds = require( "soundsfile" )
+local sounds = require( "soundsfile" )
 
 local level = require("leveltemplate")
 
@@ -12,10 +11,12 @@ local scene = composer.newScene()
 local background
 
 local function gotoMenu()
-	composer.gotoScene( "scene.level1" )
+	composer.gotoScene( "scene.menu" )
 end
 
 function scene:create( event )
+
+	playGameMusic(gameoverbgmusic)
 
 	local sceneGroup = self.view
 	level:setValues(100,100,3)
@@ -34,10 +35,6 @@ function scene:create( event )
 	local backButton = display.newImageRect( sceneGroup, "ui/background/menu.png", 200, 100 )
 	backButton.x = display.contentCenterX + 198
 	backButton.y = display.contentCenterY + 70
-
-	--[[local age = level:createScoreAge()
-	sceneGroup:insert(age)
-	age.y = 50]]
 
 	backButton:addEventListener( "tap", gotoMenu )
 	--level:reduceProjectiles(level:getNumProjectiles())

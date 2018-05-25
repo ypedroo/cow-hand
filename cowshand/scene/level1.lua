@@ -22,8 +22,8 @@ function scene:create( event )
 	
 	local sceneGroup = self.view
 	level:setCurrentLevel(1)				--Seta o nível atual
-	--playGameMusic(babybgmusic)				--Importa do arquivo soundsfile.lua a musica 
-	--audio.setVolume( 0.50, { channel=1 } ) 
+	playGameMusic(oldbgmusic)				--Importa do arquivo soundsfile.lua a musica 
+	audio.setVolume( 0.50, { channel=1 } ) 
 
 	background = level:createBackground(level:getCurrentLevel()) --(OK) Adc o background relativo ao level
 	backGroup:insert(background) -- OK
@@ -74,7 +74,7 @@ function scene:create( event )
 
 		-- AQUI EU GANHO DINHEIRO
 		if( event.other.type == "money") then
-			--playSFX(money)
+			playSFX(bubblepop)
 
 			if event.other.name == "note" then
 				level:addCredit(event.other.value)
@@ -98,7 +98,7 @@ function scene:create( event )
 
 		-- AQUI EU PERCO DINHEIRO
 		if( event.other.type == "bill") then
-			--playSFX(money)
+			playSFX(losesound)
 			if ( event.other.name == "receipt") then
 				-- level:addDebit(event.other.value)
 				level:reduceCredit(event.other.value)
@@ -142,7 +142,7 @@ function scene:create( event )
 		if(event.phase == "began") then
 			jumpLimit = jumpLimit + 1
 			if jumpLimit < 3 then
-			  physics.addBody(player, "dynamic", { density = 0, friction = 0, bounce = 0, gravity = 0 })
+			  physics.addBody(player, "dynamic", { density = 0,radius = 0.2, friction = 0, bounce = 0, gravity = 0 })
 			  player:applyLinearImpulse(0, -0.15, player.x, player.y)
 			end
 		jumpLimit = 0
@@ -168,7 +168,7 @@ function scene:show( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
-		audio.play( musicTrack, { channel=1, loops=-1 } )
+
 
 	end
 end
@@ -190,6 +190,7 @@ function scene:hide( event )
 		display.remove(backGroup)		
 	elseif ( phase == "did" ) then
 		physics.pause()
+		
 		composer.removeScene("level1")
 		composer.hideOverlay()
 		Runtime:removeEventListener( "collision", onLocalCollision)
