@@ -17,6 +17,7 @@ end
 function scene:create( event )
 
 	playGameMusic(gameoverbgmusic)
+	audio.setVolume( 0.20, { channel=1 } ) 
 
 	local sceneGroup = self.view
 	level:setValues(100,100,3)

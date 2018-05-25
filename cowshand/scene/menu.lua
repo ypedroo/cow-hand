@@ -18,6 +18,7 @@ local scene = composer.newScene()
 
 local function gotoGame()
 	playSFX(losesound)
+	 
 	composer.gotoScene( "scene.level1" )
 end
 
@@ -45,6 +46,7 @@ local mainGroup = display.newGroup()
 
 function scene:create( event )
 	playGameMusic(menubgmusic)
+
 	
 	local sceneGroup = self.view
 

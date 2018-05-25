@@ -9,10 +9,10 @@ losesound = audio.loadSound ("sound/mu.wav")
 -- menupicksound = audio.loadSound ("sound/menu_pick.wav")
 -- jumpsound = audio.loadSound ("sound/jump.wav")
  
-audio.reserveChannels (3) 
+audio.reserveChannels (2) 
 
 function playSFX (soundfile) 
-	audio.play(soundfile, {channel =  3})
+	audio.play(soundfile, {channel =  2})
 end 
  
 function playGameMusic(soundfile)

@@ -14,7 +14,6 @@ local uiGroup = display.newGroup()			-- Cria um grupo para o .....
 
 local jumpLimit = 0							-- Variável para Limite de pulo
 
-musicTrack  = audio.loadSound( "soundsfile/Splashing_Around.mp3" )
 
 function scene:create( event )
 
@@ -23,7 +22,7 @@ function scene:create( event )
 	local sceneGroup = self.view
 	level:setCurrentLevel(1)				--Seta o nível atual
 	playGameMusic(oldbgmusic)				--Importa do arquivo soundsfile.lua a musica 
-	audio.setVolume( 0.50, { channel=1 } ) 
+	audio.setVolume( 0.20, { channel=1 } ) 
 
 	background = level:createBackground(level:getCurrentLevel()) --(OK) Adc o background relativo ao level
 	backGroup:insert(background) -- OK
