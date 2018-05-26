@@ -98,7 +98,7 @@ function lvl:createPlayer(playerSheet, sequence)
             name = "running",
             start = 1,
             count = 5,
-            time = 500,
+            time = 300,
             --loopCount = 0,
             --loopDirection = "forward"
         }}
