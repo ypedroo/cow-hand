@@ -1,7 +1,10 @@
+local composer = require("composer") 	 	--Importa o Composer
+local physics = require("physics") 		 	--Importa a Fisica
 
-local composer = require( "composer" )
+local sounds = require( "soundsfile" )	 	--Importa o Som
 
-local scene = composer.newScene()
+local level = require("leveltemplate")		--Importa o aqruivo leveltemplate.lua
+local scene = composer.newScene()	
 
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
@@ -90,7 +93,7 @@ function scene:create( event )
 
 	local backButton = display.newImageRect( sceneGroup, "ui/background/menu.png", 200, 110 )
 	backButton.x = display.contentCenterX + 198
-	backButton.y = display.contentCenterY + 70
+	backButton.y = display.contentCenterY + 150
 
 	backButton:addEventListener( "tap", gotoMenu )
 
@@ -98,14 +101,15 @@ function scene:create( event )
     highScoresHeader:setFillColor( 0.1 )
 	for i = 1, 5 do
 		if ( scoresTable[i] ) then
-			local yPos = 152 + ( i * 23 )
+			local yPos = 130 + ( i * 23 )
 
-			local rankNum = display.newText( sceneGroup, i .. ")", display.contentCenterX-20, yPos, native.systemFont, 25 )
+			local rankNum = display.newText( sceneGroup, i .. ")", display.contentCenterX+10, yPos, native.systemFont, 20 )
 			rankNum:setFillColor( 0.1 )
 			rankNum.anchorX = 1
 
-			local thisScore = display.newText( sceneGroup, scoresTable[i], display.contentCenterX-20, yPos, native.systemFont, 25 )
-			thisScore.anchorX = 0
+			local thisScore = display.newText( sceneGroup, scoresTable[i], display.contentCenterX+10, yPos, native.systemFont, 20 )
+            thisScore.anchorX = 0
+            rankNum:setFillColor( 0.2 )
 		end
 	end
 

@@ -11,7 +11,7 @@ local backgroundnear1
 local backgroundnear2
 
 local credit = 0	--Credit
-local life = 3		--Vidas
+local life = 0		--Vidas
 local score = 0
 
 local creditText
@@ -75,10 +75,10 @@ function pauseGame()
 		pauseGroup:insert(quitbtn)
 end
 
-function endGame(event)
-	composer.setVariable( "finalScore", score )
-	composer.gotoScene( "scene.gameover", { time=800, effect="crossFade" } )
-end
+-- function endGame(event)
+-- 	composer.setVariable( "finalScore", score )
+-- 	composer.gotoScene( "scene.gameover", { time=800, effect="crossFade" } )
+-- end
 
 function lvl:createPlayer(playerSheet, sequence)
 
@@ -98,7 +98,7 @@ function lvl:createPlayer(playerSheet, sequence)
             name = "running",
             start = 1,
             count = 5,
-            time = 800,
+            time = 500,
             --loopCount = 0,
             --loopDirection = "forward"
         }}

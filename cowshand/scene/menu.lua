@@ -22,14 +22,10 @@ local function gotoGame()
 	composer.gotoScene( "scene.level1" )
 end
 
-local function gotoHs()
-	--playSFX(menupicksound)
-	composer.gotoScene( "scene.highscore" )
-end
+local function gotoHighscore()
+	playSFX(losesound)
 
-local function openSettings()
-	--playSFX(menupicksound)
-	--composer.gotoScene( "scene.levels" )
+	composer.gotoScene( "scene.highscore" )
 end
 
 function gotoQuit()
@@ -64,17 +60,17 @@ function scene:create( event )
 	    play.x = cX
 	    play.y = cY
 
-	    local credits = display.newImageRect(mainGroup, "ui/menu/score.png", 150, 100)
-	    credits.x = cX 
-	    credits.y = cY+50
+	    local score = display.newImageRect(mainGroup, "ui/menu/score.png", 150, 100)
+	    score.x = cX 
+	    score.y = cY+50
 
 	    local quit = display.newImageRect(mainGroup, "ui/menu/quit.png", 150, 80)
 	    quit.x = cX
 	    quit.y = cY+70 
 
 	    play:addEventListener( "tap", gotoGame )
-	    audio.play( mu )
-		credits:addEventListener( "tap", gotoHs )
+	    -- audio.play( mu )
+		score:addEventListener( "tap", gotoHighscore )
 		quit:addEventListener( "tap", gotoQuit )
 end
 
