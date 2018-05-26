@@ -23,19 +23,20 @@ local function gotoGame()
 end
 
 local function gotoHighscore()
-	playSFX(losesound)
+	-- playSFX(losesound)
 
-	composer.gotoScene( "scene.highscore" )
+	composer.gotoScene( "scene.highscore", { time=800, effect="crossFade" } )
 end
 
 function gotoQuit()
     if  system.getInfo("platformName")=="Android" then
         native.requestExit()
     else
-        os.exit() 
-   end
-
+		os.exit() 
+	end
 end
+
+
 
 local backGroup = display.newGroup()
 local mainGroup = display.newGroup()
@@ -46,33 +47,33 @@ function scene:create( event )
 	-- audio.play(musicTrack)
 
 	
-	local sceneGroup = self.view
+local sceneGroup = self.view
+	local background = display.newImageRect( backGroup,"ui/menu/display.png", display.actualContentWidth, display.actualContentHeight )
+	background.x = cX 
+	background.y = cY
 
-		local background = display.newImageRect( backGroup,"ui/menu/display.png", display.actualContentWidth, display.actualContentHeight )
-		background.x = cX 
-		background.y = cY
-
-		local logo = display.newImageRect(mainGroup, "ui/menu/logo.png", 300, 200)
-	    logo.x = cX 
-	    logo.y = cY-123
-
-	    local play = display.newImageRect(mainGroup, "ui/menu/start.png", 150, 100)
-	    play.x = cX
-	    play.y = cY
-
-	    local score = display.newImageRect(mainGroup, "ui/menu/score.png", 150, 100)
-	    score.x = cX 
-	    score.y = cY+50
-
-	    local quit = display.newImageRect(mainGroup, "ui/menu/quit.png", 150, 80)
-	    quit.x = cX
-	    quit.y = cY+70 
-
-	    play:addEventListener( "tap", gotoGame )
-	    -- audio.play( mu )
-		score:addEventListener( "tap", gotoHighscore )
-		quit:addEventListener( "tap", gotoQuit )
+	local logo = display.newImageRect(mainGroup, "ui/menu/logo.png", 300, 200)
+    logo.x = cX 
+	logo.y = cY-123
+	
+    local play = display.newImageRect(mainGroup, "ui/menu/start.png", 150, 100)
+    play.x = cX
+	play.y = cY
+	
+    local score = display.newImageRect(mainGroup, "ui/menu/score.png", 150, 100)
+    score.x = cX 
+	score.y = cY+65
+	
+    local quit = display.newImageRect(mainGroup, "ui/menu/quit.png", 150, 100)
+    quit.x = cX
+	quit.y = cY+90 
+	
+    play:addEventListener( "tap", gotoGame )
+	score:addEventListener( "tap", gotoHighscore )
+	quit:addEventListener( "tap", gotoQuit )
+	
 end
+
 
 -- show()
 function scene:show( event )
