@@ -75,6 +75,11 @@ function pauseGame()
 		pauseGroup:insert(quitbtn)
 end
 
+function endGame(event)
+	composer.setVariable( "finalScore", score )
+	composer.gotoScene( "scene.gameover", { time=800, effect="crossFade" } )
+end
+
 function lvl:createPlayer(playerSheet, sequence)
 
     local sheetData = {
@@ -325,7 +330,7 @@ function lvl:createIncomes(currentLevel)
 	local numColl = math.random(1, base.qtdMoney)
 	print(numColl)
 	
-	incomes[incCount] = display.newImageRect(base.moneys[numColl].path, 20, 20)
+	incomes[incCount] = display.newImageRect(base.moneys[numColl].path, 30, 30)
 	incomes[incCount].x = display.contentWidth + 50
 	incomes[incCount].y = height
 	incomes[incCount].name = base.moneys[numColl].name	

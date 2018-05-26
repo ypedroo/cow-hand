@@ -122,15 +122,14 @@ function scene:create( event )
 				end, 1)
 				event.other:removeSelf();
 			else
-				composer.gotoScene( "scene.gameover", { time=800, effect="crossFade" } )
+				level:endGame()
+				--composer.gotoScene( "scene.gameover", { time=800, effect="crossFade" } )
 			end				    	
 		end
 	end
 	player.collision = playerCollision
 	player:addEventListener("collision")
 
-
-	--FUNÇÃO PARA IR PARA O PRÓXIMO NIVEL
 
 	jumpbtn = display.newImageRect("ui/button/up.png", 60, 60)
 	jumpbtn.x = 0
@@ -141,8 +140,8 @@ function scene:create( event )
 		if(event.phase == "began") then
 			jumpLimit = jumpLimit + 1
 			if jumpLimit < 3 then
-			  physics.addBody(player, "dynamic", { density = 0,radius = 0.2, friction = 0, bounce = 0, gravity = 0 })
-			  player:applyLinearImpulse(0, -0.15, player.x, player.y)
+			  physics.addBody(player, "dynamic", { density = 0,radius = 0.01, friction = 0, bounce = 0, gravity = 0 })
+			  player:applyLinearImpulse(0, -0.12, player.x, player.y)
 			end
 		jumpLimit = 0
 		end
