@@ -21,8 +21,9 @@ function scene:create( event )
 	
 	local sceneGroup = self.view
 	level:setCurrentLevel(1)				--Seta o nível atual
-	playGameMusic(oldbgmusic)				--Importa do arquivo soundsfile.lua a musica 
-	audio.setVolume( 0.20, { channel=1 } ) 
+	-- playGameMusic(oldbgmusic)				--Importa do arquivo soundsfile.lua a musica 
+	-- audio.setVolume( 0.20, { channel=1 } )
+	musicTrack = audio.loadStream( "sound/AI_2.mp3" ) 
 
 	background = level:createBackground(level:getCurrentLevel()) --(OK) Adc o background relativo ao level
 	backGroup:insert(background) -- OK
@@ -122,8 +123,8 @@ function scene:create( event )
 				end, 1)
 				event.other:removeSelf();
 			else
-				level:endGame()
-				--composer.gotoScene( "scene.gameover", { time=800, effect="crossFade" } )
+				-- level:endGame()
+				composer.gotoScene( "scene.gameover", { time=800, effect="crossFade" } )
 			end				    	
 		end
 	end
@@ -166,7 +167,7 @@ function scene:show( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
-
+		audio.play( musicTrack, { channel=1, loops=-1 } )
 
 	end
 end
@@ -188,7 +189,7 @@ function scene:hide( event )
 		display.remove(backGroup)		
 	elseif ( phase == "did" ) then
 		physics.pause()
-		
+		audio.stop( 1 )
 		composer.removeScene("level1")
 		composer.hideOverlay()
 		Runtime:removeEventListener( "collision", onLocalCollision)
@@ -201,7 +202,7 @@ function scene:destroy( event )
 
 	local sceneGroup = self.view
 	-- Code here runs prior to the removal of scene's view
-
+	audio.dispose( musicTrack )
 end
 
 

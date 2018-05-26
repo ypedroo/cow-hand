@@ -45,7 +45,9 @@ local backGroup = display.newGroup()
 local mainGroup = display.newGroup()
 
 function scene:create( event )
-	playGameMusic(menubgmusic)
+	musicTrack = audio.loadStream( "sound/Splashing_Around.mp3" )
+	-- playGameMusic(menubgmusic)
+	-- audio.play(musicTrack)
 
 	
 	local sceneGroup = self.view
@@ -87,7 +89,7 @@ function scene:show( event )
 
 	elseif ( phase == "did" ) then
 		-- Code here runs when the scene is entirely on screen
-
+		audio.play( musicTrack, { channel=1, loops=-1 }) 
 	end
 end
 
@@ -108,6 +110,7 @@ function scene:hide( event )
 		display.remove(mainGroup)
 		print( "Removendo Botões" )
 		composer.hideOverlay()
+		audio.stop( 1 )
 	end
 end
 
@@ -117,6 +120,7 @@ function scene:destroy( event )
 
 	local sceneGroup = self.view
 	-- Code here runs prior to the removal of scene's view
+	audio.dispose( musicTrack )
 
 end
 

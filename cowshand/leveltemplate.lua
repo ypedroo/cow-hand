@@ -226,7 +226,7 @@ function lvl:updateBackground(currentLevel)
 
 	backgroundnear1.x = backgroundnear1.x - (speed/5)
 
-	if(backgroundnear1.x < -250z) then
+	if(backgroundnear1.x < -250) then
 		local aux1 = math.random(1, base.levels[currentLevel].numBackgroundsNear)
 		backgroundnear1:removeSelf()
 		backgroundnear1 = display.newImage(base.levels[currentLevel].backgroundNear[aux1].path)
