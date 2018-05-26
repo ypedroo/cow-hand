@@ -75,10 +75,10 @@ function pauseGame()
 		pauseGroup:insert(quitbtn)
 end
 
--- function endGame(event)
--- 	composer.setVariable( "finalScore", score )
--- 	composer.gotoScene( "scene.gameover", { time=800, effect="crossFade" } )
--- end
+function endGame(event)
+	composer.setVariable( "finalScore", credit )
+	composer.gotoScene( "scene.highscore", { time=800, effect="crossFade" } )
+end
 
 function lvl:createPlayer(playerSheet, sequence)
 
@@ -178,6 +178,7 @@ function lvl:reducelife(score)
 	life = life - score
 	lifeText.text = "Life:  ".. life
 end
+
 
 function lvl:isAlive()
 	if( life>0) then

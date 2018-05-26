@@ -14,6 +14,7 @@ local uiGroup = display.newGroup()			-- Cria um grupo para o .....
 
 local jumpLimit = 0							-- Variável para Limite de pulo
 
+local finalScore
 
 function scene:create( event )
 
@@ -123,9 +124,8 @@ function scene:create( event )
 				end, 1)
 				event.other:removeSelf();
 			else
-				-- level:endGame()
-				composer.setVariable( "finalScore", score )
-				composer.gotoScene( "scene.highscore", { time=800, effect="crossFade" } )
+				timer.performWithDelay( 1, endGame )
+				
 			end				    	
 		end
 	end

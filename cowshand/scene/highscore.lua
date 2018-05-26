@@ -32,14 +32,14 @@ local function loadScores()
 	end
 
 	if ( scoresTable == nil or #scoresTable == 0 ) then
-		scoresTable = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+		scoresTable = { 0, 0, 0, 0, 0 }
 	end
 end
 
 
 local function saveScores()
 
-	for i = #scoresTable, 11, -1 do
+	for i = #scoresTable, 6, -1 do
 		table.remove( scoresTable, i )
 	end
 
@@ -103,13 +103,13 @@ function scene:create( event )
 		if ( scoresTable[i] ) then
 			local yPos = 130 + ( i * 23 )
 
-			local rankNum = display.newText( sceneGroup, i .. ")", display.contentCenterX+10, yPos, native.systemFont, 20 )
+			local rankNum = display.newText( sceneGroup, i .. ")", display.contentCenterX, yPos, native.systemFont, 20 )
 			rankNum:setFillColor( 0.1 )
 			rankNum.anchorX = 1
 
-			local thisScore = display.newText( sceneGroup, scoresTable[i], display.contentCenterX+10, yPos, native.systemFont, 20 )
+			local thisScore = display.newText( sceneGroup, scoresTable[i], display.contentCenterX, yPos, native.systemFont, 20 )
             thisScore.anchorX = 0
-            rankNum:setFillColor( 0.2 )
+            thisScore:setFillColor( 0.1 )
 		end
 	end
 
@@ -151,7 +151,7 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
 		-- Stop the music!
 		audio.stop( 1 )
-		composer.removeScene( "highscores" )
+		composer.removeScene( "highscore" )
 	end
 end
 
