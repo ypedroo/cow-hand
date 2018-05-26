@@ -22,9 +22,9 @@ local function gotoGame()
 	composer.gotoScene( "scene.level1" )
 end
 
-local function gotoLevels()
+local function gotoHs()
 	--playSFX(menupicksound)
-	composer.gotoScene( "scene.levels" )
+	composer.gotoScene( "scene.highscore" )
 end
 
 local function openSettings()
@@ -74,7 +74,7 @@ function scene:create( event )
 
 	    play:addEventListener( "tap", gotoGame )
 	    audio.play( mu )
-		--levels:addEventListener( "tap", gotoLevels )
+		credits:addEventListener( "tap", gotoHs )
 		quit:addEventListener( "tap", gotoQuit )
 end
 

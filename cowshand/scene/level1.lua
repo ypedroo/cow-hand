@@ -124,7 +124,8 @@ function scene:create( event )
 				event.other:removeSelf();
 			else
 				-- level:endGame()
-				composer.gotoScene( "scene.gameover", { time=800, effect="crossFade" } )
+				composer.setVariable( "finalScore", score )
+				composer.gotoScene( "scene.highscore", { time=800, effect="crossFade" } )
 			end				    	
 		end
 	end

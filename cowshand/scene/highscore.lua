@@ -50,7 +50,7 @@ end
 
 
 local function gotoMenu()
-	composer.gotoScene( "menu", { time=800, effect="crossFade" } )
+	composer.gotoScene( "scene.menu", { time=800, effect="crossFade" } )
 end
 
 
@@ -84,36 +84,36 @@ function scene:create( event )
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
 
-	local backButton = display.newImageRect( sceneGroup, "ui/background/backBtn.png", 100, 50 )
-	backButton.x = display.contentCenterX + 200
-	backButton.y = display.contentCenterY + 120
+	-- local backButton = display.newImageRect( sceneGroup, "ui/background/backBtn.png", 100, 50 )
+	-- backButton.x = display.contentCenterX + 200
+	-- backButton.y = display.contentCenterY + 120
 
-	local backButton = display.newImageRect( sceneGroup, "ui/background/menu.png", 200, 100 )
+	local backButton = display.newImageRect( sceneGroup, "ui/background/menu.png", 200, 110 )
 	backButton.x = display.contentCenterX + 198
 	backButton.y = display.contentCenterY + 70
 
 	backButton:addEventListener( "tap", gotoMenu )
 
-	local highScoresHeader = display.newText( sceneGroup, "High Scores", display.contentCenterX, 10, native.systemFont, 10 )
-
-	for i = 1, 10 do
+	local highScoresHeader = display.newText( sceneGroup, "High Scores", display.contentCenterX, 30, native.systemFont, 30 )
+    highScoresHeader:setFillColor( 0.1 )
+	for i = 1, 5 do
 		if ( scoresTable[i] ) then
-			local yPos = 150 + ( i * 56 )
+			local yPos = 152 + ( i * 23 )
 
-			local rankNum = display.newText( sceneGroup, i .. ")", display.contentCenterX-50, yPos, native.systemFont, 36 )
-			rankNum:setFillColor( 0.8 )
+			local rankNum = display.newText( sceneGroup, i .. ")", display.contentCenterX-20, yPos, native.systemFont, 25 )
+			rankNum:setFillColor( 0.1 )
 			rankNum.anchorX = 1
 
-			local thisScore = display.newText( sceneGroup, scoresTable[i], display.contentCenterX-30, yPos, native.systemFont, 36 )
+			local thisScore = display.newText( sceneGroup, scoresTable[i], display.contentCenterX-20, yPos, native.systemFont, 25 )
 			thisScore.anchorX = 0
 		end
 	end
 
-	local menuButton = display.newText( sceneGroup, "Menu", display.contentCenterX, 810, native.systemFont, 44 )
-	menuButton:setFillColor( 0.75, 0.78, 1 )
-	menuButton:addEventListener( "tap", gotoMenu )
+	-- local menuButton = display.newText( sceneGroup, "Menu", display.contentCenterX, 810, native.systemFont, 44 )
+	-- menuButton:setFillColor( 0.75, 0.78, 1 )
+	-- menuButton:addEventListener( "tap", gotoMenu )
 
-	musicTrack = audio.loadStream( "audio/Midnight-Crawlers_Looping.wav" )
+	musicTrack = audio.loadStream( "sound/St_Francis.mp3" )
 end
 
 
