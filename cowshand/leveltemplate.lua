@@ -291,7 +291,7 @@ end
 
 function lvl:createInvoices(currentLevel)
 
-	local height = math.random(100, display.contentHeight-80)
+	local height = math.random(100, display.contentHeight-50)
 	local numBills = math.random(1, base.qtdBill)
 	
 	invoices[invCount] = display.newImageRect(base.bills[numBills].path, 40, 40)
@@ -326,7 +326,7 @@ function lvl:collideInvoices()
 end
 
 function lvl:createIncomes(currentLevel)
-	local height = math.random(100, display.contentHeight-80)	
+	local height = math.random(100, display.contentHeight-50)	
 	local numColl = math.random(1, base.qtdMoney)
 	print(numColl)
 	
