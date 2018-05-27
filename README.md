@@ -9,49 +9,43 @@ In a dystopical time in a fictional planet which was domineted by the Emperar Bi
 Your name is Vania and you are a young cow trying to survive each month in the planet with the highest taxes IN THE WHOLE UNIVERSE(for poor cows of course).
 
 ## Gameplay
-This is a runner game, made with obstacles to avoid and collectibles that change your scores. The Cow is always running, and can do a jump or a  to reachs the collectibles or avoid the obstacles. The collectibles and obstacles will be random. In the stages of the first and second trimester: On the range of random distance of 25-45 meters, the vampire minion may appear. And the collectibles will be random choose on a range of 50-70 meters. In the stages of thrid and fourth: On the range of random distance of 60-80 meters, one of the fatal obstacles will be random choose. And the collectibles will be random choose on a range of 30-50 meters.
+This is a endless runner game, made with obstacles to avoid and collectibles that change your scores. The Cow is always running, and can do a jump to reachs the collectibles or avoid the obstacles. The collectibles and obstacles will be random.
 
 ## Stages
-The game is made of 4 periods(stages) of the year, wich in each one you had to make a certain amount of money in an certain time.
-
-The First and Second Trimester:
-This one is easy the beginning of the year you had an large amount of bills to pay but you had nice incomes in the past year's december bonus. [ Until 12.000m ]
+The game is consists in jumping to reacha and/or avoid obstables on the screen while running, the game is based on breaking new highscores
 
 ### Objectivies
-- In this part you just need to collect a 3 thousand royals.
-- You also can receive an check aid from an helping friend which can give you 500 royals.
-- CAREFUL with the vampire minions(everytime one of them catches you makes you lose 1000 royals). 
-
-The Third and Fourth Trimester
-Now your problems begin the vampire notice that some poor cows are making it! So he tries to not let them [ Until 24.000m ]
-
-### Objectivies
-- Collect 30 thousand royals to win the rest of the year
-- You from here can be lucky and collect the jackpot which coud make you 10 thousand royals richer  
-- But be careful now you have to deal with  the emperor himself, he is powerful and have the power to sent you to prision and end your game
+- Collect as much money as you can
+- You from here can be lucky and collect the jackpot which coud make you 250 reais richer  
+- But be careful now you have to deal with  the emperor himself, he is powerful and have the power to kill and end your game
 
 
 ## Obstacles
-- Money spent;
+- Money spent
 - Special Obstacles
-- Vampire minions;
+- Vampire minions
 
 ## Navigation
 
 ![alt text](https://raw.githubusercontent.com/ypedroo/cow-hand/master/diagram.jpg)
 
 ## Point System
-Money is problem and solution for everything. Each income gives you 100 royals, with collectibles you can increase the scores. The time pass, month per month(2000m each one of them) when you reach December if you dont have the money you DIE. You have 3 hearts of life, when you meet an obstacle, that can destroy a half of one heart and lose you some money, if you caught one of the special obstacles you lose one full heart(Vampire minions;) and money or lose everything(Emperor;)
+Money is problem and solution for everything. Each income gives you 50 royals, with collectibles you can increase the scores. Also you can take the jackpot wich will give 250 instant reais, be careful with the Money Spent that takes 100 from you, the gargoyle wich takes from you only one real but takes a life with him too and last but not least the emperor wich kills you.
 
 ## Collectables:
 - Check aid from an helping friend - instantly gains 500 royals
 - Medkit - restore 1 quarter of heart
-- Jackpot - instantly gains 10000 royals
+- Jackpot - instantly gains 250 reais
 
 
 
 ## Considerations
-Game developed using Corona® and Lua.
-Special thanks to Giuliana Nogueira and Joel Silva.
-Icon made by Smashicons from flaticon.com/free-icon/notes_138255
-Icon made by Smashicons from flaticon.com/free-icon/receipt_138360
+- Special thanks to Giuliana Nogueira, Lucas Benevides and Robson Ramos for all the support with ideas and desing. This wouldnt be possible to build it without their help.
+- Icon made by Smashicons from flaticon.com/free-icon/notes_138255
+- Icon made by Smashicons from flaticon.com/free-icon/receipt_138360
+-  https://br.pinterest.com/
+-  https://www.youtube.com/audiolibrary/music - The green Orbs (Splashing around)
+-  https://docs.coronalabs.com/
+-  https://www.lua.org/
+- Mark Falkland: https://www.youtube.com/watch?v=0GtUxdSeWzk&t=27s
+
