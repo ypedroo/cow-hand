@@ -117,6 +117,13 @@ function lvl:createPlayer(playerSheet, sequence)
 	return player
 end
 
+-- function lvl:speedUp(credit)
+-- 	if(credit > 500) then
+-- 		movementLoop = timer.performWithDelay(50, update, -1)
+-- 		emergeLoop = timer.performWithDelay(2000, creationLoop, -1 )
+-- 	end
+-- end
+
 function lvl:buildPause(player)
 		local pausebtn = display.newImageRect("ui/button/btnPause.png", 60, 60)
 		pausebtn.x = display.contentWidth

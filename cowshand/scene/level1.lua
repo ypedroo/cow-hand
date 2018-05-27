@@ -63,9 +63,12 @@ function scene:create( event )
 		back = level:updateBackground(level:getCurrentLevel())
 		backGroup:insert(back)
 	end
-
+	
 	movementLoop = timer.performWithDelay(10, update, -1)
 	emergeLoop = timer.performWithDelay(1700, creationLoop, -1 )
+
+
+	
 
 	local function playerCollision( self, event )
 		
@@ -94,7 +97,6 @@ function scene:create( event )
 		        event.other = nil
 		    end, 1)
 			event.other:removeSelf();
-			
 		end
 
 		-- AQUI EU PERCO DINHEIRO
@@ -143,7 +145,7 @@ function scene:create( event )
 			jumpLimit = jumpLimit + 1
 			if jumpLimit < 3 then
 			  physics.addBody(player, "dynamic", { density = 0,radius = 0.01, friction = 0, bounce = 0, gravity = 0 })
-			  player:applyLinearImpulse(0, -0.12, player.x, player.y)
+			  player:applyLinearImpulse(0, -0.11, player.x, player.y)
 			end
 		jumpLimit = 0
 		end
